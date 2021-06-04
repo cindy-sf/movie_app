@@ -1,6 +1,7 @@
 {
   "env": {
     "es2021": true,
+    "jest": true,
     "node": true
   },
   "extends": [
@@ -19,6 +20,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "import/extensions": 0,
     "no-use-before-define": "off",
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
@@ -32,5 +34,12 @@
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
     "react/jsx-one-expression-per-line": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }
