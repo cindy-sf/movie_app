@@ -44,8 +44,8 @@ export default function App() {
   if (!storeTheme || !fontsLoaded) return null
 
   return (
-    <ThemeProvider theme={storeTheme}>
-      <NavigationContainer>
+    <NavigationContainer>
+      <ThemeProvider theme={storeTheme}>
         <Stack.Navigator initialRouteName="Landing">
           <Stack.Screen
             name="Landing"
@@ -53,7 +53,7 @@ export default function App() {
             options={screenOptions}
           />
         </Stack.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+      </ThemeProvider>
+    </NavigationContainer>
   )
 }
