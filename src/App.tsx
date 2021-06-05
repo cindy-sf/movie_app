@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native'
+import { ThemeProvider } from 'styled-components/native'
 import { useFonts } from 'expo-font'
-import styled, { ThemeProvider } from 'styled-components/native'
-import Text from './components/Text'
 import { getAppTheme } from './utils'
 import { themeToggler } from './redux'
-import type { ThemeAttributes } from './styles/theme'
+import type { ThemeAttributes } from '$styles'
 
-const Title = styled.Text`
-  color: ${({ theme }: { theme: ThemeAttributes }) => theme.PRIMARY_TEXT_COLOR};
-  font-family: 'Poppins-SemiBold';
-`
+import Landing from './views/Landing'
 
-const Container = styled.View`
-  font-family: 'Poppins-SemiBold';
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${({ theme }: { theme: ThemeAttributes }) =>
-    theme.BACKGROUND};
-`
+const Stack = createStackNavigator()
+
 export default function App() {
+  const screenOptions: StackNavigationOptions = {
+    headerShown: false,
+  }
   const dispatch = useDispatch()
   const [storeTheme, setStoredTheme] = useState<ThemeAttributes>()
 
@@ -47,12 +45,15 @@ export default function App() {
 
   return (
     <ThemeProvider theme={storeTheme}>
-      <Container>
-        <Title>Custom title</Title>
-        <Text size="HEADLINE_1" limit={5}>
-          Custom text
-        </Text>
-      </Container>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Landing">
+          <Stack.Screen
+            name="Landing"
+            component={Landing}
+            options={screenOptions}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </ThemeProvider>
   )
 }
