@@ -6,6 +6,13 @@ import { getInputRange, Wording } from '../../constants'
 
 import { colors, spaces } from '$styles'
 
+const DotsWrapper = styled.View`
+  height: 10px;
+  border-radius: 8px;
+  margin-left: ${spaces.XX_SMALL}px;
+  margin-right: ${spaces.XX_SMALL}px;
+`
+
 const StepIndicatorContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -13,13 +20,6 @@ const StepIndicatorContainer = styled.View`
   position: absolute;
   align-self: center;
   bottom: 75px;
-`
-
-const DotsWrapper = styled.View`
-  height: 10px;
-  border-radius: 8px;
-  margin-left: ${spaces.XX_SMALL}px;
-  margin-right: ${spaces.XX_SMALL}px;
 `
 
 interface Props {
