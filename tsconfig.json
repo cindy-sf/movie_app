@@ -7,6 +7,7 @@
       "$src": ["./src/*"],
       "$assets": ["./src/assets/*"],
       "$styles": ["styles/theme"]
-    }
+    },
+    "include": ["./modules.d.ts"]
   }
 }
