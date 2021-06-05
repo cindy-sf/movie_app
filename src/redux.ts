@@ -1,8 +1,6 @@
 import { lightTheme } from '$styles'
 import { ThemeAttributes } from './styles/theme'
 
-const SWITCH_THEME = 'SWITCH_THEME'
-
 interface ThemePayload {
   theme: ThemeAttributes
 }
@@ -12,14 +10,16 @@ interface ThemeReducer {
   payload: ThemePayload
 }
 
-export const themeToggler = ({ theme }: ThemePayload) => ({
-  type: SWITCH_THEME,
-  payload: { theme },
-})
+const SWITCH_THEME = 'SWITCH_THEME'
 
 const initialState = {
   theme: lightTheme,
 }
+
+export const themeToggler = ({ theme }: ThemePayload) => ({
+  type: SWITCH_THEME,
+  payload: { theme },
+})
 
 export const Reducer = (state = initialState, action: ThemeReducer) => {
   switch (action.type) {
