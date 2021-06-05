@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useFonts } from 'expo-font'
 import styled, { ThemeProvider } from 'styled-components/native'
+import Text from './components/Text'
 import { getAppTheme } from './utils'
 import { themeToggler } from './redux'
 import type { ThemeAttributes } from './styles/theme'
@@ -48,6 +49,9 @@ export default function App() {
     <ThemeProvider theme={storeTheme}>
       <Container>
         <Title>Custom title</Title>
+        <Text size="HEADLINE_1" limit={5}>
+          Custom text
+        </Text>
       </Container>
     </ThemeProvider>
   )

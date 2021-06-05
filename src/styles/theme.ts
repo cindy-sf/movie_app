@@ -19,13 +19,13 @@ export interface ThemeAttributes {
   TERTIARY_ICON_COLOR: string
 }
 
-export const borderWidth: { [key: string]: number } = {
+export const borderWidth = {
   X_SMALL: 1,
   SMALL: 2,
   MEDIUM: 4,
 }
 
-export const colors: { [key: string]: string } = {
+export const colors = {
   WHITE: '#FFFFFF',
   BLACK: '#000000',
   BLACK_MEDIUM: '#181818',
@@ -39,7 +39,7 @@ export const colors: { [key: string]: string } = {
   GREY_DARK: '#3F3F3F',
 }
 
-export const fonts: { [key: string]: string } = {
+export const fonts = {
   POPPINS_BOLD: 'Poppins-Bold',
   POPPINS_ITALIC: 'Poppins-Italic',
   POPPINS_MEDIUM: 'Poppins-Medium',
@@ -47,7 +47,7 @@ export const fonts: { [key: string]: string } = {
   POPPINS_SEMI_BOLD: 'Poppins-SemiBold',
 }
 
-export const fontSize: { [key: string]: number } = {
+export const fontSize = {
   HEADLINE_1: 28,
   HEADLINE_2: 24,
   SUBTITLE: 18,
@@ -56,12 +56,12 @@ export const fontSize: { [key: string]: number } = {
   OVERLINE: 12,
 }
 
-export const shadows: { [key: string]: string } = {
+export const shadows = {
   NORMAL: '0px 2px 12px -1px rgba(0, 0, 0, 0.25)',
   DARKER: '0px 3px 8px 1px rgba(0, 0, 0, 0.17)',
 }
 
-export const radius: { [key: string]: number } = {
+export const radius = {
   SMALL: 12,
   MEDIUM: 20,
   LARGE: 22,
@@ -70,7 +70,7 @@ export const radius: { [key: string]: number } = {
   XXX_LARGE: 40,
 }
 
-export const spaces: { [key: string]: number } = {
+export const spaces = {
   XX_SMALL: 4,
   X_SMALL: 8,
   SMALL: 12,
