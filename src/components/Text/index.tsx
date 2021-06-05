@@ -8,6 +8,7 @@ export interface TextProps {
   font?: keyof typeof fonts
   maxWidth?: number
   limit?: number
+  textAlign?: 'center' | 'left'
 }
 
 const Texte = styled.Text<TextProps>`
@@ -16,6 +17,8 @@ const Texte = styled.Text<TextProps>`
   font-family: ${(props: { font: string }) => `${props.font}`};
   max-width: ${(props: { maxWidth: number }) =>
     props.maxWidth ? `${props.maxWidth}px` : '100%'};
+  text-align: ${(props: { textAlign: 'center' | 'left' }) =>
+    `${props.textAlign}`};
 `
 
 const Text: React.FC<TextProps> = ({
@@ -24,8 +27,14 @@ const Text: React.FC<TextProps> = ({
   size = 'SUBTITLE',
   maxWidth,
   limit,
+  textAlign = 'center',
 }) => (
-  <Texte size={fontSize[size]} font={fonts[font]} maxWidth={maxWidth}>
+  <Texte
+    textAlign={textAlign}
+    size={fontSize[size]}
+    font={fonts[font]}
+    maxWidth={maxWidth}
+  >
     {limit ? `${children.substring(0, limit)}...` : children}
   </Texte>
 )
