@@ -1,6 +1,6 @@
+import 'react-native-gesture-handler'
 import React from 'react'
 import { Provider } from 'react-redux'
-import 'react-native-gesture-handler'
 import { registerRootComponent } from 'expo'
 import { createStore } from 'redux'
 import App from './App'

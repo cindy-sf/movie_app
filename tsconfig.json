@@ -1,13 +1,12 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "baseUrl": "src",
+    "moduleResolution": "node",
+    "baseUrl": ".",
     "paths": {
-      "$src": ["./src/*"],
-      "$assets": ["./src/assets/*"],
-      "$styles": ["styles/theme"]
-    },
-    "include": ["./modules.d.ts"]
+      "$src/*": ["src/*"],
+      "$styles": ["src/styles/theme"],
+      "$assets/*": ["src/assets/*"]
+    }
   }
 }

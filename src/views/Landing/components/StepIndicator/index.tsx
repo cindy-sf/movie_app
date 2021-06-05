@@ -4,11 +4,11 @@ import styled from 'styled-components/native'
 
 import { getInputRange, Wording } from '../../constants'
 
-import { colors, spaces } from '$styles'
+import { colors, radius, spaces } from '$styles'
 
-const DotsWrapper = styled.View`
+const Dot = styled.View`
   height: 10px;
-  border-radius: 8px;
+  border-radius: ${radius.SMALL}px;
   margin-left: ${spaces.XX_SMALL}px;
   margin-right: ${spaces.XX_SMALL}px;
 `
@@ -44,7 +44,7 @@ const StepIndicator = ({ landingInfos, scrollX, windowWidth }: Props) => (
       })
 
       return (
-        <DotsWrapper
+        <Dot
           key={landingInfo.step}
           as={Animated.View}
           backgroundColor={backgroundColor}

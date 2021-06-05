@@ -2,15 +2,14 @@ import React from 'react'
 import { ScrollView } from 'react-native'
 import styled from 'styled-components/native'
 
-import { Wording } from '../../constants'
-import Text from '../../../../components/Text'
+import type { Wording } from '../../constants'
+import Text from '$src/components/Text'
 
 import { spaces } from '$styles'
 
 export const Image = styled.Image`
   width: 100%;
   height: 100%;
-  border-radius: 5px;
   resize-mode: contain;
   display: flex;
   justify-content: center;
