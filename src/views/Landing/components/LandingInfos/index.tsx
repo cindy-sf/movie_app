@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native'
 import styled from 'styled-components/native'
 
 import type { Wording } from '../../constants'
-import Text from '$src/components/Text'
+import Text from '$components/Text'
 
 import { spaces } from '$styles'
 

@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import { Animated, Button, useWindowDimensions } from 'react-native'
 
 import { landingInfos } from './constants'
-import Text from '$src/components/Text'
+import Text from '$components/Text'
 import StepIndicator from './components/StepIndicator'
 import LandingInfos from './components/LandingInfos'
 
