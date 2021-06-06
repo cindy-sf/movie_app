@@ -2,9 +2,8 @@ import React from 'react'
 import { Animated } from 'react-native'
 import styled from 'styled-components/native'
 
-import { getInputRange, Wording } from '../../constants'
-
-import { colors, radius, spaces } from '$styles'
+import { colors, radius, spaces } from '@styles/theme'
+import { getInputRange, Wording } from '@views/Landing/constants'
 
 const Dot = styled.View`
   height: 10px;

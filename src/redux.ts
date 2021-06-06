@@ -1,5 +1,4 @@
-import { lightTheme } from '$styles'
-import { ThemeAttributes } from './styles/theme'
+import { lightTheme, ThemeAttributes } from '@styles/theme'
 
 interface ThemePayload {
   theme: ThemeAttributes

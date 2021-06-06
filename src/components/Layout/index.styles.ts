@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { spaces, ThemeAttributes } from '$styles'
+import { spaces, ThemeAttributes } from '@styles/theme'
 
 export const LayoutWrapper = styled.View`
   padding: ${spaces.X_LARGE}px ${spaces.MEDIUM}px;

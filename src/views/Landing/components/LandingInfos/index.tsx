@@ -2,10 +2,9 @@ import React from 'react'
 import { ScrollView } from 'react-native'
 import styled from 'styled-components/native'
 
-import type { Wording } from '../../constants'
-import Text from '$src/components/Text'
-
-import { spaces } from '$styles'
+import { spaces } from '@styles/theme'
+import Text from '@components/Text'
+import type { Wording } from '@views/Landing/constants'
 
 export const Image = styled.Image`
   width: 100%;

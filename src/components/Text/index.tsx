@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { fonts, fontSize, ThemeAttributes } from '$styles'
+import { fonts, fontSize, ThemeAttributes } from '@styles/theme'
 
 export interface TextProps {
   children: string
@@ -16,7 +16,7 @@ const CustomText = styled.Text`
   color: ${(props: { color: string; theme: ThemeAttributes }) =>
     props.color === 'primary'
       ? props.theme.PRIMARY_TEXT_COLOR
-      : props.theme.PRIMARY_BUTTON_COLOR};
+      : props.theme.SECONDARY_TEXT_COLOR};
   font-size: ${(props: { size: string }) => `${props.size}px`};
   font-family: ${(props: { font: string }) => `${props.font}`};
   max-width: ${(props: { maxWidth: number }) =>

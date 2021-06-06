@@ -1,14 +1,13 @@
 import React, { useRef } from 'react'
 
-import { Alert, Animated, Button, useWindowDimensions } from 'react-native'
-
+import { Alert, Animated, useWindowDimensions } from 'react-native'
+import Layout from '@components/Layout'
+import Text from '@components/Text'
+import Button from '@components/Button'
+import { Container, ScrollContainer, Separator } from './index.styles'
 import { landingInfos } from './constants'
-import Text from '../../components/Text'
-import Layout from '../../components/Layout'
 import StepIndicator from './components/StepIndicator'
 import LandingInfos from './components/LandingInfos'
-
-import { Container, ScrollContainer, Separator } from './index.styles'
 
 const Landing = () => {
   const scrollX = useRef(new Animated.Value(0)).current
@@ -53,7 +52,7 @@ const Landing = () => {
         </ScrollContainer>
       </Container>
       <Separator>
-        <Button title="Incomming button" onPress={() => null} />
+        <Button>Démarrer</Button>
       </Separator>
     </Layout>
   )
