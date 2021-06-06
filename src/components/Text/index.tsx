@@ -12,7 +12,7 @@ export interface TextProps {
   textAlign?: 'center' | 'left' | 'right'
 }
 
-const Text = styled.Text`
+const CustomText = styled.Text`
   color: ${(props: { color: string; theme: ThemeAttributes }) =>
     props.color === 'primary'
       ? props.theme.PRIMARY_TEXT_COLOR
@@ -24,7 +24,7 @@ const Text = styled.Text`
   text-align: ${(props: { textAlign: string }) => `${props.textAlign}`};
 `
 
-const TextComponent: React.FC<TextProps> = ({
+const Text: React.FC<TextProps> = ({
   children,
   color = 'primary',
   font = 'POPPINS_REGULAR',
@@ -33,7 +33,7 @@ const TextComponent: React.FC<TextProps> = ({
   limit,
   textAlign = 'center',
 }) => (
-  <Text
+  <CustomText
     color={color}
     maxWidth={maxWidth}
     font={fonts[font]}
@@ -41,7 +41,7 @@ const TextComponent: React.FC<TextProps> = ({
     textAlign={textAlign}
   >
     {limit ? `${children.substring(0, limit)}...` : children}
-  </Text>
+  </CustomText>
 )
 
-export default TextComponent
+export default Text
