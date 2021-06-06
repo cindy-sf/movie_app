@@ -4,39 +4,44 @@ import { fonts, fontSize, ThemeAttributes } from '$styles'
 
 export interface TextProps {
   children: string
-  size?: keyof typeof fontSize
+  color?: 'primary' | 'secondary'
   font?: keyof typeof fonts
-  maxWidth?: number
   limit?: number
-  textAlign?: 'center' | 'left'
+  maxWidth?: number
+  size?: keyof typeof fontSize
+  textAlign?: 'center' | 'left' | 'right'
 }
 
-const Texte = styled.Text<TextProps>`
-  color: ${({ theme }: { theme: ThemeAttributes }) => theme.PRIMARY_TEXT_COLOR};
+const Text = styled.Text`
+  color: ${(props: { color: string; theme: ThemeAttributes }) =>
+    props.color === 'primary'
+      ? props.theme.PRIMARY_TEXT_COLOR
+      : props.theme.PRIMARY_BUTTON_COLOR};
   font-size: ${(props: { size: string }) => `${props.size}px`};
   font-family: ${(props: { font: string }) => `${props.font}`};
   max-width: ${(props: { maxWidth: number }) =>
     props.maxWidth ? `${props.maxWidth}px` : '100%'};
-  text-align: ${(props: { textAlign: 'center' | 'left' }) =>
-    `${props.textAlign}`};
+  text-align: ${(props: { textAlign: string }) => `${props.textAlign}`};
 `
 
-const Text: React.FC<TextProps> = ({
+const TextComponent: React.FC<TextProps> = ({
   children,
+  color = 'primary',
   font = 'POPPINS_REGULAR',
   size = 'SUBTITLE',
   maxWidth,
   limit,
   textAlign = 'center',
 }) => (
-  <Texte
-    textAlign={textAlign}
-    size={fontSize[size]}
-    font={fonts[font]}
+  <Text
+    color={color}
     maxWidth={maxWidth}
+    font={fonts[font]}
+    size={fontSize[size]}
+    textAlign={textAlign}
   >
     {limit ? `${children.substring(0, limit)}...` : children}
-  </Texte>
+  </Text>
 )
 
-export default Text
+export default TextComponent
