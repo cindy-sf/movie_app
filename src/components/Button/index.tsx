@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { ThemeAttributes } from '@styles/theme'
+import { ThemeAttributes, radius } from '@styles/theme'
 import Text from '@components/Text'
 
 export interface ButtonProps {
@@ -12,7 +12,7 @@ const CustomButton = styled.TouchableOpacity`
   height: 40px;
   background: ${({ theme }: { theme: ThemeAttributes }) =>
     theme.PRIMARY_BUTTON_COLOR};
-  border-radius: 40px;
+  border-radius: ${radius.XXX_LARGE}px;
   display: flex;
   justify-content: center;
   align-items: center;
