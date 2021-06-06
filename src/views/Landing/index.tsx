@@ -1,17 +1,18 @@
 import React, { useRef } from 'react'
 
-import { Animated, Button, useWindowDimensions } from 'react-native'
+import { Alert, Animated, Button, useWindowDimensions } from 'react-native'
 
 import { landingInfos } from './constants'
-import Text from '$src/components/Text'
+import Text from '../../components/Text'
+import Layout from '../../components/Layout'
 import StepIndicator from './components/StepIndicator'
 import LandingInfos from './components/LandingInfos'
 
-import { Container, Layout, ScrollContainer, Separator } from './index.styles'
+import { Container, ScrollContainer, Separator } from './index.styles'
 
 const Landing = () => {
   const scrollX = useRef(new Animated.Value(0)).current
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions()
+  const { width: windowWidth } = useWindowDimensions()
 
   const onScroll = Animated.event(
     [
@@ -27,10 +28,11 @@ const Landing = () => {
   )
 
   return (
-    <Layout width={windowWidth} minHeight={windowHeight}>
-      <Separator>
-        <Text>Soon, header</Text>
-      </Separator>
+    <Layout
+      headerOptions={{
+        closeIcon: { onClose: () => Alert.alert('Coming soon') },
+      }}
+    >
       <Separator>
         <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_1" maxWidth={290}>
           Bienvenue sur MovieApp
