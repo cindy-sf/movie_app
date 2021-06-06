@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "$assets/*": [
-        "src/assets/*"
-      ],
-      "$components/*": [
-        "src/components/*"
-      ],
-      "$src/*": [
-        "src/*"
-      ],
-      "$styles": [
-        "src/styles/theme"
-      ]
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@views/*": ["./src/views/*"],
+      "@src/*": ["./src/*"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
   "extends": "expo/tsconfig.base"

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import {
   createStackNavigator,
   StackNavigationOptions,
@@ -8,11 +7,10 @@ import {
 import { NavigationContainer } from '@react-navigation/native'
 import { ThemeProvider } from 'styled-components/native'
 import { useFonts } from 'expo-font'
-import { getAppTheme } from './utils'
-import { themeToggler } from './redux'
-import type { ThemeAttributes } from '$styles'
-
-import Landing from './views/Landing'
+import type { ThemeAttributes } from '@styles/theme'
+import { getAppTheme } from '@src/utils'
+import { themeToggler } from '@src/redux'
+import Landing from '@views/Landing'
 
 const Stack = createStackNavigator()
 
