@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import type { NavigationContainerRef } from '@react-navigation/native'
 
 import ErrorImage from '@assets/images/error/error_image.png'
 
@@ -9,19 +10,19 @@ import Layout from '@components/Layout'
 import Text from '@components/Text'
 
 const TitleWrapper = styled.View`
-  flex: 2px;
+  flex: 2;
 `
 
 const Separator = styled.View`
-  flex: 0.4px;
+  flex: 0.4;
 `
 
 const BottomArea = styled.View`
   align-items: center;
-  flex: 0.5px;
+  flex: 0.5;
 `
 
-const Error = ({ navigation }: { navigation: any }) => (
+const Error = ({ navigation }: { navigation: NavigationContainerRef }) => (
   <Layout>
     <TitleWrapper>
       <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_1" maxWidth={320}>

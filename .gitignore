@@ -55,3 +55,6 @@ web-build/
 
 # Editors
 .vscode/
+
+# Credentials
+src/credentials.ts

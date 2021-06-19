@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
+import type { NavigationContainerRef } from '@react-navigation/native'
 
 import UserPicture from '@assets/images/user_pictures/girl_1.png'
 
@@ -12,6 +13,7 @@ import Layout from '@components/Layout'
 import Loader from '@components/Loader'
 import Text from '@components/Text'
 
+import { API_KEY } from '@src/credentials'
 import SpotlightCard from './components/SpotlightCard'
 import ArticleCard from './components/ArticleCard'
 
@@ -27,7 +29,7 @@ const WatchOptionWrapper = styled.View`
     theme.mode === 'light' ? `${spaces.XX_SMALL}px` : `${spaces.NONE}px`};
 `
 
-const Home = ({ navigation }: { navigation: any }) => {
+const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
   const [news, setNews] = useState<News[]>([])
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
@@ -36,9 +38,8 @@ const Home = ({ navigation }: { navigation: any }) => {
     const fetchData = async () => {
       try {
         setIsDataFetching(true)
-        // eslint-disable-next-line no-undef
         const response = await fetch(
-          'https://api.betaseries.com/news/last?key=72ede40de1b2&limit=15'
+          `https://api.betaseries.com/news/last?key=${API_KEY}&limit=15`
         )
         const newsData = await response.json()
 
