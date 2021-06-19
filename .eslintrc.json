@@ -21,6 +21,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "camelcase": "off",
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "global-require": 0,
@@ -48,5 +49,8 @@
         "moduleDirectory": ["node_modules", "src/"]
       }
     }
+  },
+  "globals": {
+    "fetch": false
   }
 }

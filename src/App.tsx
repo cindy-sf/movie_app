@@ -11,12 +11,15 @@ import type { ThemeAttributes } from '@styles/theme'
 import { getAppTheme } from '@src/utils'
 import { themeToggler } from '@src/redux'
 import Landing from '@views/Landing'
+import Home from '@views/Home'
 
 const Stack = createStackNavigator()
 
 export default function App() {
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
+    animationEnabled: false,
+    gestureEnabled: false,
   }
   const dispatch = useDispatch()
   const [storeTheme, setStoredTheme] = useState<ThemeAttributes>()
@@ -50,6 +53,7 @@ export default function App() {
             component={Landing}
             options={screenOptions}
           />
+          <Stack.Screen name="Home" component={Home} options={screenOptions} />
         </Stack.Navigator>
       </ThemeProvider>
     </NavigationContainer>
