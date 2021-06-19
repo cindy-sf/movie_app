@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-import { Alert, Animated, useWindowDimensions } from 'react-native'
+import { Animated, useWindowDimensions } from 'react-native'
 import Layout from '@components/Layout'
 import Text from '@components/Text'
 import Button from '@components/Button'
@@ -9,7 +9,7 @@ import { landingInfos } from './constants'
 import StepIndicator from './components/StepIndicator'
 import LandingInfos from './components/LandingInfos'
 
-const Landing = () => {
+const Landing = ({ navigation }: { navigation: any }) => {
   const scrollX = useRef(new Animated.Value(0)).current
   const { width: windowWidth } = useWindowDimensions()
 
@@ -26,10 +26,18 @@ const Landing = () => {
     { useNativeDriver: false }
   )
 
+  const goToHomeScreen = (): void => {
+    // navigation.reset({
+    // index: 0,
+    // routes: [{ name: 'Home' }],
+    // })
+    navigation.navigate('Home')
+  }
+
   return (
     <Layout
       headerOptions={{
-        closeIcon: { onClose: () => Alert.alert('Coming soon') },
+        closeIcon: { onClose: goToHomeScreen },
       }}
     >
       <Separator>

@@ -1,3 +1,5 @@
+import type { ImageSourcePropType } from 'react-native'
+
 import ManWithBalloons from '@assets/images/landing/man_with_balloons.png'
 import ManWithLaptop from '@assets/images/landing/man_with_laptop.png'
 import ManWithOculus from '@assets/images/landing/man_with_oculus.png'
@@ -5,7 +7,7 @@ import WalkingGirl from '@assets/images/landing/walking_girl.png'
 
 export interface Wording {
   step: number
-  image: string
+  image: ImageSourcePropType
   description: string
 }
 

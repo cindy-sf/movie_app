@@ -18,5 +18,5 @@ export const ScrollContainer = styled.View`
 export const Separator = styled.View`
   flex: 0.5;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 `

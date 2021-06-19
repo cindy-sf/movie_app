@@ -4,20 +4,10 @@ import styled from 'styled-components/native'
 
 import { spaces } from '@styles/theme'
 import Text from '@components/Text'
+import Image from '@components/Image'
 import type { Wording } from '@views/Landing/constants'
 
-export const Image = styled.Image`
-  width: 100%;
-  height: 100%;
-  resize-mode: contain;
-  display: flex;
-  justify-content: center;
-  align-content: flex-end;
-`
-
 export const ImageWrapper = styled.View`
-  width: ${(props: { width: number }) => props.width}px;
-  height: 270px;
   margin-bottom: ${spaces.XXX_LARGE}px;
 `
 
@@ -48,8 +38,12 @@ const LandingInfos = ({ onScroll, landingInfos, windowWidth }: Props) => (
         <Text font="POPPINS_SEMI_BOLD" size="BODY_1" maxWidth={250}>
           {landingInfo.description}
         </Text>
-        <ImageWrapper width={windowWidth - spaces.MEDIUM * 2}>
-          <Image source={landingInfo.image} />
+        <ImageWrapper>
+          <Image
+            height={270}
+            width={windowWidth - spaces.MEDIUM * 2}
+            src={landingInfo.image}
+          />
         </ImageWrapper>
       </LandingInfosWrapper>
     ))}
