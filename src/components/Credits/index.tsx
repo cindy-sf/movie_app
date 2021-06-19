@@ -13,7 +13,7 @@ const CreditsWrapper = styled.View`
 const Credits = () => (
   <CreditsWrapper>
     <Text size="BODY_2" font="POPPINS_ITALIC">
-      Powered by St Fleurant Team
+      Powered by SFTeam
     </Text>
   </CreditsWrapper>
 )
