@@ -5,6 +5,7 @@ import Text from '@components/Text'
 
 export interface ButtonProps {
   children: string
+  onPress?: () => void
 }
 
 const CustomButton = styled.TouchableOpacity`
@@ -18,8 +19,8 @@ const CustomButton = styled.TouchableOpacity`
   align-items: center;
 `
 
-const Button: React.FC<ButtonProps> = ({ children }) => (
-  <CustomButton activeOpacity={1} onPress={() => null}>
+const Button: React.FC<ButtonProps> = ({ children, onPress }) => (
+  <CustomButton activeOpacity={1} onPress={onPress || null}>
     <Text size="BODY_2" color="secondary" font="POPPINS_SEMI_BOLD">
       {children}
     </Text>
