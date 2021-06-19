@@ -18,6 +18,7 @@ import { colors, ThemeAttributes } from '@src/styles/theme'
 import {
   CloseIcon,
   Header,
+  LayoutContent,
   LayoutWrapper,
   UserPictureWrapper,
   SearchIconWrapper,
@@ -99,7 +100,7 @@ const Layout: React.FC<Props> = ({ children, headerOptions }) => {
           )}
         </View>
       </Header>
-      <View style={{ alignItems: 'center', flex: 5 }}>{children}</View>
+      <LayoutContent>{children}</LayoutContent>
     </LayoutWrapper>
   )
 }

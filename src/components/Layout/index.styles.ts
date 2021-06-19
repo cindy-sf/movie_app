@@ -17,6 +17,11 @@ export const LayoutWrapper = styled.View`
   flex: 1;
 `
 
+export const LayoutContent = styled.View`
+  align-items: center;
+  flex: 5px;
+`
+
 export const Header = styled.View`
   height: 96px;
   align-items: center;
