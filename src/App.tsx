@@ -44,7 +44,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={storeTheme}>
-        <Stack.Navigator initialRouteName="Landing">
+        <Stack.Navigator mode="modal" initialRouteName="Landing">
           <Stack.Screen
             name="Landing"
             component={Landing}
