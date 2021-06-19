@@ -71,6 +71,7 @@ export const radius = {
 }
 
 export const spaces = {
+  NONE: 0,
   XX_SMALL: 4,
   X_SMALL: 8,
   SMALL: 12,
@@ -104,7 +105,7 @@ export const lightTheme: ThemeAttributes = {
   mode: themes.LIGHT,
   BACKGROUND: colors.WHITE,
   AVATAR_BORDER: colors.PURPLE,
-  INPUT_BACKGROUND: colors.GREY_LIGHT,
+  INPUT_BACKGROUND: colors.WHITE,
   PRIMARY_TEXT_COLOR: colors.BLACK,
   SECONDARY_TEXT_COLOR: colors.WHITE,
   TERTIARY_TEXT_COLOR: colors.BLACK,

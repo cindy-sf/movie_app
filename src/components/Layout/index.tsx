@@ -1,45 +1,106 @@
 import React from 'react'
-import { useWindowDimensions, TouchableOpacity, View } from 'react-native'
+import {
+  ImageSourcePropType,
+  useWindowDimensions,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useSelector } from 'react-redux'
 
-import CloseIconDark from '../../assets/icons/close_icon_dark.png'
-import CloseIconLight from '../../assets/icons/close_icon_light.png'
+import CloseIconBlack from '@assets/icons/close_icon_black.png'
+import CloseIconWhite from '@assets/icons/close_icon_white.png'
+import SearchIconWhite from '@assets/icons/search_icon_white.png'
+import SearchIconBlack from '@assets/icons/search_icon_black.png'
 
-import { CloseIcon, Header, LayoutWrapper } from './index.styles'
+import Image from '@components/Image'
+
+import { colors, ThemeAttributes } from '@src/styles/theme'
+import {
+  CloseIcon,
+  Header,
+  LayoutContent,
+  LayoutWrapper,
+  UserPictureWrapper,
+  SearchIconWrapper,
+  SearchBar,
+  SearchBarWrapper,
+} from './index.styles'
 
 interface Props {
   headerOptions?: HeaderOptions
 }
 
 interface HeaderOptions {
-  closeIcon: CloseIconProperties
+  closeIcon?: CloseIconProperties
+  searchBar?: SearchBarProperties
+  userPicture?: UserPictureProperties
 }
 
 interface CloseIconProperties {
   onClose: () => void
 }
 
+interface SearchBarProperties {
+  onPress: () => void
+}
+
+interface UserPictureProperties {
+  src: ImageSourcePropType
+  onPress: () => void
+}
+
 const Layout: React.FC<Props> = ({ children, headerOptions }) => {
   const { width: windowWidth } = useWindowDimensions()
-  const appTheme = useSelector((state: any) => state.theme.mode)
+  const appTheme = useSelector(
+    ({ theme }: { theme: ThemeAttributes }) => theme.mode
+  )
+  const searchIconImage =
+    appTheme === 'light' ? SearchIconBlack : SearchIconWhite
 
   return (
     <LayoutWrapper width={windowWidth}>
       <Header>
         {/* Left Header content */}
-        <View />
+        <View>
+          {headerOptions?.searchBar && (
+            <TouchableOpacity onPress={headerOptions.searchBar.onPress}>
+              <SearchBarWrapper>
+                <SearchIconWrapper>
+                  <Image src={searchIconImage} width={22} height={22} />
+                </SearchIconWrapper>
+                <SearchBar
+                  value=""
+                  placeholder="Rechercher..."
+                  placeholderTextColor={
+                    appTheme === 'light' ? colors.BLACK : colors.WHITE
+                  }
+                  onChangeText={() => {}}
+                />
+              </SearchBarWrapper>
+            </TouchableOpacity>
+          )}
+        </View>
         {/* Right Header content */}
         <View>
           {headerOptions?.closeIcon && (
             <TouchableOpacity onPress={headerOptions.closeIcon.onClose}>
               <CloseIcon
-                source={appTheme === 'light' ? CloseIconDark : CloseIconLight}
+                source={appTheme === 'light' ? CloseIconBlack : CloseIconWhite}
               />
             </TouchableOpacity>
           )}
+          {headerOptions?.userPicture && (
+            <UserPictureWrapper onPress={headerOptions.userPicture.onPress}>
+              <Image
+                width={50}
+                height={50}
+                src={headerOptions.userPicture.src}
+              />
+            </UserPictureWrapper>
+          )}
         </View>
       </Header>
-      {children}
+      <LayoutContent>{children}</LayoutContent>
     </LayoutWrapper>
   )
 }
