@@ -10,6 +10,7 @@ export interface ThemeAttributes {
   BACKGROUND: string
   AVATAR_BORDER: string
   INPUT_BACKGROUND: string
+  INPUT_BORDER_COLOR: string
   PRIMARY_TEXT_COLOR: string
   SECONDARY_TEXT_COLOR: string
   TERTIARY_TEXT_COLOR: string
@@ -92,6 +93,7 @@ export const darkTheme: ThemeAttributes = {
   BACKGROUND: colors.BLACK_MEDIUM,
   AVATAR_BORDER: colors.PURPLE,
   INPUT_BACKGROUND: colors.GREY_DARK,
+  INPUT_BORDER_COLOR: colors.WHITE,
   PRIMARY_TEXT_COLOR: colors.WHITE,
   SECONDARY_TEXT_COLOR: colors.BLUE,
   TERTIARY_TEXT_COLOR: colors.GREY_MEDIUM,
@@ -106,6 +108,7 @@ export const lightTheme: ThemeAttributes = {
   BACKGROUND: colors.WHITE,
   AVATAR_BORDER: colors.PURPLE,
   INPUT_BACKGROUND: colors.WHITE,
+  INPUT_BORDER_COLOR: colors.BLACK,
   PRIMARY_TEXT_COLOR: colors.BLACK,
   SECONDARY_TEXT_COLOR: colors.WHITE,
   TERTIARY_TEXT_COLOR: colors.BLACK,
