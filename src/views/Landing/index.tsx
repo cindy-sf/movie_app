@@ -29,6 +29,9 @@ const Landing = ({ navigation }: { navigation: NavigationContainerRef }) => {
 
   const goToHomeScreen = (): void => navigation.navigate('Home')
 
+  const goToAccountCreationScreen = (): void =>
+    navigation.navigate('AccountCreation')
+
   return (
     <Layout
       headerOptions={{
@@ -55,7 +58,7 @@ const Landing = ({ navigation }: { navigation: NavigationContainerRef }) => {
         </ScrollContainer>
       </Container>
       <Separator>
-        <Button>Démarrer</Button>
+        <Button onPress={goToAccountCreationScreen}>Démarrer</Button>
       </Separator>
     </Layout>
   )
