@@ -13,6 +13,7 @@
     "@react-native-async-storage/async-storage": "^1.15.5",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "@types/react-native-snap-carousel": "^3.8.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "commitizen": "^4.2.4",
     "expo": "~41.0.1",
@@ -21,10 +22,11 @@
     "expo-updates": "~0.5.4",
     "react": "16.13.1",
     "react-dom": "^16.13.1",
-    "react-native": "0.63.2",
+    "react-native": "~0.63.4",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-reanimated": "~2.1.0",
     "react-native-screens": "~3.0.0",
+    "react-native-snap-carousel": "^3.9.1",
     "react-native-unimodules": "~0.13.3",
     "react-native-web": "^0.16.3",
     "react-redux": "^7.2.4",
@@ -61,5 +63,7 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  }
+  },
+  "name": "movie_app",
+  "version": "1.0.0"
 }

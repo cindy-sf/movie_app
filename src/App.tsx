@@ -12,6 +12,7 @@ import { getAppTheme } from '@src/utils'
 import { themeToggler } from '@src/redux'
 import Landing from '@views/Landing'
 import Home from '@views/Home'
+import AccountCreation from '@views/AccountCreation'
 
 const Stack = createStackNavigator()
 
@@ -54,6 +55,11 @@ export default function App() {
             options={screenOptions}
           />
           <Stack.Screen name="Home" component={Home} options={screenOptions} />
+          <Stack.Screen
+            name="AccountCreation"
+            component={AccountCreation}
+            options={screenOptions}
+          />
         </Stack.Navigator>
       </ThemeProvider>
     </NavigationContainer>
