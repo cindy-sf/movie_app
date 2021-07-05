@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-import { radius, spaces } from '@src/styles/theme'
+import { colors, radius, spaces } from '@src/styles/theme'
 
 import Image from '@components/Image'
 import Text from '@components/Text'
@@ -19,6 +19,7 @@ const ArticleCardContent = styled.View`
   border-radius: ${radius.MEDIUM}px;
   overflow: hidden;
   margin-bottom: ${spaces.SMALL}px;
+  background-color: ${colors.PURPLE};
 `
 
 const ArticleCard = ({ article }: { article: News }) => (

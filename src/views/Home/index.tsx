@@ -94,6 +94,7 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
           {news.length > 0 && (
             <View>
               <SpotlightCard news={news[0]} />
+              <View style={{ marginTop: spaces.LARGE }} />
               <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_2" textAlign="left">
                 Actualité
               </Text>
