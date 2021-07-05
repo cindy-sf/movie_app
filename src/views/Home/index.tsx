@@ -96,7 +96,7 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
               <SpotlightCard news={news[0]} />
               <View style={{ marginTop: spaces.LARGE }} />
               <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_2" textAlign="left">
-                Actualité
+                Actualités
               </Text>
               <ScrollView
                 showsVerticalScrollIndicator={false}
