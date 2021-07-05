@@ -1,11 +1,10 @@
 import React from 'react'
-import { View } from 'react-native'
 import styled from 'styled-components/native'
 
-import Text from '@components/Text'
-import Image from '@components/Image'
-
 import { radius, spaces } from '@src/styles/theme'
+
+import Image from '@components/Image'
+import Text from '@components/Text'
 
 import type { News } from '../../types'
 
@@ -18,7 +17,7 @@ const ImageWrapper = styled.View`
 
 const SpotlightCardWrapper = styled.View`
   margin-top: ${spaces.SMALL}px;
-  margin-bottom: ${spaces.LARGE}px;
+  margin-bottom: ${spaces.SMALL}px;
 `
 
 const SpotlightCard = ({ news }: { news: News }) => (
