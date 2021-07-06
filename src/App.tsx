@@ -13,6 +13,7 @@ import { themeToggler } from '@src/redux'
 import Landing from '@views/Landing'
 import Home from '@views/Home'
 import AccountCreation from '@views/AccountCreation'
+import Login from '@views/Login'
 
 const Stack = createStackNavigator()
 
@@ -58,6 +59,11 @@ export default function App() {
           <Stack.Screen
             name="AccountCreation"
             component={AccountCreation}
+            options={screenOptions}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
             options={screenOptions}
           />
         </Stack.Navigator>
