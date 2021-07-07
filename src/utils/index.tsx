@@ -9,6 +9,7 @@ import {
 
 export const getAppTheme = async (): Promise<ThemeAttributes> => {
   const DEFAULT_THEME: ThemeModeType = 'light'
+  await storeAppTheme('dark')
   const storedTheme = await AsyncStorage.getItem('theme')
 
   if (!storedTheme) {

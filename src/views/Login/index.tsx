@@ -23,8 +23,17 @@ const ButtonWrapper = styled.View`
 `
 
 const ImageWrapper = styled.View`
+  margin-top: ${spaces.X_LARGE}px;
+`
+
+const InputWrapper = styled.View`
   flex: 0.5;
   margin-top: ${spaces.X_LARGE}px;
+`
+
+const TextWrapper = styled.TouchableOpacity`
+  margin-top: ${spaces.LARGE}px;
+  margin-bottom: ${spaces.LARGE}px;
 `
 
 const Login = ({ navigation }: Props) => (
@@ -41,12 +50,17 @@ const Login = ({ navigation }: Props) => (
         src={Illustration}
       />
     </ImageWrapper>
-    <Input placeHolder="Email" value="" onChange={() => { }} />
-    <Input placeHolder="Mot de passe" value="" onChange={() => { }} />
+    <InputWrapper>
+      <Input placeHolder="Email" value="" onChange={() => { }} />
+      <Input placeHolder="Mot de passe" value="" onChange={() => { }} secureTextEntry />
+    </InputWrapper>
     <ButtonWrapper>
       <Button onPress={() => navigation.navigate('Home')}>
         Connexion
       </Button>
+      <TextWrapper onPress={() => navigation.navigate('AccountCreation')}>
+        <Text font="POPPINS_SEMI_BOLD" size="BODY_2">Je n'ai pas de compte</Text>
+      </TextWrapper>
     </ButtonWrapper>
   </Layout>
 )
