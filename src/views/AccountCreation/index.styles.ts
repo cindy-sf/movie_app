@@ -9,12 +9,12 @@ export const ButtonWrapper = styled.TouchableOpacity`
 
 export const CarouselWrapper = styled.View`
   margin-top: ${spaces.X_LARGE}px;
-  flex: 0.7;
+  flex: 0.8;
 `
 
 export const InputWrapper = styled.View`
   flex: 1;
-  margin-top: ${spaces.X_LARGE}px;
+  margin-top: ${spaces.XX_LARGE}px;
 `
 export const ItemWrapper = styled.View`
   border-radius: ${radius.XX_LARGE}px;
