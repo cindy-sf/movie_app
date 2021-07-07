@@ -7,6 +7,8 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 
+import ChevronIconBlack from '@assets/icons/chevron_icon_black.png'
+import ChevronIconWhite from '@assets/icons/chevron_icon_white.png'
 import CloseIconBlack from '@assets/icons/close_icon_black.png'
 import CloseIconWhite from '@assets/icons/close_icon_white.png'
 import SearchIconWhite from '@assets/icons/search_icon_white.png'
@@ -32,8 +34,13 @@ interface Props {
 
 interface HeaderOptions {
   closeIcon?: CloseIconProperties
+  backIcon?: BackIconProperties
   searchBar?: SearchBarProperties
   userPicture?: UserPictureProperties
+}
+
+interface BackIconProperties {
+  onPress: () => void
 }
 
 interface CloseIconProperties {
@@ -86,6 +93,15 @@ const Layout: React.FC<Props> = ({ children, headerOptions }) => {
             <TouchableOpacity onPress={headerOptions.closeIcon.onClose}>
               <CloseIcon
                 source={appTheme === 'light' ? CloseIconBlack : CloseIconWhite}
+              />
+            </TouchableOpacity>
+          )}
+          {headerOptions?.backIcon && (
+            <TouchableOpacity onPress={headerOptions.backIcon.onPress}>
+              <CloseIcon
+                source={
+                  appTheme === 'light' ? ChevronIconBlack : ChevronIconWhite
+                }
               />
             </TouchableOpacity>
           )}
