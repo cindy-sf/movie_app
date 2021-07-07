@@ -10,10 +10,13 @@ import { useFonts } from 'expo-font'
 import type { ThemeAttributes } from '@styles/theme'
 import { getAppTheme } from '@src/utils'
 import { themeToggler } from '@src/redux'
+
 import Landing from '@views/Landing'
 import Home from '@views/Home'
 import AccountCreation from '@views/AccountCreation'
 import Login from '@views/Login'
+import AccountCreationConfirmation from '@views/AccountCreationConfirmation'
+import PasswordCreation from '@views/PasswordCreation'
 
 const Stack = createStackNavigator()
 
@@ -64,6 +67,16 @@ export default function App() {
           <Stack.Screen
             name="Login"
             component={Login}
+            options={screenOptions}
+          />
+          <Stack.Screen
+            name="PasswordCreation"
+            component={PasswordCreation}
+            options={screenOptions}
+          />
+          <Stack.Screen
+            name="AccountCreationConfirmation"
+            component={AccountCreationConfirmation}
             options={screenOptions}
           />
         </Stack.Navigator>
