@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 
 import { radius, spaces } from '@src/styles/theme'
 
-export const ButtonWrapper = styled.View`
+export const ButtonWrapper = styled.TouchableOpacity`
   margin-top: ${spaces.LARGE}px;
   margin-bottom: ${spaces.LARGE}px;
 `
