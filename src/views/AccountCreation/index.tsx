@@ -58,12 +58,15 @@ const AccountCreation = ({ navigation }: Props) => {
         />
       </CarouselWrapper>
       <InputWrapper>
-        <Input value="" placeHolder="Nom d’affichage" onChange={() => { }} />
-        <Input value="" placeHolder="Nom d’utilisateur" onChange={() => { }} />
-        <Input value="" placeHolder="Email" onChange={() => { }} />
+        <Input value="" placeHolder="Nom d’affichage" onChange={() => {}} />
+        <Input value="" placeHolder="Nom d’utilisateur" onChange={() => {}} />
+        <Input value="" placeHolder="Email" onChange={() => {}} />
       </InputWrapper>
       <Button>Suivant</Button>
       <ButtonWrapper onPress={() => navigation.navigate('Login')}>
+        <Button onPress={() => navigation.navigate('PasswordCreation')}>
+          Suivant
+        </Button>
         <Text font="POPPINS_SEMI_BOLD" size="BODY_2">
           J’ai déjà un compte
         </Text>
