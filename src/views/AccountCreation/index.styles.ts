@@ -2,14 +2,18 @@ import styled from 'styled-components/native'
 
 import { radius, spaces } from '@src/styles/theme'
 
-export const ButtonWrapper = styled.TouchableOpacity`
+export const ButtonWrapper = styled.View`
   margin-top: ${spaces.LARGE}px;
   margin-bottom: ${spaces.LARGE}px;
 `
 
+export const TextWrapper = styled.TouchableOpacity`
+  margin-bottom: ${spaces.XX_LARGE}px;
+`
+
 export const CarouselWrapper = styled.View`
   margin-top: ${spaces.X_LARGE}px;
-  flex: 0.8;
+  flex: 0.9;
 `
 
 export const InputWrapper = styled.View`

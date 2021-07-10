@@ -17,6 +17,7 @@ import {
   CarouselWrapper,
   InputWrapper,
   ItemWrapper,
+  TextWrapper,
 } from './index.styles'
 
 interface Props {
@@ -62,15 +63,16 @@ const AccountCreation = ({ navigation }: Props) => {
         <Input value="" placeHolder="Nom d’utilisateur" onChange={() => {}} />
         <Input value="" placeHolder="Email" onChange={() => {}} />
       </InputWrapper>
-      <Button>Suivant</Button>
-      <ButtonWrapper onPress={() => navigation.navigate('Login')}>
-        <Button onPress={() => navigation.navigate('PasswordCreation')}>
+      <ButtonWrapper>
+        <Button onPress={(): void => navigation.navigate('PasswordCreation')}>
           Suivant
         </Button>
+      </ButtonWrapper>
+      <TextWrapper onPress={(): void => navigation.navigate('Login')}>
         <Text font="POPPINS_SEMI_BOLD" size="BODY_2">
           J’ai déjà un compte
         </Text>
-      </ButtonWrapper>
+      </TextWrapper>
     </Layout>
   )
 }
