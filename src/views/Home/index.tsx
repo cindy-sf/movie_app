@@ -93,7 +93,15 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
           </Text>
           {news.length > 0 && (
             <View>
-              <SpotlightCard news={news[0]} />
+              <SpotlightCard
+                news={news[0]}
+                onPress={() =>
+                  navigation.navigate('ArticleDetails', {
+                    selectedArticleUrl: news[0].url,
+                    selectedArticleTitle: news[0].title,
+                  })
+                }
+              />
               <View style={{ marginTop: spaces.LARGE }} />
               <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_2" textAlign="left">
                 Actualités
@@ -105,7 +113,16 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
                 horizontal
               >
                 {news.slice(1).map((article: News) => (
-                  <ArticleCard key={article.id} article={article} />
+                  <ArticleCard
+                    key={article.id}
+                    article={article}
+                    onPress={() =>
+                      navigation.navigate('ArticleDetails', {
+                        selectedArticleUrl: article.url,
+                        selectedArticleTitle: article.title,
+                      })
+                    }
+                  />
                 ))}
               </ScrollView>
               <Credits />

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-import { radius, spaces } from '@src/styles/theme'
+import { colors, radius, spaces } from '@src/styles/theme'
 
 import Image from '@components/Image'
 import Text from '@components/Text'
@@ -13,15 +13,21 @@ const ImageWrapper = styled.View`
   overflow: hidden;
   width: 325px;
   margin-bottom: ${spaces.SMALL}px;
+  background-color: ${colors.PURPLE};
 `
 
-const SpotlightCardWrapper = styled.View`
+const SpotlightCardWrapper = styled.TouchableOpacity`
   margin-top: ${spaces.SMALL}px;
   margin-bottom: ${spaces.SMALL}px;
 `
 
-const SpotlightCard = ({ news }: { news: News }) => (
-  <SpotlightCardWrapper>
+interface Props {
+  news: News
+  onPress: () => void
+}
+
+const SpotlightCard = ({ news, onPress }: Props) => (
+  <SpotlightCardWrapper onPress={onPress}>
     <ImageWrapper>
       <Image
         height={190}
