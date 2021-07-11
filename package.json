@@ -7,7 +7,8 @@
     "commit": "cz",
     "lint": "eslint ./",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "build:android": "expo build:android"
   },
   "dependencies": {
     "@expo/metro-config": "^0.1.78",
