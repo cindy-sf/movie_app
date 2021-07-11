@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import {
   ImageSourcePropType,
   useWindowDimensions,
@@ -30,6 +30,7 @@ import {
 
 interface Props {
   headerOptions?: HeaderOptions
+  customHeaderConfig?: ReactNode
 }
 
 interface HeaderOptions {
@@ -56,7 +57,11 @@ interface UserPictureProperties {
   onPress: () => void
 }
 
-const Layout: React.FC<Props> = ({ children, headerOptions }) => {
+const Layout: React.FC<Props> = ({
+  children,
+  headerOptions,
+  customHeaderConfig,
+}) => {
   const { width: windowWidth } = useWindowDimensions()
   const appTheme = useSelector(
     ({ theme }: { theme: ThemeAttributes }) => theme.mode
@@ -67,6 +72,9 @@ const Layout: React.FC<Props> = ({ children, headerOptions }) => {
   return (
     <LayoutWrapper width={windowWidth}>
       <Header>
+        {/* Specific case for webview header */}
+        {customHeaderConfig && customHeaderConfig}
+        {/* ***** */}
         {/* Left Header content */}
         <View>
           {headerOptions?.searchBar && (

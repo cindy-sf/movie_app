@@ -8,7 +8,7 @@ import Text from '@components/Text'
 
 import type { News } from '../../types'
 
-const ArticleCardWrapper = styled.View`
+const ArticleCardWrapper = styled.TouchableOpacity`
   margin-right: ${spaces.X_LARGE}px;
   margin-top: ${spaces.SMALL}px;
 `
@@ -22,8 +22,13 @@ const ArticleCardContent = styled.View`
   background-color: ${colors.PURPLE};
 `
 
-const ArticleCard = ({ article }: { article: News }) => (
-  <ArticleCardWrapper>
+interface Props {
+  article: News
+  onPress: () => void
+}
+
+const ArticleCard = ({ article, onPress }: Props) => (
+  <ArticleCardWrapper onPress={onPress}>
     <ArticleCardContent>
       <Image
         height={155}

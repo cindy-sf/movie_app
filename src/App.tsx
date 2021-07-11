@@ -17,6 +17,7 @@ import AccountCreation from '@views/AccountCreation'
 import Login from '@views/Login'
 import AccountCreationConfirmation from '@views/AccountCreationConfirmation'
 import PasswordCreation from '@views/PasswordCreation'
+import ArticleDetails from '@views/ArticleDetails'
 
 const Stack = createStackNavigator()
 
@@ -77,6 +78,11 @@ export default function App() {
           <Stack.Screen
             name="AccountCreationConfirmation"
             component={AccountCreationConfirmation}
+            options={screenOptions}
+          />
+          <Stack.Screen
+            name="ArticleDetails"
+            component={ArticleDetails}
             options={screenOptions}
           />
         </Stack.Navigator>
