@@ -22,7 +22,7 @@ import {
 interface Props {
   placeHolder: string
   value: string
-  onChange: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void
+  onChange: (e: string) => void
   secureTextEntry?: boolean
 }
 
@@ -71,7 +71,7 @@ const Input = ({ placeHolder, value, onChange, secureTextEntry }: Props) => {
     <InputWrapper>
       <TextInput
         value={value}
-        onChange={onChange}
+        onChangeText={onChange}
         placeholder={placeHolder}
         placeholderTextColor={
           appTheme === 'light' ? colors.BLACK : colors.WHITE
