@@ -85,7 +85,10 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
             Je veux consulter...
           </Text>
           <WatchOptionWrapper>
-            <WatchOption type="movie" onPress={() => {}} />
+            <WatchOption
+              type="movie"
+              onPress={(): void => navigation.navigate('Movies')}
+            />
             <WatchOption type="tvShow" onPress={() => {}} />
           </WatchOptionWrapper>
           <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_2" textAlign="left">

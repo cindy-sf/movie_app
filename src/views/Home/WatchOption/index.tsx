@@ -44,7 +44,7 @@ const WatchOption = ({ type, onPress }: Props) => {
   const tvShowIcon = themeColor === 'light' ? TVShowIconBlack : TVShowIconWhite
 
   return (
-    <WatchOptionContent onPresse={onPress}>
+    <WatchOptionContent onPress={onPress}>
       <Image
         width={22}
         height={22}
