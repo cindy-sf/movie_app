@@ -83,3 +83,13 @@ export const SearchIconWrapper = styled.View`
   z-index: 34;
   elevation: 34;
 `
+
+export const ShareAction = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const ShareImage = styled.View`
+  margin-right: ${spaces.SMALL}px;
+`
