@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 
 import { BlurView } from 'expo-blur'
 
-import { colors, radius, spaces } from '@src/styles/theme'
+import { colors, radius, spaces, ThemeAttributes } from '@src/styles/theme'
 
 export const FavoriteButton = styled.View`
   margin-top: ${spaces.X_LARGE}px;
@@ -14,6 +14,12 @@ export const GenderBadge = styled.View`
   border-radius: ${radius.MEDIUM}px;
   padding: ${spaces.X_SMALL}px ${spaces.MEDIUM}px;
   margin-right: ${spaces.SMALL}px;
+  background-color: ${({ theme }: { theme: ThemeAttributes }) =>
+    theme.INPUT_BACKGROUND};
+  shadow-color: ${colors.GREY_LIGHT};
+  shadow-offset: 0px 4px;
+  shadow-radius: 4.65px;
+  elevation: 7;
 `
 
 export const GenderBadgeWrapper = styled.View`

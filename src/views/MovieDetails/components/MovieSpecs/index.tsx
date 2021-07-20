@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
 import type { ImageSourcePropType } from 'react-native'
@@ -6,9 +7,14 @@ import type { ImageSourcePropType } from 'react-native'
 import Image from '@components/Image'
 import Text from '@components/Text'
 
-import LanguageIcon from '@assets/icons/language_icon.png'
-import MovieDurationIcon from '@assets/icons/movie_duration_icon.png'
-import CalendarIcon from '@assets/icons/calendar_icon.png'
+import LanguageIconWhite from '@assets/icons/language_icon_white.png'
+import MovieDurationIconWhite from '@assets/icons/movie_duration_icon_white.png'
+import CalendarIconWhite from '@assets/icons/calendar_icon_white.png'
+import LanguageIconBlack from '@assets/icons/language_icon_black.png'
+import MovieDurationIconBlack from '@assets/icons/movie_duration_icon_black.png'
+import CalendarIconBlack from '@assets/icons/calendar_icon_black.png'
+
+import type { ThemeAttributes } from '@styles/theme'
 
 import { spaces } from '@src/styles/theme'
 
@@ -44,12 +50,21 @@ const Spec = ({ text, urlImage }: SpecProps) => (
   </MovieSpec>
 )
 
-const MovieSpecs = ({ duration, language, releaseDate }: Props) => (
-  <Wrapper>
-    <Spec text={duration} urlImage={MovieDurationIcon} />
-    <Spec text={releaseDate} urlImage={CalendarIcon} />
-    <Spec text={language} urlImage={LanguageIcon} />
-  </Wrapper>
-)
+const MovieSpecs = ({ duration, language, releaseDate }: Props) => {
+  const appTheme = useSelector(
+    ({ theme }: { theme: ThemeAttributes }) => theme.mode
+  )
+  const movieDurationIcon = appTheme === 'light' ? MovieDurationIconBlack : MovieDurationIconWhite
+  const calendarIcon = appTheme === 'light' ? CalendarIconBlack : CalendarIconWhite
+  const languageIcon = appTheme === 'light' ? LanguageIconBlack : LanguageIconWhite
+
+  return (
+    <Wrapper>
+      <Spec text={duration} urlImage={movieDurationIcon} />
+      <Spec text={releaseDate} urlImage={calendarIcon} />
+      <Spec text={language} urlImage={languageIcon} />
+    </Wrapper>
+  )
+}
 
 export default MovieSpecs
