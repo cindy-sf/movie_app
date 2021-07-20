@@ -13,6 +13,8 @@ import CloseIconBlack from '@assets/icons/close_icon_black.png'
 import CloseIconWhite from '@assets/icons/close_icon_white.png'
 import SearchIconWhite from '@assets/icons/search_icon_white.png'
 import SearchIconBlack from '@assets/icons/search_icon_black.png'
+import ShareIconWhite from '@assets/icons/share_icon_white.png'
+import ShareIconBlack from '@assets/icons/share_icon_black.png'
 
 import Image from '@components/Image'
 
@@ -26,7 +28,10 @@ import {
   SearchIconWrapper,
   SearchBar,
   SearchBarWrapper,
+  ShareAction,
+  ShareImage,
 } from './index.styles'
+import Text from '@components/Text'
 
 interface Props {
   headerOptions?: HeaderOptions
@@ -38,6 +43,7 @@ interface HeaderOptions {
   backIcon?: BackIconProperties
   searchBar?: SearchBarProperties
   userPicture?: UserPictureProperties
+  shareAction?: BackIconProperties
 }
 
 interface BackIconProperties {
@@ -68,6 +74,8 @@ const Layout: React.FC<Props> = ({
   )
   const searchIconImage =
     appTheme === 'light' ? SearchIconBlack : SearchIconWhite
+  const ShareIconImage =
+    appTheme === 'light' ? ShareIconBlack : ShareIconWhite
 
   return (
     <LayoutWrapper width={windowWidth}>
@@ -89,10 +97,18 @@ const Layout: React.FC<Props> = ({
                   placeholderTextColor={
                     appTheme === 'light' ? colors.BLACK : colors.WHITE
                   }
-                  onChangeText={() => {}}
+                  onChangeText={() => { }}
                 />
               </SearchBarWrapper>
             </TouchableOpacity>
+          )}
+          {headerOptions?.shareAction && (
+            <ShareAction onPress={headerOptions.shareAction.onPress}>
+              <ShareImage>
+                <Image src={ShareIconImage} width={22} height={22} />
+              </ShareImage>
+              <Text size="OVERLINE">Partager</Text>
+            </ShareAction>
           )}
         </View>
         {/* Right Header content */}
