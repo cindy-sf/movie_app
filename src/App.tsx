@@ -18,6 +18,7 @@ import Login from '@views/Login'
 import AccountCreationConfirmation from '@views/AccountCreationConfirmation'
 import PasswordCreation from '@views/PasswordCreation'
 import ArticleDetails from '@views/ArticleDetails'
+import MovieDetails from '@views/MovieDetails'
 
 const Stack = createStackNavigator()
 
@@ -53,7 +54,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={storeTheme}>
-        <Stack.Navigator mode="modal" initialRouteName="Landing">
+        <Stack.Navigator mode="modal"
+          // @todo change initial route with LandingPage when development tests are over 
+          initialRouteName="MovieDetails"
+        >
           <Stack.Screen
             name="Landing"
             component={Landing}
@@ -84,6 +88,15 @@ export default function App() {
             name="ArticleDetails"
             component={ArticleDetails}
             options={screenOptions}
+          />
+          <Stack.Screen
+            name="MovieDetails"
+            component={MovieDetails}
+            options={screenOptions}
+            // @todo remove this lines, this is for development tests
+            initialParams={{
+              movieId: 13909
+            }}
           />
         </Stack.Navigator>
       </ThemeProvider>
