@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
-import type { NavigationContainerRef, RouteProp } from '@react-navigation/native'
+import type {
+  NavigationContainerRef,
+  RouteProp,
+} from '@react-navigation/native'
 
 import Button from '@components/Button'
 import Error from '@components/Error'
 import Image from '@components/Image'
-import MovieSpecs from './components/MovieSpecs'
 import Layout from '@components/Layout'
 import Loader from '@components/Loader'
 import RatingStar from '@components/RatingStar'
@@ -16,6 +18,7 @@ import { API_KEY } from '@src/credentials'
 import VideoIcon from '@assets/icons/video.png'
 
 import { spaces } from '@src/styles/theme'
+import MovieSpecs from './components/MovieSpecs'
 
 import type { MovieCharacters, MovieDetailstype } from './types'
 
@@ -26,7 +29,7 @@ import {
   GenderBadgeWrapper,
   Resume,
   FavoriteButton,
-
+  Rates,
 } from './index.styles'
 
 export interface Props {
@@ -92,17 +95,14 @@ const MovieDetails = ({ navigation, route }: Props) => {
     <Layout
       headerOptions={{
         backIcon: {
-          onPress: (): void => { },
+          onPress: (): void => {},
         },
         shareAction: {
-          onPress: (): void => { }
-        }
+          onPress: (): void => {},
+        },
       }}
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        overScrollMode="never"
-      >
+      <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
         <MoviePoster>
           <Image
             width={205}
@@ -117,21 +117,19 @@ const MovieDetails = ({ navigation, route }: Props) => {
                 // youtube link: https://www.youtube.com/watch?${moviesInfos.trailer}
               }}
             >
-              <Image
-                src={VideoIcon}
-                width={28}
-                height={28}
-              />
+              <Image src={VideoIcon} width={28} height={28} />
             </TouchableOpacity>
           </VideoIconWrapper>
         </MoviePoster>
-        <Text font="POPPINS_SEMI_BOLD" size="BODY_1">{movieInfos.title}</Text>
+        <Text font="POPPINS_SEMI_BOLD" size="BODY_1">
+          {movieInfos.title}
+        </Text>
         <Text size="BODY_1">{movieInfos.director}</Text>
-        <View style={{ marginBottom: spaces.SMALL, marginLeft: 'auto', marginRight: 'auto' }}>
+        <Rates>
           <RatingStar notation={movieInfos.notes.mean} />
-        </View>
+        </Rates>
         <GenderBadgeWrapper>
-          {movieInfos.genres.map(movieGender => (
+          {movieInfos.genres.map((movieGender) => (
             <GenderBadge key={movieGender}>
               <Text size="OVERLINE">{movieGender}</Text>
             </GenderBadge>
@@ -143,13 +141,11 @@ const MovieDetails = ({ navigation, route }: Props) => {
           language={movieInfos.language}
         />
         <Resume>
-          <Text size="SUBTITLE" font="POPPINS_SEMI_BOLD" textAlign="left">Résumé</Text>
+          <Text size="SUBTITLE" font="POPPINS_SEMI_BOLD" textAlign="left">
+            Résumé
+          </Text>
           <View style={{ marginBottom: spaces.XX_SMALL }} />
-          <Text
-            size="BODY_2"
-            textAlign="left"
-            limit={movieResumeLimit}
-          >
+          <Text size="BODY_2" textAlign="left" limit={movieResumeLimit}>
             {movieInfos.synopsis}
           </Text>
           {movieResumeLimit > 0 && (
@@ -168,11 +164,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
         <FavoriteButton>
           <Button>Ajouter en favoris</Button>
         </FavoriteButton>
-        <Text
-          font="POPPINS_SEMI_BOLD"
-          textAlign="left"
-          size="SUBTITLE"
-        >
+        <Text font="POPPINS_SEMI_BOLD" textAlign="left" size="SUBTITLE">
           Acteurs ({`${movieCharacters.length}`})
         </Text>
       </ScrollView>

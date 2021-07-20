@@ -41,6 +41,12 @@ export const MoviePoster = styled.View`
   position: relative;
 `
 
+export const Rates = styled.View`
+  margin-bottom: ${spaces.SMALL}px;
+  margin-left: auto;
+  margin-right: auto;
+`
+
 export const Resume = styled.View`
   margin-top: ${spaces.XXX_LARGE}px;
 `

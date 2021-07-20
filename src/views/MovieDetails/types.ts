@@ -24,10 +24,10 @@ export interface MovieDetailstype {
   tagline: string
   language: string
   notes: Notes
-  followers: 82
-  comments: 34
-  similars: 2
-  characters: 24
+  followers: number
+  comments: number
+  similars: number
+  characters: number
   trailer: string
   resource_url: string
   platform_links: []

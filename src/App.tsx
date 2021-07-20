@@ -54,10 +54,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={storeTheme}>
-        <Stack.Navigator mode="modal"
-          // @todo change initial route with LandingPage when development tests are over 
-          initialRouteName="MovieDetails"
-        >
+        <Stack.Navigator mode="modal" initialRouteName="Landing">
           <Stack.Screen
             name="Landing"
             component={Landing}
@@ -93,10 +90,6 @@ export default function App() {
             name="MovieDetails"
             component={MovieDetails}
             options={screenOptions}
-            // @todo remove this lines, this is for development tests
-            initialParams={{
-              movieId: 13909
-            }}
           />
         </Stack.Navigator>
       </ThemeProvider>
