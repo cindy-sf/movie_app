@@ -13,6 +13,7 @@ export const GenderBadge = styled.View`
   background-color: ${colors.GREY_DARK};
   border-radius: ${radius.MEDIUM}px;
   padding: ${spaces.X_SMALL}px ${spaces.MEDIUM}px;
+  margin-bottom: ${spaces.MEDIUM}px;
   margin-right: ${spaces.SMALL}px;
   background-color: ${({ theme }: { theme: ThemeAttributes }) =>
     theme.INPUT_BACKGROUND};
@@ -26,13 +27,15 @@ export const GenderBadgeWrapper = styled.View`
   flex-direction: row;
   margin-top: ${spaces.X_LARGE}px;
   justify-content: center;
+  max-width: 100%;
+  flex-wrap: wrap;
 `
 
 export const MoviePoster = styled.View`
   border-radius: ${radius.MEDIUM}px;
   background-color: ${colors.PURPLE};
-  margin-top: ${spaces.MEDIUM}px;
-  margin-bottom: ${spaces.MEDIUM}px;
+  margin-top: ${spaces.SMALL}px;
+  margin-bottom: ${spaces.LARGE}px;
   margin-right: auto;
   margin-left: auto;
   overflow: hidden;
