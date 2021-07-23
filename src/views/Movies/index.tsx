@@ -1,69 +1,90 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
+import type { NavigationContainerRef } from '@react-navigation/native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { TouchableOpacity } from 'react-native'
+import { View } from 'react-native'
 import styled from 'styled-components/native'
 
 import Error from '@components/Error'
-import Image from '@components/Image'
 import Layout from '@components/Layout'
 import Loader from '@components/Loader'
+import RatingUsCard from '@components/RatingUsCard'
 import Text from '@components/Text'
-
 import UserPicture from '@assets/images/user_pictures/girl_1.png'
-
-import { API_KEY } from '@src/credentials'
-import { colors, radius, spaces } from '@src/styles/theme'
-
+import { spaces } from '@src/styles/theme'
 import type { Movie } from '@src/types'
-import type { NavigationContainerRef } from '@react-navigation/native'
+import MovieCard from './components/MovieCard'
+import MovieTypeTitle from './components/MovieTypeTitle'
+import GenderCard from './components/GenderCard'
+
+import { buildGenderMovieUrls, movieAPIUrls } from './constants'
 
 const ScrollZone = styled.ScrollView`
-  margin-top: ${spaces.LARGE}px;
   width: 100%;
 `
 
-const TitleWrapper = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: ${spaces.LARGE}px;
-`
+interface Props {
+  navigation: NavigationContainerRef
+}
 
-const MovieCard = styled.View`
-  margin-right: ${spaces.X_LARGE}px;
-`
+interface MovieList {
+  incomingMovies: Movie[]
+  popularMovies: Movie[]
+  randomMoviesByGender: Movie[][]
+}
 
-const ImageWrapper = styled.View`
-  border-radius: ${radius.LARGE}px;
-  overflow: hidden;
-  background-color: ${colors.PURPLE};
-  margin-bottom: ${spaces.SMALL}px;
-  height: 260px;
-  width: 165px;
-`
-
-const Movies = ({ navigation }: { navigation: NavigationContainerRef }) => {
-  const [movies, setMovies] = useState<Movie[]>([])
+const Movies = ({ navigation }: Props): ReactElement => {
+  const [movies, setMovies] = useState<MovieList>({
+    incomingMovies: [],
+    popularMovies: [],
+    randomMoviesByGender: [],
+  })
+  const [moviesGender, setMoviesGender] = useState<string[]>([])
+  const [dynamicMoviesGenders, setDynamicMoviesGenders] = useState<string[]>([])
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         setIsDataFetching(true)
-        const response = await fetch(
-          `https://api.betaseries.com/movies/discover?key=${API_KEY}&type=popular&limit=15`
+
+        // Get movies list and all genders
+        const data = await Promise.all(
+          movieAPIUrls.map(async (url) => {
+            const response = await fetch(url)
+            return response.json()
+          })
         )
-        const moviesData = await response.json()
-        const moviesWithPoster = moviesData.movies.map((movie: Movie) => ({
-          ...movie,
-          poster: `https://pictures.betaseries.com/films/affiches/original/${movie.id}.jpg`,
-        }))
-        setMovies(moviesWithPoster)
+
+        // Generate random movies genders
+        const randomMoviesGenders = getRandomMoviesGender(
+          Object.keys(data[2].genres)
+        )
+        const randomMoviesByGenderUrls =
+          buildGenderMovieUrls(randomMoviesGenders)
+
+        const randomMoviesByGenderData = await Promise.all(
+          randomMoviesByGenderUrls.map(async (url) => {
+            const response = await fetch(url)
+            return response.json()
+          })
+        )
+
+        // Set data
+        setMovies({
+          incomingMovies: moviesWithPoster(data[1].movies),
+          popularMovies: moviesWithPoster(data[0].movies),
+          randomMoviesByGender: [
+            randomMoviesByGenderData[0].movies,
+            randomMoviesByGenderData[1].movies,
+            randomMoviesByGenderData[2].movies,
+            randomMoviesByGenderData[3].movies,
+            randomMoviesByGenderData[4].movies,
+          ],
+        })
+        setMoviesGender(data[2].genres)
+        setDynamicMoviesGenders(randomMoviesGenders)
       } catch (err) {
-        console.log('error', err)
         setShouldDisplayError(true)
       } finally {
         setIsDataFetching(false)
@@ -73,65 +94,111 @@ const Movies = ({ navigation }: { navigation: NavigationContainerRef }) => {
     fetchData()
   }, [])
 
-  if (isDataFetching) return <Loader />
+  const getRandomMoviesGender = (gendersList: string[]): string[] => {
+    const selectedGenders: string[] = []
 
-  if (shouldDisplayError) return <Error navigation={navigation} />
+    while (selectedGenders.length !== 5) {
+      const randomIndex = Math.floor(Math.random() * gendersList.length)
+
+      if (!selectedGenders.includes(gendersList[randomIndex])) {
+        selectedGenders.push(gendersList[randomIndex])
+      }
+    }
+
+    return selectedGenders
+  }
+
+  const moviesWithPoster = (movieList: Movie[]): Movie[] =>
+    movieList.map((movie) => ({
+      ...movie,
+      poster: `https://pictures.betaseries.com/films/affiches/original/${movie.id}.jpg`,
+    }))
+
+  if (isDataFetching) {
+    return <Loader />
+  }
+
+  if (shouldDisplayError) {
+    return <Error navigation={navigation} />
+  }
 
   return (
     <Layout
       headerOptions={{
         userPicture: {
           src: UserPicture,
-          onPress: () => {},
+          onPress: (): void => {},
         },
         searchBar: {
-          onPress: () => {},
+          onPress: (): void => {},
         },
       }}
     >
-      <TitleWrapper>
-        <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_2" textAlign="left">
-          Films populaires
-        </Text>
-        <TouchableOpacity>
-          <Text font="POPPINS_MEDIUM" size="BODY_2">
-            Voir tout &gt;
-          </Text>
-        </TouchableOpacity>
-      </TitleWrapper>
       <ScrollZone showsVerticalScrollIndicator={false} overScrollMode="never">
+        <MovieTypeTitle
+          text="Films populaires"
+          onShowAllPress={(): void => {}}
+        />
         <ScrollView
-          style={{ marginBottom: spaces.X_LARGE }}
-          showsVerticalScrollIndicator={false}
+          style={{ marginBottom: spaces.MEDIUM }}
+          showsHorizontalScrollIndicator={false}
           overScrollMode="never"
           horizontal
         >
-          {movies.map((movie) => (
-            <MovieCard key={movie.id}>
-              <ImageWrapper>
-                <Image
-                  src={{ uri: movie.poster }}
-                  height={260}
-                  width={165}
-                  resizeMode="cover"
-                />
-              </ImageWrapper>
-              <Text
-                font="POPPINS_SEMI_BOLD"
-                textAlign="left"
-                size="BODY_1"
-                maxWidth={165}
-              >
-                {movie.title.length > 35
-                  ? `${movie.title.slice(0, 35)}...`
-                  : movie.title}
-              </Text>
-            </MovieCard>
+          {movies.popularMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} navigation={navigation} />
           ))}
         </ScrollView>
-        <Text textAlign="left" font="POPPINS_SEMI_BOLD" size="SUBTITLE">
-          Par catégories
-        </Text>
+        <RatingUsCard onClose={(): void => {}} />
+        <MovieTypeTitle
+          text="Prochaine sortie"
+          onShowAllPress={(): void => {}}
+        />
+        <ScrollView
+          style={{ marginBottom: spaces.MEDIUM }}
+          showsHorizontalScrollIndicator={false}
+          overScrollMode="never"
+          horizontal
+        >
+          {movies.incomingMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} navigation={navigation} />
+          ))}
+        </ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
+          {dynamicMoviesGenders.map((gender, index) => (
+            <View key={gender} style={{ marginBottom: spaces.MEDIUM }}>
+              <MovieTypeTitle text={gender} onShowAllPress={(): void => {}} />
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                overScrollMode="never"
+                horizontal
+              >
+                {movies.randomMoviesByGender[index].map((movie) => (
+                  <MovieCard
+                    key={movie.id}
+                    movie={movie}
+                    navigation={navigation}
+                  />
+                ))}
+              </ScrollView>
+            </View>
+          ))}
+        </ScrollView>
+        <View style={{ marginBottom: spaces.MEDIUM }}>
+          <Text textAlign="left" font="POPPINS_SEMI_BOLD" size="HEADLINE_2">
+            Par catégories
+          </Text>
+        </View>
+        <ScrollView
+          style={{ marginBottom: spaces.MEDIUM }}
+          showsHorizontalScrollIndicator={false}
+          overScrollMode="never"
+          horizontal
+        >
+          {Object.keys(moviesGender).map((gender) => (
+            <GenderCard key={gender} gender={gender} onPress={(): void => {}} />
+          ))}
+        </ScrollView>
       </ScrollZone>
     </Layout>
   )
