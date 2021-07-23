@@ -17,6 +17,7 @@ import ShareIconWhite from '@assets/icons/share_icon_white.png'
 import ShareIconBlack from '@assets/icons/share_icon_black.png'
 
 import Image from '@components/Image'
+import Text from '@components/Text'
 
 import { colors, ThemeAttributes } from '@src/styles/theme'
 import {
@@ -31,7 +32,6 @@ import {
   ShareAction,
   ShareImage,
 } from './index.styles'
-import Text from '@components/Text'
 
 interface Props {
   headerOptions?: HeaderOptions
@@ -74,12 +74,11 @@ const Layout: React.FC<Props> = ({
   )
   const searchIconImage =
     appTheme === 'light' ? SearchIconBlack : SearchIconWhite
-  const ShareIconImage =
-    appTheme === 'light' ? ShareIconBlack : ShareIconWhite
+  const ShareIconImage = appTheme === 'light' ? ShareIconBlack : ShareIconWhite
 
   return (
     <LayoutWrapper width={windowWidth}>
-      <Header>
+      <Header flexDirection={headerOptions?.backIcon ? 'row-reverse' : 'row'}>
         {/* Specific case for webview header */}
         {customHeaderConfig && customHeaderConfig}
         {/* ***** */}
@@ -97,7 +96,7 @@ const Layout: React.FC<Props> = ({
                   placeholderTextColor={
                     appTheme === 'light' ? colors.BLACK : colors.WHITE
                   }
-                  onChangeText={() => { }}
+                  onChangeText={() => {}}
                 />
               </SearchBarWrapper>
             </TouchableOpacity>
