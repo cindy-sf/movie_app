@@ -21,7 +21,7 @@ const CustomButton = styled.TouchableOpacity`
 
 const Button: React.FC<ButtonProps> = ({ children, onPress }) => (
   <CustomButton activeOpacity={1} onPress={onPress || null}>
-    <Text size="BODY_2" color="secondary" font="POPPINS_SEMI_BOLD">
+    <Text size="BODY_2" color="SECONDARY_TEXT_COLOR" font="POPPINS_SEMI_BOLD">
       {children}
     </Text>
   </CustomButton>

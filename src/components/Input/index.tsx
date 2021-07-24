@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
+import { TextInputProps } from 'react-native'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/native'
 
@@ -18,12 +18,15 @@ import {
   spaces,
   ThemeAttributes,
 } from '@src/styles/theme'
+import Text from '@components/Text'
 
-interface Props {
+type Props = TextInputProps & {
   placeHolder: string
   value: string
-  onChange: (e: string) => void
+  // eslint-disable-next-line no-unused-vars
+  onTextChange: (e: string) => void
   secureTextEntry?: boolean
+  errorMessage?: string
 }
 
 const TextInput = styled.TextInput`
@@ -44,7 +47,7 @@ const TextInput = styled.TextInput`
 
 const InputWrapper = styled.View`
   position: relative;
-  margin-top: ${spaces.LARGE}px;
+  margin-top: ${spaces.MEDIUM}px;
 `
 
 const IconWrapper = styled.TouchableOpacity`
@@ -55,7 +58,20 @@ const IconWrapper = styled.TouchableOpacity`
   elevation: 10;
 `
 
-const Input = ({ placeHolder, value, onChange, secureTextEntry }: Props) => {
+const ErrorWrapper = styled.View`
+  margin-top: ${spaces.X_SMALL}px;
+  max-width: 250px;
+  margin-left: ${spaces.X_SMALL}px;
+`
+
+const Input = ({
+  placeHolder,
+  value,
+  onTextChange,
+  secureTextEntry,
+  keyboardType,
+  errorMessage = '',
+}: Props) => {
   const appTheme = useSelector(
     ({ theme }: { theme: ThemeAttributes }) => theme.mode
   )
@@ -71,12 +87,13 @@ const Input = ({ placeHolder, value, onChange, secureTextEntry }: Props) => {
     <InputWrapper>
       <TextInput
         value={value}
-        onChangeText={onChange}
+        onChangeText={onTextChange}
         placeholder={placeHolder}
         placeholderTextColor={
           appTheme === 'light' ? colors.BLACK : colors.WHITE
         }
         secureTextEntry={isPasswordTextHidden}
+        keyboardType={keyboardType}
       />
       {secureTextEntry && (
         <IconWrapper
@@ -90,12 +107,25 @@ const Input = ({ placeHolder, value, onChange, secureTextEntry }: Props) => {
           />
         </IconWrapper>
       )}
+      {errorMessage?.length > 0 && (
+        <ErrorWrapper>
+          <Text
+            size="OVERLINE"
+            font="POPPINS_SEMI_BOLD"
+            textAlign="left"
+            color="ERROR_TEXT_COLOR"
+          >
+            {`ⓘ ${errorMessage}`}
+          </Text>
+        </ErrorWrapper>
+      )}
     </InputWrapper>
   )
 }
 
 Input.defaultProps = {
   secureTextEntry: false,
+  errorMessage: null,
 }
 
 export default Input
