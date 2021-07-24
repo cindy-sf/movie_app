@@ -108,12 +108,12 @@ const Login = ({ navigation }: Props) => {
         <Input
           placeHolder="Email"
           value={userData.mail}
-          onChange={(text) => setUserData({ ...userData, mail: text })}
+          onTextChange={(text) => setUserData({ ...userData, mail: text })}
         />
         <Input
           placeHolder="Mot de passe"
           value={userData.password}
-          onChange={(text) => setUserData({ ...userData, password: text })}
+          onTextChange={(text) => setUserData({ ...userData, password: text })}
           secureTextEntry
         />
       </InputWrapper>
