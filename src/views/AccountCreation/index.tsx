@@ -29,6 +29,7 @@ interface UserData {
   mail: string
   tag: string
   name: string
+  picture: UserPictures['imageName']
 }
 
 const AccountCreation = ({ navigation }: Props) => {
@@ -37,22 +38,21 @@ const AccountCreation = ({ navigation }: Props) => {
     mail: '',
     tag: '',
     name: '',
+    picture: userPictures[0].imageName,
   })
-  const [errors, setErrors] = useState<
-    UserData & { picture: string | undefined }
-  >({
+  const [errors, setErrors] = useState<UserData>({
     mail: '',
     tag: '',
     name: '',
     picture: '',
   })
   const handleSubmit = async () => {
-    const { mail, name, tag } = userData
+    const { mail, name, tag, picture } = userData
     const payload = new FormData()
     payload.append('user_mail', mail)
     payload.append('user_name', name)
     payload.append('user_tag', tag)
-    payload.append('user_picture', selectedPictureName)
+    payload.append('user_picture', picture)
     try {
       const register = await fetch(
         'http://api.movieapp.fr/verify?auth_step=0',
@@ -85,9 +85,6 @@ const AccountCreation = ({ navigation }: Props) => {
       console.log(err)
     }
   }
-  const [selectedPictureName, setSelectedPictureName] = useState<
-    UserPictures['imageName']
-  >(userPictures[0].imageName)
 
   const CarouselItem = ({ item }: { item: UserPictures }): ReactElement => (
     <ItemWrapper>
@@ -114,7 +111,7 @@ const AccountCreation = ({ navigation }: Props) => {
             itemHeight={200}
             sliderHeight={200}
             onSnapToItem={(i: number) =>
-              setSelectedPictureName(userPictures[i].imageName)
+              setUserData({ ...userData, picture: userPictures[i].imageName })
             }
           />
         </CarouselWrapper>

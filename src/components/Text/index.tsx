@@ -22,7 +22,7 @@ const CustomText = styled.Text`
     props.maxWidth ? `${props.maxWidth}px` : '100%'};
   text-align: ${(props: { textAlign: string }) => `${props.textAlign}`};
   text-decoration: ${(props: { textDecoration: string }) =>
-    `${props.textDecoration}`}; ;
+    `${props.textDecoration}`};
 `
 
 const Text: React.FC<TextProps> = ({
