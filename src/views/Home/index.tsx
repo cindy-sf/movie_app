@@ -3,8 +3,6 @@ import { ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
 import type { NavigationContainerRef } from '@react-navigation/native'
 
-import UserPicture from '@assets/images/user_pictures/girl_1.png'
-
 import { spaces, ThemeAttributes } from '@src/styles/theme'
 
 import Credits from '@components/Credits'
@@ -66,10 +64,7 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
   return (
     <Layout
       headerOptions={{
-        userPicture: {
-          src: UserPicture,
-          onPress: () => {},
-        },
+        displayUserPicture: true,
         searchBar: {
           onPress: () => {},
         },
