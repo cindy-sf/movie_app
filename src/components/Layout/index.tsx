@@ -3,6 +3,7 @@ import { useWindowDimensions, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import * as Updates from 'expo-updates'
+import { StatusBar } from 'expo-status-bar'
 
 import ChevronIconBlack from '@assets/icons/chevron_icon_black.png'
 import ChevronIconWhite from '@assets/icons/chevron_icon_white.png'
@@ -95,6 +96,7 @@ const Layout: React.FC<Props> = ({
 
   return (
     <LayoutWrapper width={windowWidth}>
+      <StatusBar style={appTheme === 'light' ? 'dark' : 'light'} />
       <Header flexDirection={headerOptions?.backIcon ? 'row-reverse' : 'row'}>
         {/* Specific case for webview header */}
         {customHeaderConfig && customHeaderConfig}
