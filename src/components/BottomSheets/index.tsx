@@ -12,7 +12,7 @@ import {
 
 const BottomSheetContent = styled.View`
   background-color: ${({ theme }: { theme: ThemeAttributes }) =>
-    theme.BOTTOM_SHEET_BACKGROUD};
+    theme.BOTTOM_SHEET_BACKGROUND};
   border-top-left-radius: ${radius.MEDIUM}px;
   border-top-right-radius: ${radius.MEDIUM}px;
   padding-left: ${spaces.LARGE}px;

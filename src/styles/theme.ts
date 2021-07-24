@@ -8,7 +8,7 @@ export type ThemeModeType = 'dark' | 'light'
 export interface ThemeAttributes {
   mode: ThemeModeType
   BACKGROUND: string
-  BOTTOM_SHEET_BACKGROUD: string
+  BOTTOM_SHEET_BACKGROUND: string
   AVATAR_BORDER: string
   INPUT_BACKGROUND: string
   INPUT_BORDER_COLOR: string
@@ -92,7 +92,7 @@ export const themes: Themes = {
 export const darkTheme: ThemeAttributes = {
   mode: themes.DARK,
   BACKGROUND: colors.BLACK_MEDIUM,
-  BOTTOM_SHEET_BACKGROUD: colors.BLACK,
+  BOTTOM_SHEET_BACKGROUND: colors.BLACK,
   AVATAR_BORDER: colors.PURPLE,
   INPUT_BACKGROUND: colors.GREY_DARK,
   INPUT_BORDER_COLOR: colors.WHITE,
@@ -108,7 +108,7 @@ export const darkTheme: ThemeAttributes = {
 export const lightTheme: ThemeAttributes = {
   mode: themes.LIGHT,
   BACKGROUND: colors.WHITE,
-  BOTTOM_SHEET_BACKGROUD: colors.WHITE,
+  BOTTOM_SHEET_BACKGROUND: colors.WHITE,
   AVATAR_BORDER: colors.PURPLE,
   INPUT_BACKGROUND: colors.WHITE,
   INPUT_BORDER_COLOR: colors.BLACK,
