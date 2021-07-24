@@ -9,7 +9,6 @@ import Layout from '@components/Layout'
 import Loader from '@components/Loader'
 import RatingUsCard from '@components/RatingUsCard'
 import Text from '@components/Text'
-import UserPicture from '@assets/images/user_pictures/girl_1.png'
 import { spaces } from '@src/styles/theme'
 import type { Movie } from '@src/types'
 import MovieCard from './components/MovieCard'
@@ -181,13 +180,10 @@ const Movies = ({ navigation }: Props): ReactElement => {
             </View>
           ))}
         </ScrollView>
-        <View style={{ marginBottom: spaces.MEDIUM }}>
-          <Text textAlign="left" font="POPPINS_SEMI_BOLD" size="HEADLINE_2">
-            Par catégories
-          </Text>
-        </View>
+        <Text textAlign="left" font="POPPINS_SEMI_BOLD" size="HEADLINE_2">
+          Par catégories
+        </Text>
         <ScrollView
-          style={{ marginBottom: spaces.MEDIUM }}
           showsHorizontalScrollIndicator={false}
           overScrollMode="never"
           horizontal

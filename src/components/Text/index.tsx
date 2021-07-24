@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import { fonts, fontSize, ThemeAttributes } from '@styles/theme'
 
 export interface TextProps {
-  children: string
+  children: string | string[]
   color?: keyof Omit<ThemeAttributes, 'mode'>
   font?: keyof typeof fonts
   limit?: number
