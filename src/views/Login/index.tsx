@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import styled from 'styled-components/native'
 import type { NavigationContainerRef } from '@react-navigation/native'
@@ -13,6 +12,7 @@ import Text from '@components/Text'
 import { spaces } from '@src/styles/theme'
 
 import Illustration from '@assets/images/login/login.png'
+import Alert from '@components/Alert'
 
 const ButtonWrapper = styled.View`
   flex: 0.5;
@@ -44,6 +44,7 @@ interface UserData {
 }
 
 const Login = ({ navigation }: Props) => {
+  const [alertMessage, setAlertMessage] = useState<string | null>(null)
   const [userData, setUserData] = useState<UserData>({
     mail: '',
     password: '',
@@ -54,7 +55,7 @@ const Login = ({ navigation }: Props) => {
     const payload = new FormData()
     payload.append('user_mail', user_mail)
     payload.append('user_password', user_password)
-
+    setAlertMessage(null)
     try {
       const loginRequest = await fetch('http://api.movieapp.fr/auth', {
         headers: {
@@ -78,12 +79,9 @@ const Login = ({ navigation }: Props) => {
         })
         return
       }
-
-      Alert.alert('Error')
+      setAlertMessage(response.message)
     } catch (err) {
-      console.log('error', err)
-      Alert.alert('@catch error')
-      // Nothing for now
+      console.log('Error', err)
     }
   }
 
@@ -98,6 +96,7 @@ const Login = ({ navigation }: Props) => {
         },
       }}
     >
+      {alertMessage && <Alert message={alertMessage} />}
       <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_1" maxWidth={290}>
         Se connecter
       </Text>
