@@ -1,25 +1,33 @@
-import React, { ReactNode } from 'react'
-import {
-  ImageSourcePropType,
-  useWindowDimensions,
-  TouchableOpacity,
-  View,
-} from 'react-native'
-import { useSelector } from 'react-redux'
+import React, { ReactNode, useState } from 'react'
+import { useWindowDimensions, TouchableOpacity, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+
+import * as Updates from 'expo-updates'
 
 import ChevronIconBlack from '@assets/icons/chevron_icon_black.png'
 import ChevronIconWhite from '@assets/icons/chevron_icon_white.png'
 import CloseIconBlack from '@assets/icons/close_icon_black.png'
 import CloseIconWhite from '@assets/icons/close_icon_white.png'
+import DefaultUserPicture from '@assets/images/user_pictures/girl_1.png'
 import SearchIconWhite from '@assets/icons/search_icon_white.png'
 import SearchIconBlack from '@assets/icons/search_icon_black.png'
 import ShareIconWhite from '@assets/icons/share_icon_white.png'
 import ShareIconBlack from '@assets/icons/share_icon_black.png'
 
+import BottomSheets from '@components/BottomSheets'
 import Image from '@components/Image'
+import MenuContent from '@components/BottomSheets/components/MenuContent'
 import Text from '@components/Text'
 
-import { colors, ThemeAttributes } from '@src/styles/theme'
+import { storeAppTheme } from '@src/utils'
+import { themeToggler } from '@src/redux'
+import {
+  colors,
+  darkTheme,
+  lightTheme,
+  ThemeAttributes,
+} from '@src/styles/theme'
+
 import {
   CloseIcon,
   Header,
@@ -42,7 +50,7 @@ interface HeaderOptions {
   closeIcon?: CloseIconProperties
   backIcon?: BackIconProperties
   searchBar?: SearchBarProperties
-  userPicture?: UserPictureProperties
+  displayUserPicture?: boolean
   shareAction?: BackIconProperties
 }
 
@@ -58,23 +66,32 @@ interface SearchBarProperties {
   onPress: () => void
 }
 
-interface UserPictureProperties {
-  src: ImageSourcePropType
-  onPress: () => void
-}
-
 const Layout: React.FC<Props> = ({
   children,
   headerOptions,
   customHeaderConfig,
 }) => {
+  const dispatch = useDispatch()
   const { width: windowWidth } = useWindowDimensions()
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false)
   const appTheme = useSelector(
     ({ theme }: { theme: ThemeAttributes }) => theme.mode
   )
+
   const searchIconImage =
     appTheme === 'light' ? SearchIconBlack : SearchIconWhite
-  const ShareIconImage = appTheme === 'light' ? ShareIconBlack : ShareIconWhite
+  const shareIconImage = appTheme === 'light' ? ShareIconBlack : ShareIconWhite
+
+  const toggleBottomNavigationView = (): void =>
+    setIsBottomSheetVisible(!isBottomSheetVisible)
+
+  const switchTheme = async (theme: ThemeAttributes): Promise<void> => {
+    if (theme.mode === appTheme) return
+
+    storeAppTheme(theme.mode)
+    dispatch(themeToggler({ theme }))
+    await Updates.reloadAsync()
+  }
 
   return (
     <LayoutWrapper width={windowWidth}>
@@ -104,7 +121,7 @@ const Layout: React.FC<Props> = ({
           {headerOptions?.shareAction && (
             <ShareAction onPress={headerOptions.shareAction.onPress}>
               <ShareImage>
-                <Image src={ShareIconImage} width={22} height={22} />
+                <Image src={shareIconImage} width={22} height={22} />
               </ShareImage>
               <Text size="OVERLINE">Partager</Text>
             </ShareAction>
@@ -128,18 +145,24 @@ const Layout: React.FC<Props> = ({
               />
             </TouchableOpacity>
           )}
-          {headerOptions?.userPicture && (
-            <UserPictureWrapper onPress={headerOptions.userPicture.onPress}>
-              <Image
-                width={50}
-                height={50}
-                src={headerOptions.userPicture.src}
-              />
+          {headerOptions?.displayUserPicture && (
+            <UserPictureWrapper onPress={toggleBottomNavigationView}>
+              <Image width={50} height={50} src={DefaultUserPicture} />
             </UserPictureWrapper>
           )}
         </View>
       </Header>
       <LayoutContent>{children}</LayoutContent>
+      <BottomSheets
+        onBackdropPress={toggleBottomNavigationView}
+        isVisible={isBottomSheetVisible}
+      >
+        <MenuContent
+          onDarkThemeSelection={(): Promise<void> => switchTheme(darkTheme)}
+          onLightThemeSelection={(): Promise<void> => switchTheme(lightTheme)}
+          appTheme={appTheme}
+        />
+      </BottomSheets>
     </LayoutWrapper>
   )
 }

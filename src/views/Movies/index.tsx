@@ -125,10 +125,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
   return (
     <Layout
       headerOptions={{
-        userPicture: {
-          src: UserPicture,
-          onPress: (): void => {},
-        },
+        displayUserPicture: true,
         searchBar: {
           onPress: (): void => {},
         },
