@@ -1,10 +1,13 @@
 import React from 'react'
+import { View } from 'react-native'
 
+import Image from '@components/Image'
 import Text from '@components/Text'
 
 import { colors, radius, spaces, ThemeAttributes } from '@src/styles/theme'
 
 import styled from 'styled-components/native'
+import { gendersIcon } from './constants'
 
 const Card = styled.TouchableOpacity`
   margin: ${spaces.MEDIUM}px ${spaces.X_SMALL}px;
@@ -30,6 +33,13 @@ interface Props {
 
 const GenderCard = ({ gender, onPress }: Props) => (
   <Card onPress={onPress}>
+    <View style={{ marginBottom: spaces.XX_SMALL }}>
+      <Image
+        width={24}
+        height={24}
+        src={gendersIcon[gender] || gendersIcon.UnknowGender}
+      />
+    </View>
     <Text font="POPPINS_SEMI_BOLD" size="BODY_2">
       {gender}
     </Text>
