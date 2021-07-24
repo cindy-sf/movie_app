@@ -10,6 +10,7 @@ import Input from '@components/Input'
 import Layout from '@components/Layout'
 import Text from '@components/Text'
 
+import Alert from '@components/Alert'
 import { userPictures, UserPictures } from './constants'
 
 import {
@@ -34,18 +35,20 @@ interface UserData {
 
 const AccountCreation = ({ navigation }: Props) => {
   const { width: windowWidth } = useWindowDimensions()
+  const [alertMessage, setAlertMessage] = useState<string | null>(null)
   const [userData, setUserData] = useState<UserData>({
     mail: '',
     tag: '',
     name: '',
     picture: userPictures[0].imageName,
   })
-  const [errors, setErrors] = useState<UserData>({
+  const initialErrors = {
     mail: '',
     tag: '',
     name: '',
     picture: '',
-  })
+  }
+  const [errors, setErrors] = useState<UserData>(initialErrors)
   const handleSubmit = async () => {
     const { mail, name, tag, picture } = userData
     const payload = new FormData()
@@ -53,6 +56,8 @@ const AccountCreation = ({ navigation }: Props) => {
     payload.append('user_name', name)
     payload.append('user_tag', tag)
     payload.append('user_picture', picture)
+    setAlertMessage(null)
+    setErrors(initialErrors)
     try {
       const register = await fetch(
         'http://api.movieapp.fr/verify?auth_step=0',
@@ -81,6 +86,7 @@ const AccountCreation = ({ navigation }: Props) => {
           name: user_name,
           picture: user_picture,
         })
+      setAlertMessage(response.data.error)
     } catch (err) {
       console.log(err)
     }
@@ -98,6 +104,7 @@ const AccountCreation = ({ navigation }: Props) => {
         closeIcon: { onClose: (): void => navigation.navigate('Home') },
       }}
     >
+      {alertMessage && <Alert message={alertMessage} />}
       <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_1" maxWidth={290}>
         Créer un compte
       </Text>

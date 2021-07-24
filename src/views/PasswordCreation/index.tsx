@@ -12,6 +12,7 @@ import Text from '@components/Text'
 
 import Illustration from '@assets/images/password_creation/password.png'
 
+import Alert from '@components/Alert'
 import { ButtonWrapper, ImageWrapper, InputWrapper } from './index.styles'
 
 interface Props {
@@ -39,13 +40,17 @@ const PasswordCreation = ({ navigation, route }: Props): ReactElement => {
     password: '',
     confirm_password: '',
   })
-  const [errors, setErrors] = useState<UserData>({
+  const initialErrors = {
     password: '',
     confirm_password: '',
-  })
+  }
+  const [errors, setErrors] = useState<UserData>(initialErrors)
+  const [alertMessage, setAlertMessage] = useState<string | null>(null)
   const handleSubmit = async () => {
     const { password, confirm_password } = userData
     const payload = new FormData()
+    setAlertMessage(null)
+    setErrors(initialErrors)
     payload.append('user_password', password)
     payload.append('user_confirm_password', confirm_password)
     try {
@@ -78,16 +83,12 @@ const PasswordCreation = ({ navigation, route }: Props): ReactElement => {
         })
         response = await register.json()
         if (response.success) navigation.navigate('AccountCreationConfirmation')
-        else {
-          // TODO: Add an alert component
-          console.log('Inscription impossible')
-        }
-      } else {
+        else setAlertMessage(response.message)
+      } else
         setErrors({
           password: user_password,
           confirm_password: user_confirm_password,
         })
-      }
     } catch (err) {
       console.log(err)
     }
@@ -100,6 +101,7 @@ const PasswordCreation = ({ navigation, route }: Props): ReactElement => {
         },
       }}
     >
+      {alertMessage && <Alert message={alertMessage} />}
       <Text font="POPPINS_SEMI_BOLD" size="HEADLINE_1" maxWidth={290}>
         Votre mot de passe
       </Text>
