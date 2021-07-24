@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { Linking, ScrollView, TouchableOpacity, View } from 'react-native'
 import type {
   NavigationContainerRef,
   RouteProp,
@@ -55,8 +55,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
     const { movieId } = route.params
 
     if (!movieId) {
-      // @todo: should redirect to the films index view when exists
-      navigation.navigate('Home')
+      navigation.navigate('Movies')
     }
   }, [route.params.movieId])
 
@@ -95,7 +94,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
     <Layout
       headerOptions={{
         backIcon: {
-          onPress: (): void => {},
+          onPress: (): void => navigation.navigate('Movies'),
         },
         shareAction: {
           onPress: (): void => {},
@@ -113,8 +112,18 @@ const MovieDetails = ({ navigation, route }: Props) => {
           <VideoIconWrapper intensity={100}>
             <TouchableOpacity
               onPress={(): void => {
-                // @todo: should display the movie trailer on click
-                // youtube link: https://www.youtube.com/watch?${moviesInfos.trailer}
+                Linking.canOpenURL(
+                  `vnd.youtube://watch?v=${movieInfos.trailer}`
+                ).then((supported) => {
+                  if (supported) {
+                    return Linking.openURL(
+                      `vnd.youtube://watch?v=${movieInfos.trailer}`
+                    )
+                  }
+                  return Linking.openURL(
+                    `https://www.youtube.com/watch?v=${movieInfos.trailer}`
+                  )
+                })
               }}
             >
               <Image src={VideoIcon} width={28} height={28} />
@@ -128,39 +137,43 @@ const MovieDetails = ({ navigation, route }: Props) => {
         <Rates>
           <RatingStar notation={movieInfos.notes.mean} />
         </Rates>
-        <GenderBadgeWrapper>
-          {movieInfos.genres.map((movieGender) => (
-            <GenderBadge key={movieGender}>
-              <Text size="OVERLINE">{movieGender}</Text>
-            </GenderBadge>
-          ))}
-        </GenderBadgeWrapper>
+        {movieInfos.genres.length > 0 && (
+          <GenderBadgeWrapper>
+            {movieInfos.genres.map((movieGender) => (
+              <GenderBadge key={movieGender}>
+                <Text size="OVERLINE">{movieGender}</Text>
+              </GenderBadge>
+            ))}
+          </GenderBadgeWrapper>
+        )}
         <MovieSpecs
           duration={movieInfos.length}
           releaseDate={movieInfos.release_date}
           language={movieInfos.language}
         />
-        <Resume>
-          <Text size="SUBTITLE" font="POPPINS_SEMI_BOLD" textAlign="left">
-            Résumé
-          </Text>
-          <View style={{ marginBottom: spaces.XX_SMALL }} />
-          <Text size="BODY_2" textAlign="left" limit={movieResumeLimit}>
-            {movieInfos.synopsis}
-          </Text>
-          {movieResumeLimit > 0 && (
-            <TouchableOpacity onPress={(): void => setMovieResumeLimit(0)}>
-              <Text
-                textAlign="left"
-                font="POPPINS_BOLD"
-                size="BODY_2"
-                textDecoration="underline"
-              >
-                Lire la suite
-              </Text>
-            </TouchableOpacity>
-          )}
-        </Resume>
+        {movieInfos.synopsis && (
+          <Resume>
+            <Text size="SUBTITLE" font="POPPINS_SEMI_BOLD" textAlign="left">
+              Résumé
+            </Text>
+            <View style={{ marginBottom: spaces.XX_SMALL }} />
+            <Text size="BODY_2" textAlign="left" limit={movieResumeLimit}>
+              {movieInfos.synopsis}
+            </Text>
+            {movieResumeLimit > 0 && (
+              <TouchableOpacity onPress={(): void => setMovieResumeLimit(0)}>
+                <Text
+                  textAlign="left"
+                  font="POPPINS_BOLD"
+                  size="BODY_2"
+                  textDecoration="underline"
+                >
+                  Lire la suite
+                </Text>
+              </TouchableOpacity>
+            )}
+          </Resume>
+        )}
         <FavoriteButton>
           <Button>Ajouter en favoris</Button>
         </FavoriteButton>

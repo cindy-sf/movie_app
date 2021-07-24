@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
@@ -42,7 +42,7 @@ interface SpecProps {
   urlImage: ImageSourcePropType
 }
 
-const Spec = ({ text, urlImage }: SpecProps) => (
+const Spec = ({ text, urlImage }: SpecProps): ReactElement => (
   <MovieSpec>
     <Image src={urlImage} width={32} height={32} />
     <View style={{ marginTop: spaces.SMALL }} />
@@ -50,18 +50,47 @@ const Spec = ({ text, urlImage }: SpecProps) => (
   </MovieSpec>
 )
 
-const MovieSpecs = ({ duration, language, releaseDate }: Props) => {
+const MovieSpecs = ({
+  duration,
+  language,
+  releaseDate,
+}: Props): ReactElement => {
   const appTheme = useSelector(
     ({ theme }: { theme: ThemeAttributes }) => theme.mode
   )
-  const movieDurationIcon = appTheme === 'light' ? MovieDurationIconBlack : MovieDurationIconWhite
-  const calendarIcon = appTheme === 'light' ? CalendarIconBlack : CalendarIconWhite
-  const languageIcon = appTheme === 'light' ? LanguageIconBlack : LanguageIconWhite
+  const movieDurationIcon =
+    appTheme === 'light' ? MovieDurationIconBlack : MovieDurationIconWhite
+  const calendarIcon =
+    appTheme === 'light' ? CalendarIconBlack : CalendarIconWhite
+  const languageIcon =
+    appTheme === 'light' ? LanguageIconBlack : LanguageIconWhite
+
+  const convertMovieLength = (movieLength: number): string => {
+    if (duration === 0) return 'Inconnue'
+
+    const secondsInHour = Math.floor(movieLength / 3600)
+    const secondsInMinutes = Math.floor((movieLength % 3600) / 60)
+
+    const hour = secondsInHour > 0 ? `${secondsInHour}h` : '00h'
+    const minutes = secondsInMinutes > 0 ? `${secondsInMinutes}` : '00'
+
+    return hour + minutes
+  }
+
+  const getMovieReleaseDate = (movieReleaseDate: number): string => {
+    const date = new Date(movieReleaseDate)
+    const year = date.getFullYear()
+    const mounth =
+      date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()
+    const day = date.getDay() < 10 ? `0${date.getDay()}` : date.getDay()
+
+    return `${day}/${mounth}/${year}`
+  }
 
   return (
     <Wrapper>
-      <Spec text={duration} urlImage={movieDurationIcon} />
-      <Spec text={releaseDate} urlImage={calendarIcon} />
+      <Spec text={convertMovieLength(duration)} urlImage={movieDurationIcon} />
+      <Spec text={getMovieReleaseDate(releaseDate)} urlImage={calendarIcon} />
       <Spec text={language} urlImage={languageIcon} />
     </Wrapper>
   )
