@@ -1,5 +1,4 @@
 import React from 'react'
-import type { ReactNode } from 'react'
 import styled from 'styled-components/native'
 import { fonts, fontSize, ThemeAttributes } from '@styles/theme'
 
@@ -24,7 +23,8 @@ const CustomText = styled.Text`
   max-width: ${(props: { maxWidth: number }) =>
     props.maxWidth ? `${props.maxWidth}px` : '100%'};
   text-align: ${(props: { textAlign: string }) => `${props.textAlign}`};
-  text-decoration: ${(props: { textDecoration: string }) => `${props.textDecoration}`};;
+  text-decoration: ${(props: { textDecoration: string }) =>
+    `${props.textDecoration}`}; ;
 `
 
 const Text: React.FC<TextProps> = ({
@@ -45,7 +45,9 @@ const Text: React.FC<TextProps> = ({
     textAlign={textAlign}
     textDecoration={textDecoration}
   >
-    {limit && typeof children === 'string' ? `${children.substring(0, limit)}...` : children}
+    {limit && typeof children === 'string'
+      ? `${children.substring(0, limit)}...`
+      : children}
   </CustomText>
 )
 

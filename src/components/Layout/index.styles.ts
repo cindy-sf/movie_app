@@ -27,7 +27,7 @@ export const Header = styled.View`
   align-items: center;
   justify-content: center;
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props: { flexDirection: number }) => props.flexDirection};
   justify-content: space-between;
 `
 
