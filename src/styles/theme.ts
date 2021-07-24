@@ -15,6 +15,7 @@ export interface ThemeAttributes {
   PRIMARY_TEXT_COLOR: string
   SECONDARY_TEXT_COLOR: string
   TERTIARY_TEXT_COLOR: string
+  ERROR_TEXT_COLOR: string
   PRIMARY_BUTTON_COLOR: string
   PRIMARY_ICON_COLOR: string
   SECONDARY_ICON_COLOR: string
@@ -99,6 +100,7 @@ export const darkTheme: ThemeAttributes = {
   PRIMARY_TEXT_COLOR: colors.WHITE,
   SECONDARY_TEXT_COLOR: colors.BLUE,
   TERTIARY_TEXT_COLOR: colors.GREY_MEDIUM,
+  ERROR_TEXT_COLOR: colors.RED,
   PRIMARY_BUTTON_COLOR: colors.WHITE,
   PRIMARY_ICON_COLOR: colors.WHITE,
   SECONDARY_ICON_COLOR: colors.YELLOW,
@@ -115,6 +117,7 @@ export const lightTheme: ThemeAttributes = {
   PRIMARY_TEXT_COLOR: colors.BLACK,
   SECONDARY_TEXT_COLOR: colors.WHITE,
   TERTIARY_TEXT_COLOR: colors.BLACK,
+  ERROR_TEXT_COLOR: colors.RED,
   PRIMARY_BUTTON_COLOR: colors.BLUE,
   PRIMARY_ICON_COLOR: colors.RED,
   SECONDARY_ICON_COLOR: colors.YELLOW,
