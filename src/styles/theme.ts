@@ -9,6 +9,7 @@ export interface ThemeAttributes {
   mode: ThemeModeType
   BACKGROUND: string
   BOTTOM_SHEET_BACKGROUND: string
+  RATING_US_CARD_BACKGROUND: string
   AVATAR_BORDER: string
   INPUT_BACKGROUND: string
   INPUT_BORDER_COLOR: string
@@ -36,6 +37,7 @@ export const colors = {
   YELLOW: '#FECC00',
   YELLOW_DARK: 'rgba(254, 204, 0, 1)',
   PURPLE: 'rgba(116, 51, 255, 1)',
+  PURPLE_LIGHT: '#D5D7FE',
   RED: '#DF0808',
   GREY_LIGHT: '#E3E3E3',
   GREY_MEDIUM: '#C4C4C4',
@@ -94,6 +96,7 @@ export const darkTheme: ThemeAttributes = {
   mode: themes.DARK,
   BACKGROUND: colors.BLACK_MEDIUM,
   BOTTOM_SHEET_BACKGROUND: colors.BLACK,
+  RATING_US_CARD_BACKGROUND: colors.PURPLE,
   AVATAR_BORDER: colors.PURPLE,
   INPUT_BACKGROUND: colors.GREY_DARK,
   INPUT_BORDER_COLOR: colors.WHITE,
@@ -111,6 +114,7 @@ export const lightTheme: ThemeAttributes = {
   mode: themes.LIGHT,
   BACKGROUND: colors.WHITE,
   BOTTOM_SHEET_BACKGROUND: colors.WHITE,
+  RATING_US_CARD_BACKGROUND: colors.PURPLE_LIGHT,
   AVATAR_BORDER: colors.PURPLE,
   INPUT_BACKGROUND: colors.WHITE,
   INPUT_BORDER_COLOR: colors.BLACK,
