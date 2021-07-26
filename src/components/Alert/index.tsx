@@ -43,7 +43,9 @@ const Alert = ({
   if (visible)
     return (
       <AlertContainer color={color} onTouchStart={() => setVisible(false)}>
-        <Text size="BODY_1">{message}</Text>
+        <Text size="BODY_1" color="ALERT_TEXT_COLOR">
+          {message}
+        </Text>
       </AlertContainer>
     )
   return null
