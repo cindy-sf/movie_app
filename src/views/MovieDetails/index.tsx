@@ -18,6 +18,7 @@ import { API_KEY } from '@src/credentials'
 import VideoIcon from '@assets/icons/video.png'
 
 import { spaces } from '@src/styles/theme'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import MovieSpecs from './components/MovieSpecs'
 
 import type { MovieCharacters, MovieDetailstype } from './types'
@@ -45,11 +46,66 @@ export interface Props {
 }
 
 const MovieDetails = ({ navigation, route }: Props) => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [token, setToken] = useState<string | null>(null)
+  const [liked, setLiked] = useState<boolean>(false)
   const [movieInfos, setMoviesInfos] = useState<MovieDetailstype>()
   const [movieCharacters, setMoviesCharacters] = useState<MovieCharacters[]>()
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
   const [movieResumeLimit, setMovieResumeLimit] = useState<number>(110)
+
+  const getToken = async () => {
+    try {
+      setToken(await AsyncStorage.getItem('auth_token'))
+    } catch (err) {
+      console.log('Error', err)
+    }
+  }
+
+  const isLiked = async () => {
+    if (!token) return
+    try {
+      const { movieId } = route.params
+      const showsLiked = await fetch(
+        `http://api.movieapp.fr/shows?show_type=MOVIE&show_id=${movieId}`,
+        {
+          headers: {
+            Accept: 'multipart/form-data',
+            'Content-Type': 'multipart/form-data',
+            'x-access-tokens': token,
+          },
+          method: 'GET',
+        }
+      )
+      const response = await showsLiked.json()
+      if (response.success) setLiked(true)
+    } catch (err) {
+      console.log('Error', err)
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (!token) return
+    const { movieId } = route.params
+    setIsSubmitting(true)
+    await fetch(`http://api.movieapp.fr/shows/${movieId}?show_type=MOVIE`, {
+      headers: {
+        Accept: 'multipart/form-data',
+        'Content-Type': 'application/json',
+        'x-access-tokens': token,
+      },
+      method: liked ? 'DELETE' : 'POST',
+    })
+      .then(() => {
+        setLiked(!liked)
+        return null
+      })
+      .finally(() => {
+        setIsSubmitting(false)
+      })
+      .catch((err) => console.log('Error', err))
+  }
 
   useEffect(() => {
     const { movieId } = route.params
@@ -82,9 +138,10 @@ const MovieDetails = ({ navigation, route }: Props) => {
         setIsDataFetching(false)
       }
     }
-
+    getToken()
     fetchMovieInfos()
-  }, [])
+    isLiked()
+  }, [token])
 
   if (isDataFetching || !movieInfos || !movieCharacters) return <Loader />
 
@@ -175,7 +232,14 @@ const MovieDetails = ({ navigation, route }: Props) => {
           </Resume>
         )}
         <FavoriteButton>
-          <Button>Ajouter en favoris</Button>
+          <Button
+            disabled={isSubmitting}
+            onPress={() =>
+              !token ? navigation.navigate('Login') : handleSubmit()
+            }
+          >
+            {!liked ? 'Ajouter aux favoris' : 'Retirer des favoris'}
+          </Button>
         </FavoriteButton>
         <Text font="POPPINS_SEMI_BOLD" textAlign="left" size="SUBTITLE">
           Acteurs ({`${movieCharacters.length}`})

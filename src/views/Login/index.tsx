@@ -45,6 +45,7 @@ interface UserData {
 
 const Login = ({ navigation }: Props) => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserData>({
     mail: '',
     password: '',
@@ -57,6 +58,7 @@ const Login = ({ navigation }: Props) => {
     payload.append('user_password', user_password)
     setAlertMessage(null)
     try {
+      setIsSubmitting(true)
       const loginRequest = await fetch('http://api.movieapp.fr/auth', {
         headers: {
           Accept: 'multipart/form-data',
@@ -82,6 +84,8 @@ const Login = ({ navigation }: Props) => {
       setAlertMessage(response.message)
     } catch (err) {
       console.log('Error', err)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -117,7 +121,9 @@ const Login = ({ navigation }: Props) => {
         />
       </InputWrapper>
       <ButtonWrapper>
-        <Button onPress={handleSubmit}>Connexion</Button>
+        <Button onPress={handleSubmit} disabled={isSubmitting}>
+          Connexion
+        </Button>
         <TextWrapper onPress={() => navigation.navigate('AccountCreation')}>
           <Text font="POPPINS_SEMI_BOLD" size="BODY_2">
             Je n’ai pas de compte
