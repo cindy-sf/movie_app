@@ -29,6 +29,7 @@ const WatchOptionWrapper = styled.View`
 
 const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
   const [news, setNews] = useState<News[]>([])
+  const [searchValue, setSearchValue] = useState<string>('')
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
 
@@ -66,7 +67,14 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
       headerOptions={{
         displayUserPicture: true,
         searchBar: {
-          onPress: () => {},
+          onChangeText: (text): void => setSearchValue(text),
+          onSubmit: (): void => {
+            setSearchValue('')
+            navigation.navigate('Search', {
+              search: searchValue,
+            })
+          },
+          value: searchValue,
         },
       }}
     >

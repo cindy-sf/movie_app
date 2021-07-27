@@ -1,6 +1,6 @@
 import React from 'react'
 import type { NavigationContainerRef } from '@react-navigation/core'
-import type { Movie } from '@src/types'
+import type { Movie, SearchData } from '@src/types'
 import styled from 'styled-components/native'
 
 import Image from '@components/Image'
@@ -23,7 +23,7 @@ const ImageWrapper = styled.View`
 
 interface Props {
   navigation: NavigationContainerRef
-  movie: Movie
+  movie: Movie | SearchData
 }
 
 const MovieCard = ({ navigation, movie }: Props) => (

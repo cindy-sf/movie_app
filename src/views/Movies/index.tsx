@@ -38,6 +38,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
     randomMoviesByGender: [],
   })
   const [moviesGender, setMoviesGender] = useState<string[]>([])
+  const [searchValue, setSearchValue] = useState<string>('')
   const [dynamicMoviesGenders, setDynamicMoviesGenders] = useState<string[]>([])
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
@@ -126,7 +127,14 @@ const Movies = ({ navigation }: Props): ReactElement => {
       headerOptions={{
         displayUserPicture: true,
         searchBar: {
-          onPress: (): void => {},
+          onChangeText: (text): void => setSearchValue(text),
+          onSubmit: (): void => {
+            setSearchValue('')
+            navigation.navigate('Search', {
+              search: searchValue,
+            })
+          },
+          value: searchValue,
         },
       }}
     >
