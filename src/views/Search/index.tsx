@@ -10,8 +10,8 @@ import { API_KEY } from '@src/credentials'
 import Error from '@components/Error'
 import Layout from '@components/Layout'
 import Loader from '@components/Loader'
-import MovieCard from '@src/views/Movies/components/MovieCard'
-import MovieTypeTitle from '@src/views/Movies/components/MovieTypeTitle'
+import MovieCard from '@components/MovieCard'
+import MovieTypeTitle from '@components/MovieTypeTitle'
 
 import type { SearchData } from '@src/types'
 
