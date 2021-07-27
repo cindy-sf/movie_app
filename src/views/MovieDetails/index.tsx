@@ -94,7 +94,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
     <Layout
       headerOptions={{
         backIcon: {
-          onPress: (): void => navigation.navigate('Movies'),
+          onPress: (): void => navigation.goBack(),
         },
         shareAction: {
           onPress: (): void => {},
