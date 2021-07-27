@@ -36,6 +36,7 @@ interface UserData {
 }
 
 const PasswordCreation = ({ navigation, route }: Props): ReactElement => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserData>({
     password: '',
     confirm_password: '',
@@ -50,6 +51,7 @@ const PasswordCreation = ({ navigation, route }: Props): ReactElement => {
     const { password, confirm_password } = userData
     const payload = new FormData()
     setAlertMessage(null)
+    setIsSubmitting(true)
     setErrors(initialErrors)
     payload.append('user_password', password)
     payload.append('user_confirm_password', confirm_password)
@@ -91,6 +93,8 @@ const PasswordCreation = ({ navigation, route }: Props): ReactElement => {
         })
     } catch (err) {
       console.log(err)
+    } finally {
+      setIsSubmitting(false)
     }
   }
   return (
@@ -127,7 +131,9 @@ const PasswordCreation = ({ navigation, route }: Props): ReactElement => {
         />
       </InputWrapper>
       <ButtonWrapper>
-        <Button onPress={handleSubmit}>S’inscrire</Button>
+        <Button onPress={handleSubmit} disabled={isSubmitting}>
+          S’inscrire
+        </Button>
       </ButtonWrapper>
     </Layout>
   )
