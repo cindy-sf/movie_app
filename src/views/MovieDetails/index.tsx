@@ -97,10 +97,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
       },
       method: liked ? 'DELETE' : 'POST',
     })
-      .then(() => {
-        setLiked(!liked)
-        return null
-      })
+      .then(() => setLiked(!liked))
       .finally(() => {
         setIsSubmitting(false)
       })
