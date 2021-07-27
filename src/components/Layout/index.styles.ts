@@ -56,7 +56,7 @@ export const Image = styled.Image`
 `
 
 export const SearchBarWrapper = styled.View`
-  width: 235px;
+  width: 255px;
   height: 52px;
   position: relative;
 `
@@ -66,6 +66,7 @@ export const SearchBar = styled.TextInput`
   height: 100%;
   background-color: ${({ theme }: { theme: ThemeAttributes }) =>
     theme.INPUT_BACKGROUND};
+  color: ${({ theme }: { theme: ThemeAttributes }) => theme.PRIMARY_TEXT_COLOR};
   border-radius: ${radius.LARGE}px;
   padding-left: 62px;
   font-family: 'Poppins-Italic';

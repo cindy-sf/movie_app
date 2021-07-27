@@ -47,7 +47,7 @@ interface Props {
   customHeaderConfig?: ReactNode
 }
 
-interface HeaderOptions {
+export interface HeaderOptions {
   closeIcon?: CloseIconProperties
   backIcon?: BackIconProperties
   searchBar?: SearchBarProperties
@@ -64,7 +64,10 @@ interface CloseIconProperties {
 }
 
 interface SearchBarProperties {
-  onPress: () => void
+  value: string
+  // eslint-disable-next-line no-unused-vars
+  onChangeText: (e: string) => void
+  onSubmit: () => void
 }
 
 const Layout: React.FC<Props> = ({
@@ -104,21 +107,20 @@ const Layout: React.FC<Props> = ({
         {/* Left Header content */}
         <View>
           {headerOptions?.searchBar && (
-            <TouchableOpacity onPress={headerOptions.searchBar.onPress}>
-              <SearchBarWrapper>
-                <SearchIconWrapper>
-                  <Image src={searchIconImage} width={22} height={22} />
-                </SearchIconWrapper>
-                <SearchBar
-                  value=""
-                  placeholder="Rechercher..."
-                  placeholderTextColor={
-                    appTheme === 'light' ? colors.BLACK : colors.WHITE
-                  }
-                  onChangeText={() => {}}
-                />
-              </SearchBarWrapper>
-            </TouchableOpacity>
+            <SearchBarWrapper>
+              <SearchIconWrapper>
+                <Image src={searchIconImage} width={22} height={22} />
+              </SearchIconWrapper>
+              <SearchBar
+                value={headerOptions.searchBar.value}
+                placeholder="Rechercher..."
+                placeholderTextColor={
+                  appTheme === 'light' ? colors.BLACK : colors.WHITE
+                }
+                onChangeText={headerOptions?.searchBar.onChangeText}
+                onSubmitEditing={headerOptions.searchBar.onSubmit}
+              />
+            </SearchBarWrapper>
           )}
           {headerOptions?.shareAction && (
             <ShareAction onPress={headerOptions.shareAction.onPress}>
