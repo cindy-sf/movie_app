@@ -9,7 +9,7 @@ import LoadingImageDark from '@assets/images/loader/loading_dark.gif'
 import LoadingImageLight from '@assets/images/loader/loading_light.gif'
 
 import Image from '@components/Image'
-import Layout from '@components/Layout'
+import Layout, { HeaderOptions } from '@components/Layout'
 
 const LoaderWrapper = styled.View`
   flex: 1;
@@ -20,7 +20,7 @@ const LoaderWrapper = styled.View`
     `${marginBottom}px`};
 `
 
-const Loader = () => {
+const Loader = ({ headerOptions }: { headerOptions?: HeaderOptions }) => {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions()
   const themeColor = useSelector(
     ({ theme }: { theme: ThemeAttributes }) => theme.mode
@@ -28,12 +28,16 @@ const Loader = () => {
   const imageSrc = themeColor === 'light' ? LoadingImageLight : LoadingImageDark
 
   return (
-    <Layout>
+    <Layout headerOptions={headerOptions}>
       <LoaderWrapper width={windowWidth} marginBottom={windowHeight / 5.5}>
         <Image src={imageSrc} width={55} height={55} resizeMode="contain" />
       </LoaderWrapper>
     </Layout>
   )
+}
+
+Loader.defaultProps = {
+  headerOptions: {},
 }
 
 export default Loader
