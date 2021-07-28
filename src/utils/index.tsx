@@ -21,6 +21,14 @@ export const getAppTheme = async (): Promise<ThemeAttributes> => {
   return darkTheme
 }
 
+export const getToken = async (): Promise<string | null> => {
+  let data = null
+  await AsyncStorage.getItem('auth_token').then((response) => {
+    data = response
+  })
+  return data
+}
+
 export const storeAppTheme = async (theme: ThemeModeType): Promise<void> => {
   await AsyncStorage.setItem('theme', theme)
 }

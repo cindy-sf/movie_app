@@ -10,9 +10,10 @@ import Loader from '@components/Loader'
 import RatingUsCard from '@components/RatingUsCard'
 import Text from '@components/Text'
 import { spaces } from '@src/styles/theme'
-import type { Movie } from '@src/types'
+import type { Movie, SearchData } from '@src/types'
 import MovieTypeTitle from '@components/MovieTypeTitle'
 import MovieCard from '@components/MovieCard'
+import { getToken } from '@src/utils'
 import GenderCard from './components/GenderCard'
 
 import { buildGenderMovieUrls, movieAPIUrls } from './constants'
@@ -29,6 +30,15 @@ interface MovieList {
   incomingMovies: Movie[]
   popularMovies: Movie[]
   randomMoviesByGender: Movie[][]
+  likedMovies: SearchData[]
+}
+
+interface APIMovieList {
+  show_id: number
+  show_name: string
+  show_tag: number
+  show_type: string
+  user_tag: string
 }
 
 const Movies = ({ navigation }: Props): ReactElement => {
@@ -36,7 +46,11 @@ const Movies = ({ navigation }: Props): ReactElement => {
     incomingMovies: [],
     popularMovies: [],
     randomMoviesByGender: [],
+    likedMovies: [],
   })
+  const [token, setToken] = useState<string | null>(null)
+  const [shouldDisplayFavorites, setShouldDisplayFavorites] =
+    useState<boolean>(false)
   const [moviesGender, setMoviesGender] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [dynamicMoviesGenders, setDynamicMoviesGenders] = useState<string[]>([])
@@ -44,9 +58,20 @@ const Movies = ({ navigation }: Props): ReactElement => {
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
 
   useEffect(() => {
+    const receiveToken = async () => {
+      setToken(await getToken())
+    }
+    receiveToken()
+  }, [])
+
+  useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
         setIsDataFetching(true)
+
+        // Get movies liked by user
+        const likedMovies = await getFavoritesShows()
+        if (likedMovies.length) setShouldDisplayFavorites(true)
 
         // Get movies list and all genders
         const data = await Promise.all(
@@ -81,6 +106,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
             randomMoviesByGenderData[3].movies,
             randomMoviesByGenderData[4].movies,
           ],
+          likedMovies,
         })
         setMoviesGender(data[2].genres)
         setDynamicMoviesGenders(randomMoviesGenders)
@@ -92,7 +118,36 @@ const Movies = ({ navigation }: Props): ReactElement => {
     }
 
     fetchData()
-  }, [])
+  }, [token])
+
+  const getFavoritesShows = async (): Promise<MovieList['likedMovies']> => {
+    const moviesData: MovieList['likedMovies'] = []
+    if (!token) return moviesData
+    try {
+      const showsLiked = await fetch(`http://api.movieapp.fr/shows`, {
+        headers: {
+          Accept: 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
+          'x-access-tokens': token,
+        },
+        method: 'GET',
+      })
+      const response = await showsLiked.json()
+      if (response.success) {
+        response.data.forEach((movie: APIMovieList) => {
+          moviesData.push({
+            id: movie.show_id,
+            title: movie.show_name,
+            poster: `https://pictures.betaseries.com/films/affiches/original/${movie.show_id}.jpg`,
+          })
+        })
+      }
+      return moviesData
+    } catch (err) {
+      console.log(err)
+      return moviesData
+    }
+  }
 
   const getRandomMoviesGender = (gendersList: string[]): string[] => {
     const selectedGenders: string[] = []
@@ -200,6 +255,32 @@ const Movies = ({ navigation }: Props): ReactElement => {
             <GenderCard key={gender} gender={gender} onPress={(): void => {}} />
           ))}
         </ScrollView>
+        {shouldDisplayFavorites && (
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never"
+          >
+            <View>
+              <MovieTypeTitle
+                text="Films favoris"
+                onShowAllPress={(): void => console.log('Hello')}
+              />
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                overScrollMode="never"
+                horizontal
+              >
+                {movies.likedMovies.map((movie) => (
+                  <MovieCard
+                    key={movie.id}
+                    movie={movie}
+                    navigation={navigation}
+                  />
+                ))}
+              </ScrollView>
+            </View>
+          </ScrollView>
+        )}
       </ScrollZone>
     </Layout>
   )
