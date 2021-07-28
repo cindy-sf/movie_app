@@ -49,8 +49,6 @@ const Movies = ({ navigation }: Props): ReactElement => {
     likedMovies: [],
   })
   const [token, setToken] = useState<string | null>(null)
-  const [shouldDisplayFavorites, setShouldDisplayFavorites] =
-    useState<boolean>(false)
   const [moviesGender, setMoviesGender] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [dynamicMoviesGenders, setDynamicMoviesGenders] = useState<string[]>([])
@@ -71,7 +69,6 @@ const Movies = ({ navigation }: Props): ReactElement => {
 
         // Get movies liked by user
         const likedMovies = await getFavoritesShows()
-        if (likedMovies.length) setShouldDisplayFavorites(true)
 
         // Get movies list and all genders
         const data = await Promise.all(
@@ -255,15 +252,15 @@ const Movies = ({ navigation }: Props): ReactElement => {
             <GenderCard key={gender} gender={gender} onPress={(): void => {}} />
           ))}
         </ScrollView>
-        {shouldDisplayFavorites && (
+        {movies.likedMovies.length > 0 && (
           <ScrollView
             showsHorizontalScrollIndicator={false}
             overScrollMode="never"
           >
-            <View>
+            <View style={{ marginBottom: spaces.MEDIUM }}>
               <MovieTypeTitle
                 text="Films favoris"
-                onShowAllPress={(): void => console.log('Hello')}
+                onShowAllPress={(): void => {}}
               />
               <ScrollView
                 showsHorizontalScrollIndicator={false}
