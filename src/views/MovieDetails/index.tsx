@@ -18,7 +18,7 @@ import { API_KEY } from '@src/credentials'
 import VideoIcon from '@assets/icons/video.png'
 
 import { spaces } from '@src/styles/theme'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getToken } from '@src/utils'
 import MovieSpecs from './components/MovieSpecs'
 
 import type { MovieCharacters, MovieDetailstype } from './types'
@@ -55,14 +55,6 @@ const MovieDetails = ({ navigation, route }: Props) => {
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
   const [movieResumeLimit, setMovieResumeLimit] = useState<number>(110)
 
-  const getToken = async () => {
-    try {
-      setToken(await AsyncStorage.getItem('auth_token'))
-    } catch (err) {
-      console.log('Error', err)
-    }
-  }
-
   const isLiked = async () => {
     if (!token) return
     try {
@@ -97,10 +89,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
       },
       method: liked ? 'DELETE' : 'POST',
     })
-      .then(() => {
-        setLiked(!liked)
-        return null
-      })
+      .then(() => setLiked(!liked))
       .finally(() => {
         setIsSubmitting(false)
       })
@@ -114,6 +103,13 @@ const MovieDetails = ({ navigation, route }: Props) => {
       navigation.navigate('Movies')
     }
   }, [route.params.movieId])
+
+  useEffect(() => {
+    const receiveToken = async () => {
+      setToken(await getToken())
+    }
+    receiveToken()
+  }, [])
 
   useEffect(() => {
     const fetchMovieInfos = async () => {
@@ -138,7 +134,6 @@ const MovieDetails = ({ navigation, route }: Props) => {
         setIsDataFetching(false)
       }
     }
-    getToken()
     fetchMovieInfos()
     isLiked()
   }, [token])

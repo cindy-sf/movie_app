@@ -10,7 +10,6 @@ export interface Movie {
 
 export interface SearchData {
   id: number
-  release_date: number
   poster: string
   title: string
 }
