@@ -34,7 +34,7 @@ const Wrapper = styled.View`
 interface Props {
   duration: number
   language: string
-  releaseDate: number
+  releaseDate: string
 }
 
 interface SpecProps {
@@ -77,20 +77,13 @@ const MovieSpecs = ({
     return hour + minutes
   }
 
-  const getMovieReleaseDate = (movieReleaseDate: number): string => {
-    const date = new Date(movieReleaseDate)
-    const year = date.getFullYear()
-    const mounth =
-      date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()
-    const day = date.getDay() < 10 ? `0${date.getDay()}` : date.getDay()
-
-    return `${day}/${mounth}/${year}`
-  }
-
   return (
     <Wrapper>
       <Spec text={convertMovieLength(duration)} urlImage={movieDurationIcon} />
-      <Spec text={getMovieReleaseDate(releaseDate)} urlImage={calendarIcon} />
+      <Spec
+        text={releaseDate.split('-').reverse().join('/')}
+        urlImage={calendarIcon}
+      />
       <Spec text={language} urlImage={languageIcon} />
     </Wrapper>
   )
