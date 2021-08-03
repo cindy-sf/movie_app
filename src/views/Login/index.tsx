@@ -13,6 +13,8 @@ import { spaces } from '@src/styles/theme'
 
 import Illustration from '@assets/images/login/login.png'
 import Alert from '@components/Alert'
+import { useDispatch } from 'react-redux'
+import { fetchUser, SignIn } from '@src/redux'
 
 const ButtonWrapper = styled.View`
   flex: 0.5;
@@ -44,6 +46,7 @@ interface UserData {
 }
 
 const Login = ({ navigation }: Props) => {
+  const dispatch = useDispatch()
   const [alertMessage, setAlertMessage] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserData>({
@@ -71,6 +74,8 @@ const Login = ({ navigation }: Props) => {
 
       if (response.success) {
         await AsyncStorage.setItem('auth_token', response.data)
+        const data = await fetchUser(response.data)
+        dispatch(SignIn(data))
         setUserData({
           mail: '',
           password: '',

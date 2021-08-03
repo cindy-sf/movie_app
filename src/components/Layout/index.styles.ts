@@ -42,14 +42,22 @@ export const UserPictureWrapper = styled.TouchableOpacity`
   border-style: solid;
   border-width: ${borderWidth.X_SMALL}px;
   border-color: ${colors.PURPLE};
-  padding: 2px;
   border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+  padding: ${spaces.LARGE}px;
+`
+
+export const ImageWrapper = styled.View`
+  border-radius: 60px;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
 `
 
 export const Image = styled.Image`
   width: 100%;
   height: 100%;
-  resize-mode: contain;
   display: flex;
   justify-content: center;
   align-content: flex-end;

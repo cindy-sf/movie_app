@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import { useWindowDimensions, TouchableOpacity, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 
 import * as Updates from 'expo-updates'
 import { StatusBar } from 'expo-status-bar'
@@ -9,7 +9,6 @@ import ChevronIconBlack from '@assets/icons/chevron_icon_black.png'
 import ChevronIconWhite from '@assets/icons/chevron_icon_white.png'
 import CloseIconBlack from '@assets/icons/close_icon_black.png'
 import CloseIconWhite from '@assets/icons/close_icon_white.png'
-import DefaultUserPicture from '@assets/images/user_pictures/girl_1.png'
 import SearchIconWhite from '@assets/icons/search_icon_white.png'
 import SearchIconBlack from '@assets/icons/search_icon_black.png'
 import ShareIconWhite from '@assets/icons/share_icon_white.png'
@@ -29,6 +28,7 @@ import {
   ThemeAttributes,
 } from '@src/styles/theme'
 
+import { userPictures } from '@views/AccountCreation/constants'
 import {
   CloseIcon,
   Header,
@@ -40,6 +40,7 @@ import {
   SearchBarWrapper,
   ShareAction,
   ShareImage,
+  ImageWrapper,
 } from './index.styles'
 
 interface Props {
@@ -97,6 +98,11 @@ const Layout: React.FC<Props> = ({
     await Updates.reloadAsync()
   }
 
+  const index = userPictures
+    .map((picture) => picture.imageName)
+    .indexOf(useSelector((state: RootStateOrAny) => state.users.user_picture))
+  const UserPicture = userPictures[index >= 0 ? index : 0].pictureUrl
+
   return (
     <LayoutWrapper width={windowWidth}>
       <StatusBar style={appTheme === 'light' ? 'dark' : 'light'} />
@@ -151,7 +157,14 @@ const Layout: React.FC<Props> = ({
           )}
           {headerOptions?.displayUserPicture && (
             <UserPictureWrapper onPress={toggleBottomNavigationView}>
-              <Image width={50} height={50} src={DefaultUserPicture} />
+              <ImageWrapper>
+                <Image
+                  width={50}
+                  height={50}
+                  src={UserPicture}
+                  resizeMode="contain"
+                />
+              </ImageWrapper>
             </UserPictureWrapper>
           )}
         </View>

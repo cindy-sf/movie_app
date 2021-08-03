@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import type { NavigationContainerRef } from '@react-navigation/native'
+import { NavigationContainerRef, useIsFocused } from '@react-navigation/native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
@@ -30,7 +30,6 @@ interface MovieList {
   incomingMovies: Movie[]
   popularMovies: Movie[]
   randomMoviesByGender: Movie[][]
-  likedMovies: SearchData[]
 }
 
 interface APIMovieList {
@@ -46,8 +45,9 @@ const Movies = ({ navigation }: Props): ReactElement => {
     incomingMovies: [],
     popularMovies: [],
     randomMoviesByGender: [],
-    likedMovies: [],
   })
+  const isFocused = useIsFocused()
+  const [moviesLiked, setMoviesLiked] = useState<SearchData[]>([])
   const [token, setToken] = useState<string | null>(null)
   const [moviesGender, setMoviesGender] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
@@ -56,19 +56,25 @@ const Movies = ({ navigation }: Props): ReactElement => {
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
 
   useEffect(() => {
+    const fetchMoviesLike = async (): Promise<void> => {
+      try {
+        // Get movies liked by user
+        setMoviesLiked(await getFavoritesShows())
+      } catch (err) {
+        setShouldDisplayError(true)
+      }
+    }
+    fetchMoviesLike()
+  }, [token, isFocused])
+
+  useEffect(() => {
     const receiveToken = async () => {
       setToken(await getToken())
     }
-    receiveToken()
-  }, [])
 
-  useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
         setIsDataFetching(true)
-
-        // Get movies liked by user
-        const likedMovies = await getFavoritesShows()
 
         // Get movies list and all genders
         const data = await Promise.all(
@@ -103,7 +109,6 @@ const Movies = ({ navigation }: Props): ReactElement => {
             randomMoviesByGenderData[3].movies,
             randomMoviesByGenderData[4].movies,
           ],
-          likedMovies,
         })
         setMoviesGender(data[2].genres)
         setDynamicMoviesGenders(randomMoviesGenders)
@@ -115,10 +120,11 @@ const Movies = ({ navigation }: Props): ReactElement => {
     }
 
     fetchData()
-  }, [token])
+    receiveToken()
+  }, [])
 
-  const getFavoritesShows = async (): Promise<MovieList['likedMovies']> => {
-    const moviesData: MovieList['likedMovies'] = []
+  const getFavoritesShows = async (): Promise<SearchData[]> => {
+    const moviesData: SearchData[] = []
     if (!token) return moviesData
     try {
       const showsLiked = await fetch(`http://api.movieapp.fr/shows`, {
@@ -252,7 +258,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
             <GenderCard key={gender} gender={gender} onPress={(): void => {}} />
           ))}
         </ScrollView>
-        {movies.likedMovies.length > 0 && (
+        {moviesLiked.length > 0 && (
           <ScrollView
             showsHorizontalScrollIndicator={false}
             overScrollMode="never"
@@ -267,7 +273,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
                 overScrollMode="never"
                 horizontal
               >
-                {movies.likedMovies.map((movie) => (
+                {moviesLiked.map((movie) => (
                   <MovieCard
                     key={movie.id}
                     movie={movie}

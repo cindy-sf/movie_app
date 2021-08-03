@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import {
   createStackNavigator,
   StackNavigationOptions,
@@ -8,8 +8,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { ThemeProvider } from 'styled-components/native'
 import { useFonts } from 'expo-font'
 import type { ThemeAttributes } from '@styles/theme'
-import { getAppTheme } from '@src/utils'
-import { themeToggler } from '@src/redux'
+import { getAppTheme, getToken } from '@src/utils'
+import { fetchUser, SignIn, themeToggler } from '@src/redux'
 
 import Landing from '@views/Landing'
 import Home from '@views/Home'
@@ -39,8 +39,13 @@ export default function App() {
       setStoredTheme(theme)
       dispatch(themeToggler({ theme }))
     }
+    const receiveToken = async () => {
+      const token = await getToken()
+      dispatch(SignIn(await fetchUser(token)))
+    }
 
     getTheme()
+    receiveToken()
   }, [])
 
   const [fontsLoaded] = useFonts({
@@ -51,12 +56,18 @@ export default function App() {
     'Poppins-SemiBold': require('./assets/fonts/Poppins/Poppins-SemiBold.ttf'),
   })
 
+  const isConnected =
+    useSelector((state: RootStateOrAny) => state.users.user_mail) !== 'DEFAULT'
+
   if (!storeTheme || !fontsLoaded) return null
 
   return (
     <NavigationContainer>
       <ThemeProvider theme={storeTheme}>
-        <Stack.Navigator mode="modal" initialRouteName="Landing">
+        <Stack.Navigator
+          mode="modal"
+          initialRouteName={isConnected ? 'Landing' : 'Home'}
+        >
           <Stack.Screen
             name="Landing"
             component={Landing}
