@@ -8,8 +8,11 @@ import ThemeSelection from '@components/BottomSheets/components/ThemeSelection'
 
 import EditSquareIconBlack from '@assets/icons/edit_square_icon_black.png'
 import EditSquareIconWhite from '@assets/icons/edit_square_icon_white.png'
+import BlackAvatar from '@assets/icons/profil_logo_black.png'
+import WhiteAvatar from '@assets/icons/profil_logo_white.png'
 
 import { spaces, ThemeAttributes } from '@src/styles/theme'
+import { RootStateOrAny, useSelector } from 'react-redux'
 
 const ThemeSelectionWrapper = styled.View`
   flex-direction: row;
@@ -33,11 +36,22 @@ const MenuContent = ({
   onLightThemeSelection,
   onDarkThemeSelection,
 }: Props) => {
+  const isConnected =
+    useSelector((state: RootStateOrAny) => state.users.user_mail) !== 'DEFAULT'
   const editSquareIcon =
     appTheme === 'light' ? EditSquareIconBlack : EditSquareIconWhite
+  const AvatarIcon = appTheme === 'light' ? BlackAvatar : WhiteAvatar
 
   return (
     <View>
+      <MenuItems>
+        <View style={{ marginRight: spaces.SMALL }}>
+          <Image src={AvatarIcon} width={28} height={28} />
+        </View>
+        <Text font="POPPINS_MEDIUM" size="SUBTITLE" textAlign="left">
+          {isConnected ? 'Profil' : 'Connexion'}
+        </Text>
+      </MenuItems>
       <MenuItems>
         <View style={{ marginRight: spaces.SMALL }}>
           <Image src={editSquareIcon} width={28} height={28} />
