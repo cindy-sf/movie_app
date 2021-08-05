@@ -9,7 +9,7 @@ import { ThemeProvider } from 'styled-components/native'
 import { useFonts } from 'expo-font'
 import type { ThemeAttributes } from '@styles/theme'
 import { getAppTheme, getToken } from '@src/utils'
-import { fetchUser, SignIn, themeToggler } from '@src/redux'
+import { fetchUser, signIn, themeToggler } from '@src/redux'
 
 import Landing from '@views/Landing'
 import Home from '@views/Home'
@@ -41,7 +41,7 @@ export default function App() {
     }
     const receiveToken = async () => {
       const token = await getToken()
-      dispatch(SignIn(await fetchUser(token)))
+      dispatch(signIn(await fetchUser(token)))
     }
 
     getTheme()

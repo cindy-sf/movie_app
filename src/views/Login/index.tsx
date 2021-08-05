@@ -14,7 +14,7 @@ import { spaces } from '@src/styles/theme'
 import Illustration from '@assets/images/login/login.png'
 import Alert from '@components/Alert'
 import { useDispatch } from 'react-redux'
-import { fetchUser, SignIn } from '@src/redux'
+import { fetchUser, signIn } from '@src/redux'
 
 const ButtonWrapper = styled.View`
   flex: 0.5;
@@ -75,7 +75,7 @@ const Login = ({ navigation }: Props) => {
       if (response.success) {
         await AsyncStorage.setItem('auth_token', response.data)
         const data = await fetchUser(response.data)
-        dispatch(SignIn(data))
+        dispatch(signIn(data))
         setUserData({
           mail: '',
           password: '',

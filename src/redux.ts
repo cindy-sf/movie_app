@@ -37,12 +37,12 @@ const userInitialState: UserData = {
   user_creation_date: 'DEFAULT',
 }
 
-export const SignIn = (userInfos: UserData) => ({
+export const signIn = (userInfos: UserData) => ({
   type: USER_CONNECT,
   payload: userInfos,
 })
 
-export const LogOut = () => ({
+export const logOut = () => ({
   type: USER_DISCONNECT,
 })
 
