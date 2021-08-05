@@ -64,3 +64,18 @@ export const VideoIconWrapper = styled(BlurView)`
   align-items: center;
   justify-content: center;
 `
+
+export const ActorWrapper = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+export const ImageWrapper = styled.View`
+  width: 124px;
+  height: 124px;
+  border-radius: 20px;
+  margin: 10px;
+  overflow: hidden;
+`

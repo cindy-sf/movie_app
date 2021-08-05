@@ -31,6 +31,8 @@ import {
   Resume,
   FavoriteButton,
   Rates,
+  ImageWrapper,
+  ActorWrapper,
 } from './index.styles'
 
 export interface Props {
@@ -45,12 +47,16 @@ export interface Props {
   >
 }
 
+type ActorProps = Omit<MovieCharacters, 'movie_id'> & {
+  url: string
+}
+
 const MovieDetails = ({ navigation, route }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [token, setToken] = useState<string | null>(null)
   const [liked, setLiked] = useState<boolean>(false)
   const [movieInfos, setMoviesInfos] = useState<MovieDetailstype>()
-  const [movieCharacters, setMoviesCharacters] = useState<MovieCharacters[]>()
+  const [movieCharacters, setMoviesCharacters] = useState<ActorProps[]>()
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
   const [movieResumeLimit, setMovieResumeLimit] = useState<number>(110)
@@ -125,9 +131,29 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
         const moviesData = await movieResponse.json()
         const actorData = await actorResponse.json()
-
+        const actors: ActorProps[] = []
+        await Promise.all(
+          actorData.characters.map(async (character: MovieCharacters) => {
+            const actorsRequest = await fetch(
+              `https://api.betaseries.com/pictures/characters?key=${API_KEY}&id=${character.id}&type=movie&width=496&height=496`,
+              {
+                headers: {
+                  Accept: 'multipart/form-data',
+                  'Content-Type': 'application/json',
+                },
+              }
+            )
+            const data = actorsRequest.url
+            actors.push({
+              actor: character.actor,
+              name: character.name,
+              url: data,
+              id: character.id,
+            })
+          })
+        )
         setMoviesInfos(moviesData.movie)
-        setMoviesCharacters(actorData.characters)
+        setMoviesCharacters(actors)
       } catch (err) {
         setShouldDisplayError(true)
       } finally {
@@ -200,7 +226,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
         )}
         <MovieSpecs
           duration={movieInfos.length}
-          releaseDate={movieInfos.release_date}
+          releaseDate={movieInfos.release_date.toString()}
           language={movieInfos.language}
         />
         {movieInfos.synopsis && (
@@ -239,6 +265,29 @@ const MovieDetails = ({ navigation, route }: Props) => {
         <Text font="POPPINS_SEMI_BOLD" textAlign="left" size="SUBTITLE">
           Acteurs ({`${movieCharacters.length}`})
         </Text>
+        <View>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never"
+            horizontal
+          >
+            {movieCharacters.map((character: ActorProps) => (
+              <ActorWrapper key={character.id}>
+                <ImageWrapper>
+                  <Image
+                    width={124}
+                    height={124}
+                    src={{
+                      uri: character.url,
+                    }}
+                  />
+                </ImageWrapper>
+                <Text size="OVERLINE">{character.actor}</Text>
+                <Text size="OVERLINE">{character.name}</Text>
+              </ActorWrapper>
+            ))}
+          </ScrollView>
+        </View>
       </ScrollView>
     </Layout>
   )
