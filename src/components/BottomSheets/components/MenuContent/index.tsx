@@ -11,7 +11,7 @@ import EditSquareIconWhite from '@assets/icons/edit_square_icon_white.png'
 import BlackAvatar from '@assets/icons/profil_logo_black.png'
 import WhiteAvatar from '@assets/icons/profil_logo_white.png'
 
-import { spaces, ThemeAttributes } from '@src/styles/theme'
+import { colors, spaces, ThemeAttributes } from '@src/styles/theme'
 import { RootStateOrAny, useSelector } from 'react-redux'
 
 const ThemeSelectionWrapper = styled.View`
@@ -23,6 +23,13 @@ const ThemeSelectionWrapper = styled.View`
 const MenuItems = styled.View`
   margin-bottom: ${spaces.MEDIUM}px;
   flex-direction: row;
+`
+
+const ImageWrapper = styled.View`
+  border-radius: 60px;
+  overflow: hidden;
+  border: ${(props: { isConnected: boolean }) =>
+    props.isConnected && `2px solid ${colors.PURPLE}`};
 `
 
 interface Props {
@@ -38,15 +45,25 @@ const MenuContent = ({
 }: Props) => {
   const isConnected =
     useSelector((state: RootStateOrAny) => state.users.user_mail) !== 'DEFAULT'
+  const UserPicture = useSelector(
+    (state: RootStateOrAny) => state.users.user_picture
+  )
   const editSquareIcon =
     appTheme === 'light' ? EditSquareIconBlack : EditSquareIconWhite
-  const AvatarIcon = appTheme === 'light' ? BlackAvatar : WhiteAvatar
+  // eslint-disable-next-line no-nested-ternary
+  const AvatarIcon = isConnected
+    ? UserPicture
+    : appTheme === 'light'
+    ? BlackAvatar
+    : WhiteAvatar
 
   return (
     <View>
       <MenuItems>
         <View style={{ marginRight: spaces.SMALL }}>
-          <Image src={AvatarIcon} width={28} height={28} />
+          <ImageWrapper isConnected={isConnected}>
+            <Image src={AvatarIcon} width={28} height={28} />
+          </ImageWrapper>
         </View>
         <Text font="POPPINS_MEDIUM" size="SUBTITLE" textAlign="left">
           {isConnected ? 'Profil' : 'Connexion'}
