@@ -53,6 +53,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [dynamicMoviesGenders, setDynamicMoviesGenders] = useState<string[]>([])
   const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
+  const [shouldDisplayRating, setShouldDisplayRating] = useState<boolean>(true)
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
 
   useEffect(() => {
@@ -211,7 +212,13 @@ const Movies = ({ navigation }: Props): ReactElement => {
             <MovieCard key={movie.id} movie={movie} navigation={navigation} />
           ))}
         </ScrollView>
-        <RatingUsCard onClose={(): void => {}} />
+        {shouldDisplayRating && (
+          <RatingUsCard
+            onClose={(): void => {
+              setShouldDisplayRating(false)
+            }}
+          />
+        )}
         <MovieTypeTitle
           text="Prochaine sortie"
           onShowAllPress={(): void => {}}

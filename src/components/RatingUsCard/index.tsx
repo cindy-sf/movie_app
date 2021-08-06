@@ -12,6 +12,8 @@ import ThumbUp from '@assets/images/movies/thumb_up.png'
 import { radius, ThemeAttributes, spaces } from '@src/styles/theme'
 
 import styled from 'styled-components/native'
+import { Linking } from 'react-native'
+import { PACKAGE_NAME } from '@src/credentials'
 
 const Card = styled.View`
   background-color: ${({ theme }: { theme: ThemeAttributes }) =>
@@ -61,7 +63,13 @@ const RatingUsCard = ({ onClose }: Props) => {
         Donnez votre avis
       </Text>
       <ButtonWrapper>
-        <Button>Je donne mon avis</Button>
+        <Button
+          onPress={(): void => {
+            Linking.openURL(`market://details?id=${PACKAGE_NAME}`)
+          }}
+        >
+          Je donne mon avis
+        </Button>
       </ButtonWrapper>
     </Card>
   )
