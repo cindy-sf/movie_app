@@ -1,4 +1,6 @@
 import { lightTheme, ThemeAttributes } from '@styles/theme'
+import { userPictures } from '@views/AccountCreation/constants'
+import { ImageSourcePropType } from 'react-native'
 
 interface ThemePayload {
   theme: ThemeAttributes
@@ -12,7 +14,7 @@ interface ThemeReducer {
 interface UserData {
   user_mail: string
   user_password: string
-  user_picture: string
+  user_picture: ImageSourcePropType
   user_name: string
   user_tag: string
   user_creation_date: string
@@ -31,7 +33,7 @@ const themeInitialState: ThemeAttributes = lightTheme
 const userInitialState: UserData = {
   user_mail: 'DEFAULT',
   user_password: 'DEFAULT',
-  user_picture: 'ToyFaces_Colored_BG_47',
+  user_picture: userPictures[0].pictureUrl,
   user_name: 'DEFAULT',
   user_tag: 'DEFAULT',
   user_creation_date: 'DEFAULT',
@@ -62,6 +64,11 @@ export const fetchUser = async (token: string | null) => {
       },
     })
     const userInfos = await userInfosRequest.json()
+    const index = userPictures
+      .map((picture) => picture.imageName)
+      .indexOf(userInfos.data.user_picture)
+    userInfos.data.user_picture =
+      userPictures[index >= 0 ? index : 0].pictureUrl
     return userInfos.data
   } catch {
     return userInitialState

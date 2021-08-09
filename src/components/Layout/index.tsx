@@ -28,7 +28,6 @@ import {
   ThemeAttributes,
 } from '@src/styles/theme'
 
-import { userPictures } from '@views/AccountCreation/constants'
 import {
   CloseIcon,
   Header,
@@ -97,11 +96,9 @@ const Layout: React.FC<Props> = ({
     dispatch(themeToggler({ theme }))
     await Updates.reloadAsync()
   }
-
-  const index = userPictures
-    .map((picture) => picture.imageName)
-    .indexOf(useSelector((state: RootStateOrAny) => state.users.user_picture))
-  const UserPicture = userPictures[index >= 0 ? index : 0].pictureUrl
+  const UserPicture = useSelector(
+    (state: RootStateOrAny) => state.users.user_picture
+  )
 
   return (
     <LayoutWrapper width={windowWidth}>

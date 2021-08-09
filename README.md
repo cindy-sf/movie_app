@@ -1,11 +1,12 @@
 # Movie App 🎬
 
 ## Table of contents :
+
 - [Presentation](#presentation)
 - [Prerequisite](#prerequisite)
 - [Installation](#installation)
-- [Contribute](#contribution)
 - [Extra](#extra)
+- [Contribute](#contribution)
 
 ## Presentation
 
@@ -29,24 +30,29 @@ Here is a small overview of the application 👇
 <br />
 
 ⚠️ Small precision :
+
 - Movie App is only available on android.
 - The application is under development.
 
 ## Prerequisite
+
 - Have [expo](https://docs.expo.dev/index.html) installed in your **device** and on your **smartphone** ([click here for play store link](https://play.google.com/store/apps/details?id=host.exp.exponent)).
 - Have an account and an API_KEY at [Betaseries](https://www.betaseries.com/inscription/). (you can see there documentation [here](https://www.betaseries.com/api/))
 - Create a `credentials.ts` file in `src` folder, an paste these lines :
+
 ```javascript
-  export const API_KEY = 'YOUR_BETASERIES_API_KEY'
-  export const PACKAGE_NAME = 'com.betaseriesnative'
+export const API_KEY = 'YOUR_BETASERIES_API_KEY'
+export const PACKAGE_NAME = 'com.betaseriesnative'
 ```
 
 ## Installation
+
 - Finally, install the dependencies by running `npm i`.
 - Congratulations, you are ready to launch the project 🎉. <br />
-Now run ```npm run expo```.
+  Now run `npm run expo`.
 
 ## Extra
+
 Bakend repository : <br />
 To see the backend of movie app, you can visit [this repository](https://github.com/fr-jsf/back_movie_app/).
 
