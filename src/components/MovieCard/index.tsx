@@ -48,6 +48,7 @@ const MovieCard = ({ navigation, movie }: Props) => (
       size="BODY_1"
       maxWidth={165}
       limit={movie.title.length > 20 ? 20 : 0}
+      numberOfLines={1}
     >
       {movie.title}
     </Text>
