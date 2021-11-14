@@ -52,7 +52,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
   const [moviesGender, setMoviesGender] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [dynamicMoviesGenders, setDynamicMoviesGenders] = useState<string[]>([])
-  const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
+  const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
   const [shouldDisplayRating, setShouldDisplayRating] = useState<boolean>(true)
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
 

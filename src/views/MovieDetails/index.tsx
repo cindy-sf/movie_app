@@ -52,7 +52,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
   const [movieInfos, setMoviesInfos] = useState<MovieDetailstype>()
   const [movieCharacters, setMoviesCharacters] = useState<MovieCharacters[]>()
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
-  const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
+  const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
   const [movieResumeLimit, setMovieResumeLimit] = useState<number>(110)
 
   const isLiked = async () => {
