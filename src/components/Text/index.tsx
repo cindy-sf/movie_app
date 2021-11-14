@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import { TextProps as RnTextProps } from 'react-native'
 import { fonts, fontSize, ThemeAttributes } from '@styles/theme'
 
 export interface TextProps {
@@ -25,7 +26,7 @@ const CustomText = styled.Text`
     `${props.textDecoration}`};
 `
 
-const Text: React.FC<TextProps> = ({
+const Text: React.FC<TextProps & RnTextProps> = ({
   children,
   color = 'PRIMARY_TEXT_COLOR',
   font = 'POPPINS_REGULAR',
@@ -34,6 +35,7 @@ const Text: React.FC<TextProps> = ({
   limit,
   textAlign = 'center',
   textDecoration = 'none',
+  ...rest
 }) => (
   <CustomText
     color={color}
@@ -42,6 +44,7 @@ const Text: React.FC<TextProps> = ({
     size={fontSize[size]}
     textAlign={textAlign}
     textDecoration={textDecoration}
+    {...rest}
   >
     {limit && typeof children === 'string'
       ? `${children.substring(0, limit)}...`

@@ -29,7 +29,7 @@ const ImageWrapper = styled.View`
   border-radius: 60px;
   overflow: hidden;
   border: ${(props: { isConnected: boolean }) =>
-    props.isConnected && `2px solid ${colors.PURPLE}`};
+    props.isConnected ? `2px solid ${colors.PURPLE}` : 'none'};
 `
 
 interface Props {

@@ -48,7 +48,6 @@ const Movies = ({ navigation }: Props): ReactElement => {
   })
   const isFocused = useIsFocused()
   const [moviesLiked, setMoviesLiked] = useState<SearchData[]>([])
-  const [token, setToken] = useState<string | null>(null)
   const [moviesGender, setMoviesGender] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [dynamicMoviesGenders, setDynamicMoviesGenders] = useState<string[]>([])
@@ -58,21 +57,19 @@ const Movies = ({ navigation }: Props): ReactElement => {
 
   useEffect(() => {
     const fetchMoviesLike = async (): Promise<void> => {
+      const token = await getToken()
       try {
+        if (!token) return
         // Get movies liked by user
-        setMoviesLiked(await getFavoritesShows())
+        setMoviesLiked(await getFavoritesShows(token))
       } catch (err) {
         setShouldDisplayError(true)
       }
     }
     fetchMoviesLike()
-  }, [token, isFocused])
+  }, [isFocused])
 
   useEffect(() => {
-    const receiveToken = async () => {
-      setToken(await getToken())
-    }
-
     const fetchData = async (): Promise<void> => {
       try {
         setIsDataFetching(true)
@@ -121,12 +118,10 @@ const Movies = ({ navigation }: Props): ReactElement => {
     }
 
     fetchData()
-    receiveToken()
   }, [])
 
-  const getFavoritesShows = async (): Promise<SearchData[]> => {
+  const getFavoritesShows = async (token: string): Promise<SearchData[]> => {
     const moviesData: SearchData[] = []
-    if (!token) return moviesData
     try {
       const showsLiked = await fetch(`http://api.movieapp.fr/shows`, {
         headers: {
@@ -199,27 +194,6 @@ const Movies = ({ navigation }: Props): ReactElement => {
     >
       <ScrollZone showsVerticalScrollIndicator={false} overScrollMode="never">
         <MovieTypeTitle
-          text="Films populaires"
-          onShowAllPress={(): void => {}}
-        />
-        <ScrollView
-          style={{ marginBottom: spaces.MEDIUM }}
-          showsHorizontalScrollIndicator={false}
-          overScrollMode="never"
-          horizontal
-        >
-          {movies.popularMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} navigation={navigation} />
-          ))}
-        </ScrollView>
-        {shouldDisplayRating && (
-          <RatingUsCard
-            onClose={(): void => {
-              setShouldDisplayRating(false)
-            }}
-          />
-        )}
-        <MovieTypeTitle
           text="Prochaine sortie"
           onShowAllPress={(): void => {}}
         />
@@ -233,9 +207,30 @@ const Movies = ({ navigation }: Props): ReactElement => {
             <MovieCard key={movie.id} movie={movie} navigation={navigation} />
           ))}
         </ScrollView>
+        {shouldDisplayRating && (
+          <RatingUsCard
+            onClose={(): void => {
+              setShouldDisplayRating(false)
+            }}
+          />
+        )}
+        <MovieTypeTitle
+          text="Films populaires"
+          onShowAllPress={(): void => {}}
+        />
+        <ScrollView
+          style={{ marginBottom: spaces.MEDIUM }}
+          showsHorizontalScrollIndicator={false}
+          overScrollMode="never"
+          horizontal
+        >
+          {movies.popularMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} navigation={navigation} />
+          ))}
+        </ScrollView>
         <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
           {dynamicMoviesGenders.map((gender, index) => (
-            <View key={gender} style={{ marginBottom: spaces.MEDIUM }}>
+            <View key={gender} style={{ marginBottom: spaces.LARGE }}>
               <MovieTypeTitle text={gender} onShowAllPress={(): void => {}} />
               <ScrollView
                 showsHorizontalScrollIndicator={false}
