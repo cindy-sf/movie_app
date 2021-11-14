@@ -4,7 +4,13 @@ interface Notes {
   user: number
 }
 
-export interface MovieDetailstype {
+export interface MovieActor {
+  name: string
+  picture: string
+  role: string
+}
+
+interface Movie {
   id: number
   title: string
   original_title: string
@@ -14,7 +20,7 @@ export interface MovieDetailstype {
   poster: string
   backdrop: string
   production_year: number
-  release_date: number
+  release_date: string
   original_release_date: string
   sale_date: string
   director: string
@@ -33,6 +39,11 @@ export interface MovieDetailstype {
   platform_links: []
   other_title: null | string
   errors: []
+}
+
+export interface MovieDetailstype {
+  actors: MovieActor[]
+  movie: Movie
 }
 
 export interface MovieCharacters {

@@ -13,15 +13,13 @@ import Loader from '@components/Loader'
 import RatingStar from '@components/RatingStar'
 import Text from '@components/Text'
 
-import { API_KEY } from '@src/credentials'
-
 import VideoIcon from '@assets/icons/video.png'
 
 import { spaces } from '@src/styles/theme'
 import { getToken } from '@src/utils'
 import MovieSpecs from './components/MovieSpecs'
 
-import type { MovieCharacters, MovieDetailstype } from './types'
+import type { MovieDetailstype } from './types'
 
 import {
   MoviePoster,
@@ -32,13 +30,14 @@ import {
   FavoriteButton,
   Rates,
 } from './index.styles'
+import ActorCard from './components/ActorCard'
 
 export interface Props {
   navigation: NavigationContainerRef
   route: RouteProp<
     {
       params: {
-        movieId: MovieDetailstype['id']
+        movieId: MovieDetailstype['movie']['id']
       }
     },
     'params'
@@ -50,7 +49,6 @@ const MovieDetails = ({ navigation, route }: Props) => {
   const [token, setToken] = useState<string | null>(null)
   const [liked, setLiked] = useState<boolean>(false)
   const [movieInfos, setMoviesInfos] = useState<MovieDetailstype>()
-  const [movieCharacters, setMoviesCharacters] = useState<MovieCharacters[]>()
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
   const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
   const [movieResumeLimit, setMovieResumeLimit] = useState<number>(110)
@@ -117,17 +115,10 @@ const MovieDetails = ({ navigation, route }: Props) => {
       try {
         setIsDataFetching(true)
         const movieResponse = await fetch(
-          `https://api.betaseries.com/movies/movie?key=${API_KEY}&id=${movieId}`
+          `http://api.movieapp.fr/shows/${movieId}?show_type=MOVIE`
         )
-        const actorResponse = await fetch(
-          `https://api.betaseries.com/movies/characters?key=${API_KEY}&id=${movieId}`
-        )
-
         const moviesData = await movieResponse.json()
-        const actorData = await actorResponse.json()
-
-        setMoviesInfos(moviesData.movie)
-        setMoviesCharacters(actorData.characters)
+        setMoviesInfos(moviesData)
       } catch (err) {
         setShouldDisplayError(true)
       } finally {
@@ -138,9 +129,21 @@ const MovieDetails = ({ navigation, route }: Props) => {
     isLiked()
   }, [token])
 
-  if (isDataFetching || !movieInfos || !movieCharacters) return <Loader />
+  if (isDataFetching || !movieInfos) return <Loader />
 
   if (shouldDisplayError) return <Error navigation={navigation} />
+
+  const {
+    trailer,
+    poster,
+    title,
+    director,
+    notes,
+    genres,
+    release_date,
+    language,
+    synopsis,
+  } = movieInfos.movie
 
   return (
     <Layout
@@ -159,23 +162,21 @@ const MovieDetails = ({ navigation, route }: Props) => {
             width={205}
             height={325}
             resizeMode="cover"
-            src={{ uri: movieInfos.poster }}
+            src={{ uri: poster }}
           />
           <VideoIconWrapper intensity={100}>
             <TouchableOpacity
               onPress={(): void => {
-                Linking.canOpenURL(
-                  `vnd.youtube://watch?v=${movieInfos.trailer}`
-                ).then((supported) => {
-                  if (supported) {
+                Linking.canOpenURL(`vnd.youtube://watch?v=${trailer}`).then(
+                  (supported) => {
+                    if (supported) {
+                      return Linking.openURL(`vnd.youtube://watch?v=${trailer}`)
+                    }
                     return Linking.openURL(
-                      `vnd.youtube://watch?v=${movieInfos.trailer}`
+                      `https://www.youtube.com/watch?v=${trailer}`
                     )
                   }
-                  return Linking.openURL(
-                    `https://www.youtube.com/watch?v=${movieInfos.trailer}`
-                  )
-                })
+                )
               }}
             >
               <Image src={VideoIcon} width={28} height={28} />
@@ -183,15 +184,15 @@ const MovieDetails = ({ navigation, route }: Props) => {
           </VideoIconWrapper>
         </MoviePoster>
         <Text font="POPPINS_SEMI_BOLD" size="BODY_1">
-          {movieInfos.title}
+          {title}
         </Text>
-        <Text size="BODY_1">{movieInfos.director}</Text>
+        <Text size="BODY_1">{director}</Text>
         <Rates>
-          <RatingStar notation={movieInfos.notes.mean} />
+          <RatingStar notation={notes.mean} />
         </Rates>
-        {movieInfos.genres.length > 0 && (
+        {genres.length > 0 && (
           <GenderBadgeWrapper>
-            {movieInfos.genres.map((movieGender) => (
+            {genres.map((movieGender) => (
               <GenderBadge key={movieGender}>
                 <Text size="OVERLINE">{movieGender}</Text>
               </GenderBadge>
@@ -199,18 +200,18 @@ const MovieDetails = ({ navigation, route }: Props) => {
           </GenderBadgeWrapper>
         )}
         <MovieSpecs
-          duration={movieInfos.length}
-          releaseDate={movieInfos.release_date}
-          language={movieInfos.language}
+          duration={movieInfos.movie.length}
+          releaseDate={release_date}
+          language={language}
         />
-        {movieInfos.synopsis && (
+        {synopsis && (
           <Resume>
             <Text size="SUBTITLE" font="POPPINS_SEMI_BOLD" textAlign="left">
               Résumé
             </Text>
             <View style={{ marginBottom: spaces.XX_SMALL }} />
             <Text size="BODY_2" textAlign="left" limit={movieResumeLimit}>
-              {movieInfos.synopsis}
+              {synopsis}
             </Text>
             {movieResumeLimit > 0 && (
               <TouchableOpacity onPress={(): void => setMovieResumeLimit(0)}>
@@ -237,8 +238,20 @@ const MovieDetails = ({ navigation, route }: Props) => {
           </Button>
         </FavoriteButton>
         <Text font="POPPINS_SEMI_BOLD" textAlign="left" size="SUBTITLE">
-          Acteurs ({`${movieCharacters.length}`})
+          Acteurs ({`${movieInfos.actors.length}`})
         </Text>
+        {movieInfos.actors.length > 0 && (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never"
+            horizontal
+          >
+            {movieInfos.actors.map((actor) => (
+              <ActorCard {...actor} key={actor.name} />
+            ))}
+          </ScrollView>
+        )}
       </ScrollView>
     </Layout>
   )
