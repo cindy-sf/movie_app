@@ -31,7 +31,7 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
   const [news, setNews] = useState<News[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
-  const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
+  const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {

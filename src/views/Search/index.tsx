@@ -32,7 +32,7 @@ const Search = ({ navigation, route }: Props) => {
     route.params.search || ''
   )
   const [searchResult, setSearchResult] = useState<SearchData[]>([])
-  const [isDataFetching, setIsDataFetching] = useState<boolean>(false)
+  const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
 
   useEffect(() => {
