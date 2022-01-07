@@ -1,4 +1,4 @@
-import { API_KEY, API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
+import { API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
 
 export const movieAPIUrls: string[] = [
   `https://api.themoviedb.org/${API_VERSION}/movie/upcoming?api_key=${MOVIE_DB_API_KEY}&language=fr`,
