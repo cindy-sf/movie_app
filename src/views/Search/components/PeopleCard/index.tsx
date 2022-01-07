@@ -4,7 +4,7 @@ import styled from 'styled-components/native'
 import Image from '@components/Image'
 import Text from '@components/Text'
 
-import type { ActorType } from '@src/types'
+import type { PeopleType } from '@src/types'
 
 import { colors, spaces } from '@src/styles/theme'
 
@@ -19,7 +19,7 @@ const ImageWrapper = styled.View`
   margin-bottom: ${spaces.SMALL}px;
 `
 
-const PeopleCard = ({ actor }: { actor: ActorType }) => (
+const PeopleCard = ({ actor }: { actor: PeopleType }) => (
   <Wrapper>
     <ImageWrapper>
       <Image

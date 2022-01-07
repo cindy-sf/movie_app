@@ -181,12 +181,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
         />
         <ScrollView {...scrollViewVerticalProps}>
           {movies?.upcoming.map((movie) => (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-              navigation={navigation}
-              withRate
-            />
+            <MovieCard key={movie.id} movie={movie} withRate />
           ))}
         </ScrollView>
         {/* Rating us card */}
@@ -197,12 +192,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
         <MovieTypeTitle text="Film populaire" onShowAllPress={(): void => {}} />
         <ScrollView {...scrollViewVerticalProps}>
           {movies?.popular.map((movie) => (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-              navigation={navigation}
-              withRate
-            />
+            <MovieCard key={movie.id} movie={movie} withRate />
           ))}
         </ScrollView>
         {/* Movies by genre */}
@@ -217,12 +207,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
                   horizontal
                 >
                   {movies.byGenre.list[index].map((movie) => (
-                    <MovieCard
-                      key={movie.id}
-                      movie={movie}
-                      navigation={navigation}
-                      withRate
-                    />
+                    <MovieCard key={movie.id} movie={movie} withRate />
                   ))}
                 </ScrollView>
               </View>
