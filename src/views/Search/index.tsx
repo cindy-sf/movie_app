@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import type {
   NavigationContainerRef,
   RouteProp,
 } from '@react-navigation/native'
 
-import { API_KEY } from '@src/credentials'
+import { MOVIE_DB_API_KEY } from '@src/credentials'
 
 import Error from '@components/Error'
 import Layout from '@components/Layout'
@@ -13,7 +13,10 @@ import Loader from '@components/Loader'
 import MovieCard from '@components/MovieCard'
 import MovieTypeTitle from '@components/MovieTypeTitle'
 
-import type { SearchData } from '@src/types'
+import type { MovieDetails } from '@src/types'
+
+import ComingSoon from './components/ComingSoon'
+import NoResult from './components/NoResult'
 
 interface Props {
   navigation: NavigationContainerRef
@@ -31,7 +34,7 @@ const Search = ({ navigation, route }: Props) => {
   const [searchValue, setSearchValue] = useState<string>(
     route.params.search || ''
   )
-  const [searchResult, setSearchResult] = useState<SearchData[]>([])
+  const [searchResult, setSearchResult] = useState<MovieDetails[]>([])
   const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
 
@@ -41,18 +44,18 @@ const Search = ({ navigation, route }: Props) => {
     if (search) {
       fetchMoviesBySearch(search)
     }
-  }, [])
+  }, [route.params.search])
 
   const fetchMoviesBySearch = async (search: string): Promise<void> => {
     try {
       setIsDataFetching(true)
       const searchResponse = await fetch(
-        `https://api.betaseries.com/search/movies?key=${API_KEY}&text=${search}&limit=10`
+        `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_DB_API_KEY}&language=fr-FR&query=${search}&page=1`
       )
       const searchData = await searchResponse.json()
-      setSearchResult(searchData.movies)
+      setSearchResult(searchData.results)
     } catch (error) {
-      setShouldDisplayError(error)
+      setShouldDisplayError(true)
     } finally {
       setIsDataFetching(false)
     }
@@ -65,7 +68,11 @@ const Search = ({ navigation, route }: Props) => {
     searchBar: {
       onChangeText: (e: string): void => setSearchValue(e),
       value: searchValue,
-      onSubmit: (): Promise<void> => fetchMoviesBySearch(searchValue),
+      onSubmit: () => {
+        navigation.navigate('Search', {
+          search: searchValue,
+        })
+      },
     },
   }
 
@@ -77,9 +84,16 @@ const Search = ({ navigation, route }: Props) => {
     return <Loader headerOptions={headerOptions} />
   }
 
+  if (searchResult.length === 0)
+    return (
+      <Layout headerOptions={headerOptions}>
+        <NoResult search={route.params.search} />
+      </Layout>
+    )
+
   return (
     <Layout headerOptions={headerOptions}>
-      <View>
+      <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
         <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
           <MovieTypeTitle onShowAllPress={() => {}} text="Films" />
           <ScrollView
@@ -96,8 +110,9 @@ const Search = ({ navigation, route }: Props) => {
               />
             ))}
           </ScrollView>
+          <ComingSoon />
         </ScrollView>
-      </View>
+      </ScrollView>
     </Layout>
   )
 }

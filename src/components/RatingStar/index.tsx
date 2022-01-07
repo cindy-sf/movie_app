@@ -21,7 +21,13 @@ const Star = styled.View`
   margin-right: ${spaces.XX_SMALL}px;
 `
 
-const RatingStar = ({ notation }: { notation: number }) => {
+const RatingStar = ({
+  notation,
+  size = 'normal',
+}: {
+  notation: number
+  size?: 'normal' | 'small'
+}) => {
   const score = Math.round(notation * 2) / 2
   const stars: ImageSourcePropType[] = []
   const appTheme = useSelector(
@@ -44,7 +50,11 @@ const RatingStar = ({ notation }: { notation: number }) => {
       {stars.map((item: ImageSourcePropType, index: number) => (
         // eslint-disable-next-line react/no-array-index-key
         <Star key={index}>
-          <Image src={item} width={20} height={20} />
+          <Image
+            src={item}
+            width={size === 'small' ? 16 : 20}
+            height={size === 'small' ? 16 : 20}
+          />
         </Star>
       ))}
     </RatingWrapper>

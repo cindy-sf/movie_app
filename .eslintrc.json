@@ -27,6 +27,8 @@
     "global-require": 0,
     "no-use-before-define": "off",
     "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
     "no-console": "off",
