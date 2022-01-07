@@ -66,7 +66,7 @@ export default function App() {
       <ThemeProvider theme={storeTheme}>
         <Stack.Navigator
           mode="modal"
-          initialRouteName={isConnected ? 'Landing' : 'Home'}
+          initialRouteName={isConnected ? 'Home' : 'Landing'}
         >
           <Stack.Screen
             name="Landing"
