@@ -32,7 +32,7 @@ const Wrapper = styled.View`
 `
 
 interface Props {
-  duration: number
+  duration: number | null
   language: string
   releaseDate: string
 }
@@ -65,21 +65,23 @@ const MovieSpecs = ({
   const languageIcon =
     appTheme === 'light' ? LanguageIconBlack : LanguageIconWhite
 
-  const convertMovieLength = (movieLength: number): string => {
-    if (duration === 0) return 'Inconnue'
+  const convertMovieDuration = (movieDuration: number | null): string => {
+    if (!movieDuration || movieDuration === 0) return 'Inconnue'
 
-    const secondsInHour = Math.floor(movieLength / 3600)
-    const secondsInMinutes = Math.floor((movieLength % 3600) / 60)
+    const minutes = movieDuration % 60
+    const hour = Math.floor(movieDuration / 60)
 
-    const hour = secondsInHour > 0 ? `${secondsInHour}h` : '00h'
-    const minutes = secondsInMinutes > 0 ? `${secondsInMinutes}` : '00'
+    const convertedMinutes = minutes > 0 ? `${minutes}` : '00'
 
-    return hour + minutes
+    return `${hour}h${convertedMinutes}`
   }
 
   return (
     <Wrapper>
-      <Spec text={convertMovieLength(duration)} urlImage={movieDurationIcon} />
+      <Spec
+        text={convertMovieDuration(duration)}
+        urlImage={movieDurationIcon}
+      />
       <Spec
         text={releaseDate.split('-').reverse().join('/')}
         urlImage={calendarIcon}

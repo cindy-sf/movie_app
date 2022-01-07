@@ -1,12 +1,14 @@
 import React from 'react'
-import type { NavigationContainerRef } from '@react-navigation/core'
-import type { Movie, SearchData } from '@src/types'
+import type { MovieDetails } from '@src/types'
 import styled from 'styled-components/native'
 
 import Image from '@components/Image'
 import Text from '@components/Text'
+import RatingStar from '@components/RatingStar'
 
 import { colors, radius, spaces } from '@src/styles/theme'
+
+import type { SimilarMoviesResult } from '@views/MovieDetails/types'
 
 const Card = styled.TouchableOpacity`
   margin-right: ${spaces.LARGE}px;
@@ -22,21 +24,24 @@ const ImageWrapper = styled.View`
 `
 
 interface Props {
-  navigation: NavigationContainerRef
-  movie: Movie | SearchData
+  navigation: any
+  withRate?: boolean
+  movie: MovieDetails | SimilarMoviesResult
 }
 
-const MovieCard = ({ navigation, movie }: Props) => (
+const MovieCard = ({ navigation, movie, withRate = false }: Props) => (
   <Card
     onPress={(): void =>
-      navigation.navigate('MovieDetails', {
+      navigation.push('MovieDetails', {
         movieId: movie.id,
       })
     }
   >
     <ImageWrapper>
       <Image
-        src={{ uri: movie.poster }}
+        src={{
+          uri: `https://image.tmdb.org/t/p/w300/${movie.poster_path}`,
+        }}
         height={260}
         width={165}
         resizeMode="cover"
@@ -52,6 +57,12 @@ const MovieCard = ({ navigation, movie }: Props) => (
     >
       {movie.title}
     </Text>
+    {withRate && (
+      <RatingStar
+        size="small"
+        notation={movie?.vote_average ? movie?.vote_average / 2 : 0}
+      />
+    )}
   </Card>
 )
 

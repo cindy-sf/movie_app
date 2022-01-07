@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Linking, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import type {
   NavigationContainerRef,
   RouteProp,
@@ -13,15 +13,16 @@ import Loader from '@components/Loader'
 import RatingStar from '@components/RatingStar'
 import Text from '@components/Text'
 
-import { API_KEY } from '@src/credentials'
-
 import VideoIcon from '@assets/icons/video.png'
 
 import { spaces } from '@src/styles/theme'
 import { getToken } from '@src/utils'
+import MovieCard from '@components/MovieCard'
+import { MovieDetails as MovieDetailsType } from '@src/types'
+import { API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
 import MovieSpecs from './components/MovieSpecs'
 
-import type { MovieCharacters, MovieDetailstype } from './types'
+import type { Credits, SimilarMovies } from './types'
 
 import {
   MoviePoster,
@@ -32,25 +33,31 @@ import {
   FavoriteButton,
   Rates,
 } from './index.styles'
+import ActorCard from './components/ActorCard'
 
 export interface Props {
   navigation: NavigationContainerRef
   route: RouteProp<
     {
       params: {
-        movieId: MovieDetailstype['id']
+        movieId: MovieDetailsType['id']
       }
     },
     'params'
   >
 }
 
+interface MovieDetailsInfos {
+  infos: MovieDetailsType
+  credits: Credits
+  similarMovies: SimilarMovies
+}
+
 const MovieDetails = ({ navigation, route }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [token, setToken] = useState<string | null>(null)
   const [liked, setLiked] = useState<boolean>(false)
-  const [movieInfos, setMoviesInfos] = useState<MovieDetailstype>()
-  const [movieCharacters, setMoviesCharacters] = useState<MovieCharacters[]>()
+  const [movieInfos, setMoviesInfos] = useState<MovieDetailsInfos>()
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
   const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
   const [movieResumeLimit, setMovieResumeLimit] = useState<number>(110)
@@ -114,20 +121,25 @@ const MovieDetails = ({ navigation, route }: Props) => {
   useEffect(() => {
     const fetchMovieInfos = async () => {
       const { movieId } = route.params
+      const urls = [
+        `https://api.themoviedb.org/${API_VERSION}/movie/${movieId}?api_key=${MOVIE_DB_API_KEY}&language=fr`,
+        `https://api.themoviedb.org/${API_VERSION}/movie/${movieId}/credits?api_key=${MOVIE_DB_API_KEY}&language=fr`,
+        `https://api.themoviedb.org/${API_VERSION}/movie/${movieId}/similar?api_key=${MOVIE_DB_API_KEY}&language=fr`,
+      ]
+
       try {
         setIsDataFetching(true)
-        const movieResponse = await fetch(
-          `https://api.betaseries.com/movies/movie?key=${API_KEY}&id=${movieId}`
+        const data = await Promise.all(
+          urls.map(async (url) => {
+            const resp = await fetch(url)
+            return resp.json()
+          })
         )
-        const actorResponse = await fetch(
-          `https://api.betaseries.com/movies/characters?key=${API_KEY}&id=${movieId}`
-        )
-
-        const moviesData = await movieResponse.json()
-        const actorData = await actorResponse.json()
-
-        setMoviesInfos(moviesData.movie)
-        setMoviesCharacters(actorData.characters)
+        setMoviesInfos({
+          infos: data[0],
+          credits: data[1],
+          similarMovies: data[2],
+        })
       } catch (err) {
         setShouldDisplayError(true)
       } finally {
@@ -138,9 +150,27 @@ const MovieDetails = ({ navigation, route }: Props) => {
     isLiked()
   }, [token])
 
-  if (isDataFetching || !movieInfos || !movieCharacters) return <Loader />
+  if (isDataFetching || !movieInfos) return <Loader />
 
   if (shouldDisplayError) return <Error navigation={navigation} />
+
+  const {
+    poster_path,
+    original_language,
+    original_title,
+    vote_average,
+    genres,
+    release_date,
+    overview,
+    runtime,
+  } = movieInfos.infos
+  const { credits, similarMovies } = movieInfos
+
+  const getDirector = () => {
+    const director =
+      credits && credits.crew.filter((credit) => credit.job === 'Director')[0]
+    return director ? director.name : 'Inconnue'
+  }
 
   return (
     <Layout
@@ -159,58 +189,44 @@ const MovieDetails = ({ navigation, route }: Props) => {
             width={205}
             height={325}
             resizeMode="cover"
-            src={{ uri: movieInfos.poster }}
+            src={{
+              uri: `https://image.tmdb.org/t/p/w500/${poster_path}`,
+            }}
           />
           <VideoIconWrapper intensity={100}>
-            <TouchableOpacity
-              onPress={(): void => {
-                Linking.canOpenURL(
-                  `vnd.youtube://watch?v=${movieInfos.trailer}`
-                ).then((supported) => {
-                  if (supported) {
-                    return Linking.openURL(
-                      `vnd.youtube://watch?v=${movieInfos.trailer}`
-                    )
-                  }
-                  return Linking.openURL(
-                    `https://www.youtube.com/watch?v=${movieInfos.trailer}`
-                  )
-                })
-              }}
-            >
-              <Image src={VideoIcon} width={28} height={28} />
-            </TouchableOpacity>
+            <Image src={VideoIcon} width={28} height={28} />
           </VideoIconWrapper>
         </MoviePoster>
         <Text font="POPPINS_SEMI_BOLD" size="BODY_1">
-          {movieInfos.title}
+          {original_title}
         </Text>
-        <Text size="BODY_1">{movieInfos.director}</Text>
+        <Text size="BODY_1">{getDirector()}</Text>
         <Rates>
-          <RatingStar notation={movieInfos.notes.mean} />
+          <RatingStar notation={vote_average / 2} />
         </Rates>
-        {movieInfos.genres.length > 0 && (
+        {genres.length > 0 && (
           <GenderBadgeWrapper>
-            {movieInfos.genres.map((movieGender) => (
-              <GenderBadge key={movieGender}>
-                <Text size="OVERLINE">{movieGender}</Text>
+            {genres.map((movieGenre: any) => (
+              <GenderBadge key={movieGenre.id}>
+                <Text size="OVERLINE">{movieGenre.name}</Text>
               </GenderBadge>
             ))}
           </GenderBadgeWrapper>
         )}
         <MovieSpecs
-          duration={movieInfos.length}
-          releaseDate={movieInfos.release_date}
-          language={movieInfos.language}
+          duration={runtime}
+          releaseDate={release_date}
+          language={original_language}
         />
-        {movieInfos.synopsis && (
+        {/* Resume */}
+        {!!overview && (
           <Resume>
             <Text size="SUBTITLE" font="POPPINS_SEMI_BOLD" textAlign="left">
               Résumé
             </Text>
             <View style={{ marginBottom: spaces.XX_SMALL }} />
             <Text size="BODY_2" textAlign="left" limit={movieResumeLimit}>
-              {movieInfos.synopsis}
+              {overview}
             </Text>
             {movieResumeLimit > 0 && (
               <TouchableOpacity onPress={(): void => setMovieResumeLimit(0)}>
@@ -236,9 +252,52 @@ const MovieDetails = ({ navigation, route }: Props) => {
             {!liked ? 'Ajouter aux favoris' : 'Retirer des favoris'}
           </Button>
         </FavoriteButton>
+        {/* Actors */}
         <Text font="POPPINS_SEMI_BOLD" textAlign="left" size="SUBTITLE">
-          Acteurs ({`${movieCharacters.length}`})
+          Acteurs ({`${credits?.cast.length || 0}`})
         </Text>
+        {credits && credits.cast.length > 0 && (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never"
+            horizontal
+          >
+            {credits?.cast.map((actor) => (
+              <ActorCard
+                picture={actor.profile_path}
+                name={actor.name}
+                role={actor.character}
+                key={actor.name}
+              />
+            ))}
+          </ScrollView>
+        )}
+        {/* Similar movies */}
+        <View style={{ marginBottom: spaces.MEDIUM, marginTop: spaces.LARGE }}>
+          <Text font="POPPINS_SEMI_BOLD" textAlign="left" size="SUBTITLE">
+            Films similaires ({`${similarMovies?.results.length}`})
+          </Text>
+        </View>
+        {similarMovies && similarMovies.results.length > 0 && (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never"
+            horizontal
+          >
+            {similarMovies?.results.map((movie) => (
+              <View style={{ marginBottom: spaces.MEDIUM }}>
+                <MovieCard
+                  key={movie.id}
+                  movie={movie}
+                  navigation={navigation}
+                  withRate
+                />
+              </View>
+            ))}
+          </ScrollView>
+        )}
       </ScrollView>
     </Layout>
   )

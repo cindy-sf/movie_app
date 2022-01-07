@@ -1,16 +1,16 @@
-import { API_KEY } from '@src/credentials'
+import { API_KEY, API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
 
 export const movieAPIUrls: string[] = [
-  `https://api.betaseries.com/movies/discover?key=${API_KEY}&type=popular&limit=10`,
-  `https://api.betaseries.com/movies/discover?key=${API_KEY}&type=upcoming&limit=10`,
-  `https://api.betaseries.com/movies/genres?key=${API_KEY}`,
+  `https://api.themoviedb.org/${API_VERSION}/movie/upcoming?api_key=${MOVIE_DB_API_KEY}&language=fr`,
+  `https://api.themoviedb.org/${API_VERSION}/movie/popular?api_key=${MOVIE_DB_API_KEY}&language=fr`,
+  `https://api.themoviedb.org/${API_VERSION}/genre/movie/list?api_key=${MOVIE_DB_API_KEY}&language=fr`,
 ]
 
-export const buildGenderMovieUrls = (genders: string[]): string[] => {
+export const buildGenresMovieUrls = (genreIds: number[]): string[] => {
   const genderList: string[] = []
-  genders.forEach((gender) =>
+  genreIds.forEach((id) =>
     genderList.push(
-      `https://api.betaseries.com/search/movies?key=${API_KEY}&genres=${gender}&limit=10`
+      `https://api.themoviedb.org/${API_VERSION}/discover/movie?api_key=${MOVIE_DB_API_KEY}&language=fr&with_genres=${id}`
     )
   )
 
