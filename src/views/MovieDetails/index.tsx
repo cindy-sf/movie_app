@@ -288,12 +288,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
           >
             {similarMovies?.results.map((movie) => (
               <View style={{ marginBottom: spaces.MEDIUM }}>
-                <MovieCard
-                  key={movie.id}
-                  movie={movie}
-                  navigation={navigation}
-                  withRate
-                />
+                <MovieCard key={movie.id} movie={movie} withRate />
               </View>
             ))}
           </ScrollView>
