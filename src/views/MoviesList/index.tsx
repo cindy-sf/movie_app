@@ -46,12 +46,12 @@ const MoviesList = ({ navigation, route }: Props) => {
 
   switch (route.params.movieType) {
     case 'popular':
-      pageTitle = 'Films populaire'
+      pageTitle = 'Films populaires'
       url = `https://api.themoviedb.org/${API_VERSION}/movie/popular?api_key=${MOVIE_DB_API_KEY}&language=fr`
       break
 
     case 'upcoming':
-      pageTitle = 'Prochaine sortie'
+      pageTitle = 'Prochaine sorties'
       url = `https://api.themoviedb.org/${API_VERSION}/movie/upcoming?api_key=${MOVIE_DB_API_KEY}&language=fr`
       break
 
