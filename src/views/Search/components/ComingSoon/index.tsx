@@ -29,7 +29,7 @@ const ComingSoon = (): ReactElement => (
       Prochainement
     </Text>
     <Text textAlign="left" size="BODY_2" maxWidth={270}>
-      Consulter une liste exaustive de série sur cette page.
+      Consulter une liste exhaustive de série sur cette page.
     </Text>
     <ImageWrapper>
       <Image width={275} height={185} resizeMode="cover" src={ToTheMoon} />

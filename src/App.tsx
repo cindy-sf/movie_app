@@ -20,6 +20,7 @@ import PasswordCreation from '@views/PasswordCreation'
 import ArticleDetails from '@views/ArticleDetails'
 import MovieDetails from '@views/MovieDetails'
 import Movies from '@views/Movies'
+import MoviesList from '@views/MoviesList'
 import Search from '@views/Search'
 
 const Stack = createStackNavigator()
@@ -107,6 +108,11 @@ export default function App() {
           <Stack.Screen
             name="MovieDetails"
             component={MovieDetails}
+            options={screenOptions}
+          />
+          <Stack.Screen
+            name="MoviesList"
+            component={MoviesList}
             options={screenOptions}
           />
           <Stack.Screen
