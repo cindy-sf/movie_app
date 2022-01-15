@@ -21,6 +21,7 @@ import ArticleDetails from '@views/ArticleDetails'
 import MovieDetails from '@views/MovieDetails'
 import Movies from '@views/Movies'
 import Search from '@views/Search'
+import ComingSoon from '@views/ComingSoon'
 
 const Stack = createStackNavigator()
 
@@ -102,6 +103,11 @@ export default function App() {
           <Stack.Screen
             name="Movies"
             component={Movies}
+            options={screenOptions}
+          />
+          <Stack.Screen
+            name="ComingSoon"
+            component={ComingSoon}
             options={screenOptions}
           />
           <Stack.Screen
