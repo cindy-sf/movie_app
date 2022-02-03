@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactElement, ReactNode, useState } from 'react'
 import { useWindowDimensions, TouchableOpacity, View } from 'react-native'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 
@@ -25,6 +25,7 @@ import {
   colors,
   darkTheme,
   lightTheme,
+  spaces,
   ThemeAttributes,
 } from '@src/styles/theme'
 
@@ -53,6 +54,7 @@ export interface HeaderOptions {
   searchBar?: SearchBarProperties
   displayUserPicture?: boolean
   shareAction?: BackIconProperties
+  pageTitle?: string | ReactElement
 }
 
 interface BackIconProperties {
@@ -135,7 +137,7 @@ const Layout: React.FC<Props> = ({
           )}
         </View>
         {/* Right Header content */}
-        <View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {headerOptions?.closeIcon && (
             <TouchableOpacity onPress={headerOptions.closeIcon.onClose}>
               <CloseIcon
@@ -151,6 +153,17 @@ const Layout: React.FC<Props> = ({
                 }
               />
             </TouchableOpacity>
+          )}
+          {headerOptions?.pageTitle && (
+            <View style={{ marginLeft: spaces.MEDIUM }}>
+              {typeof headerOptions.pageTitle === 'string' ? (
+                <Text size="HEADLINE_2" font="POPPINS_SEMI_BOLD">
+                  {headerOptions.pageTitle}
+                </Text>
+              ) : (
+                headerOptions.pageTitle
+              )}
+            </View>
           )}
           {headerOptions?.displayUserPicture && (
             <UserPictureWrapper onPress={toggleBottomNavigationView}>

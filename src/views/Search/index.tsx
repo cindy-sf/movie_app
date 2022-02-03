@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
-import type {
-  NavigationContainerRef,
-  RouteProp,
-} from '@react-navigation/native'
+import { useNavigation, RouteProp } from '@react-navigation/native'
 
-import { MOVIE_DB_API_KEY } from '@src/credentials'
+import { API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
 
 import Error from '@components/Error'
 import Layout from '@components/Layout'
@@ -20,7 +17,6 @@ import ComingSoon from './components/ComingSoon'
 import NoResult from './components/NoResult'
 
 interface Props {
-  navigation: NavigationContainerRef
   route: RouteProp<
     {
       params: {
@@ -31,7 +27,8 @@ interface Props {
   >
 }
 
-const Search = ({ navigation, route }: Props) => {
+const Search = ({ route }: Props) => {
+  const navigation = useNavigation()
   const [searchValue, setSearchValue] = useState<string>(
     route.params.search || ''
   )
@@ -52,10 +49,10 @@ const Search = ({ navigation, route }: Props) => {
     try {
       setIsDataFetching(true)
       const searchResponse = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_DB_API_KEY}&language=fr-FR&query=${search}&page=1`
+        `https://api.themoviedb.org/${API_VERSION}/search/movie?api_key=${MOVIE_DB_API_KEY}&query=${search}&language=fr`
       )
       const actorResponse = await fetch(
-        `https://api.themoviedb.org/3/search/person?api_key=${MOVIE_DB_API_KEY}&query=${search}&language=fr&query=${search}&page=1`
+        `https://api.themoviedb.org/${API_VERSION}/search/person?api_key=${MOVIE_DB_API_KEY}&query=${search}&language=fr`
       )
       const searchData = await searchResponse.json()
       const actorData = await actorResponse.json()
@@ -84,7 +81,7 @@ const Search = ({ navigation, route }: Props) => {
   }
 
   if (shouldDisplayError) {
-    return <Error navigation={navigation} />
+    return <Error />
   }
 
   if (isDataFetching || !searchResult) {
@@ -106,8 +103,9 @@ const Search = ({ navigation, route }: Props) => {
             <>
               <MovieTypeTitle
                 onShowAllPress={(): void => {
-                  navigation.navigate('MovieList', {
-                    type: 'popular',
+                  navigation.navigate('MoviesList', {
+                    movieType: 'search',
+                    searchQuery: route.params.search,
                   })
                 }}
                 text="Films"

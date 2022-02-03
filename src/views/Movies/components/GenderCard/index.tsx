@@ -10,7 +10,8 @@ import styled from 'styled-components/native'
 import { gendersIcon } from './constants'
 
 const Card = styled.TouchableOpacity`
-  margin: ${spaces.MEDIUM}px ${spaces.X_SMALL}px;
+  margin: ${spaces.MEDIUM}px ${spaces.SMALL}px;
+  margin-left: 0;
   background-color: ${({ theme }: { theme: ThemeAttributes }) =>
     theme.INPUT_BACKGROUND};
   border-radius: ${radius.SMALL}px;

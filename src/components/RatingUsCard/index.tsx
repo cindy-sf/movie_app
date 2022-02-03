@@ -22,8 +22,8 @@ const Card = styled.View`
   padding-bottom: ${spaces.X_LARGE}px;
   border-radius: ${radius.SMALL}px;
   position: relative;
-  margin-top: ${spaces.LARGE}px;
   margin-bottom: ${spaces.MEDIUM}px;
+  width: 100%;
 `
 
 const ImageWrapper = styled.View`

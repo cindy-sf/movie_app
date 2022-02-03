@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import { StackActions, useNavigation } from '@react-navigation/native'
 import type { MovieDetails } from '@src/types'
 import styled from 'styled-components/native'
@@ -11,8 +12,13 @@ import { colors, radius, spaces } from '@src/styles/theme'
 
 import type { SimilarMoviesResult } from '@views/MovieDetails/types'
 
-const Card = styled.TouchableOpacity`
+const VerticalCard = styled.TouchableOpacity`
   margin-right: ${spaces.LARGE}px;
+`
+
+const HorizontalCard = styled.TouchableOpacity`
+  margin-right: ${spaces.LARGE}px;
+  flex-direction: row;
 `
 
 const ImageWrapper = styled.View`
@@ -20,24 +26,67 @@ const ImageWrapper = styled.View`
   overflow: hidden;
   background-color: ${colors.PURPLE};
   margin-bottom: ${spaces.SMALL}px;
-  height: 260px;
-  width: 165px;
 `
 
 interface Props {
   withRate?: boolean
   movie: MovieDetails | SimilarMoviesResult
+  horizontal?: boolean
 }
 
-const MovieCard = ({ movie, withRate = false }: Props) => {
+const MovieCard = ({ movie, withRate = false, horizontal = false }: Props) => {
   const pushAction = StackActions.push('MovieDetails', {
     movieId: movie.id,
     index: 1,
   })
   const navigation = useNavigation()
 
+  if (horizontal) {
+    return (
+      <HorizontalCard onPress={(): void => navigation.dispatch(pushAction)}>
+        <ImageWrapper>
+          <Image
+            src={{
+              uri: `https://image.tmdb.org/t/p/w200/${movie.poster_path}`,
+            }}
+            height={220}
+            width={150}
+            resizeMode="cover"
+          />
+        </ImageWrapper>
+        <View style={{ marginLeft: spaces.MEDIUM, paddingTop: spaces.MEDIUM }}>
+          <Text
+            font="POPPINS_SEMI_BOLD"
+            textAlign="left"
+            size="BODY_1"
+            maxWidth={165}
+            numberOfLines={2}
+          >
+            {movie.title}
+          </Text>
+          <Text size="OVERLINE" textAlign="left" font="POPPINS_ITALIC">
+            {movie.release_date
+              ? `Sortie le ${movie.release_date.split('-').reverse().join('/')}`
+              : 'Date de sortie inconnue'}
+          </Text>
+          <View style={{ marginTop: spaces.XX_SMALL }} />
+          <RatingStar
+            size="small"
+            notation={movie?.vote_average ? movie?.vote_average / 2 : 0}
+          />
+          <View style={{ marginTop: spaces.LARGE }}>
+            <Text size="BODY_2" textAlign="left" maxWidth={150}>
+              Romance, Drame, Science-Fiction
+            </Text>
+          </View>
+          <View style={{ marginTop: spaces.LARGE }} />
+        </View>
+      </HorizontalCard>
+    )
+  }
+
   return (
-    <Card onPress={(): void => navigation.dispatch(pushAction)}>
+    <VerticalCard onPress={(): void => navigation.dispatch(pushAction)}>
       <ImageWrapper>
         <Image
           src={{
@@ -64,7 +113,7 @@ const MovieCard = ({ movie, withRate = false }: Props) => {
           notation={movie?.vote_average ? movie?.vote_average / 2 : 0}
         />
       )}
-    </Card>
+    </VerticalCard>
   )
 }
 

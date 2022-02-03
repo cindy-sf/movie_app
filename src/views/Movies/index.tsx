@@ -40,6 +40,7 @@ interface MoviesList {
   popular: MovieDetails[]
   byGenre: {
     selected: MoviesGenre['name'][]
+    selectedIds: number[]
     list: MovieDetails[][]
   }
 }
@@ -88,6 +89,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
           popular: data[1].results,
           byGenre: {
             selected: randomMoviesGenres.selectedGenresNames,
+            selectedIds: randomMoviesGenres.selectedGenresId,
             list: [
               randomMoviesByGenresData[0].results,
               randomMoviesByGenresData[1].results,
@@ -154,7 +156,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
   }
 
   if (shouldDisplayError) {
-    return <Error navigation={navigation} />
+    return <Error />
   }
 
   return (
@@ -177,9 +179,16 @@ const Movies = ({ navigation }: Props): ReactElement => {
         {/* Upcomming movies */}
         <MovieTypeTitle
           text="Prochaine sortie"
-          onShowAllPress={(): void => {}}
+          onShowAllPress={(): void => {
+            navigation.navigate('MoviesList', {
+              movieType: 'upcoming',
+            })
+          }}
         />
-        <ScrollView {...scrollViewVerticalProps}>
+        <ScrollView
+          {...scrollViewVerticalProps}
+          style={{ marginBottom: spaces.X_LARGE }}
+        >
           {movies?.upcoming.map((movie) => (
             <MovieCard key={movie.id} movie={movie} withRate />
           ))}
@@ -189,7 +198,14 @@ const Movies = ({ navigation }: Props): ReactElement => {
           <RatingUsCard onClose={(): void => setShouldDisplayRating(false)} />
         )}
         {/* Popular movies */}
-        <MovieTypeTitle text="Film populaire" onShowAllPress={(): void => {}} />
+        <MovieTypeTitle
+          text="Films populaires"
+          onShowAllPress={(): void => {
+            navigation.navigate('MoviesList', {
+              movieType: 'popular',
+            })
+          }}
+        />
         <ScrollView {...scrollViewVerticalProps}>
           {movies?.popular.map((movie) => (
             <MovieCard key={movie.id} movie={movie} withRate />
@@ -200,7 +216,16 @@ const Movies = ({ navigation }: Props): ReactElement => {
           {movies?.byGenre.selected &&
             movies?.byGenre.selected.map((genre, index) => (
               <View key={genre} style={{ marginBottom: spaces.LARGE }}>
-                <MovieTypeTitle text={genre} onShowAllPress={(): void => {}} />
+                <MovieTypeTitle
+                  text={genre}
+                  onShowAllPress={(): void => {
+                    navigation.navigate('MoviesList', {
+                      movieType: 'genre',
+                      genreId: movies.byGenre.selectedIds[index],
+                      genreName: genre,
+                    })
+                  }}
+                />
                 <ScrollView
                   showsHorizontalScrollIndicator={false}
                   overScrollMode="never"
@@ -223,7 +248,13 @@ const Movies = ({ navigation }: Props): ReactElement => {
               <GenderCard
                 key={genre.id}
                 gender={genre.name}
-                onPress={(): void => {}}
+                onPress={(): void => {
+                  navigation.navigate('MoviesList', {
+                    movieType: 'genre',
+                    genreId: genre.id,
+                    genreName: genre.name,
+                  })
+                }}
               />
             ))}
         </ScrollView>
@@ -244,11 +275,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
                 horizontal
               >
                 {moviesLiked.map((movie) => (
-                  <MovieCard
-                    key={movie.id}
-                    movie={movie}
-                    navigation={navigation}
-                  />
+                  <MovieCard key={movie.id} movie={movie as any} />
                 ))}
               </ScrollView>
             </View>

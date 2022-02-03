@@ -104,4 +104,5 @@ export interface PeopleType {
   profile_path: string | null
   know_for: KnowForMovie | KnowForShow
   gender: 0 | 2
+  biographie: string
 }

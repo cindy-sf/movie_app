@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 import { useWindowDimensions } from 'react-native'
 import styled from 'styled-components/native'
@@ -20,18 +20,29 @@ const LoaderWrapper = styled.View`
     `${marginBottom}px`};
 `
 
-const Loader = ({ headerOptions }: { headerOptions?: HeaderOptions }) => {
+interface Props {
+  headerOptions?: HeaderOptions
+  variant?: 'normal' | 'minimized'
+}
+
+const Loader = ({ headerOptions, variant = 'normal' }: Props) => {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions()
   const themeColor = useSelector(
     ({ theme }: { theme: ThemeAttributes }) => theme.mode
   )
   const imageSrc = themeColor === 'light' ? LoadingImageLight : LoadingImageDark
 
+  const LoaderComp = (): ReactElement => (
+    <LoaderWrapper width={windowWidth} marginBottom={windowHeight / 5.5}>
+      <Image src={imageSrc} width={55} height={55} resizeMode="contain" />
+    </LoaderWrapper>
+  )
+
+  if (variant === 'minimized') return <LoaderComp />
+
   return (
     <Layout headerOptions={headerOptions}>
-      <LoaderWrapper width={windowWidth} marginBottom={windowHeight / 5.5}>
-        <Image src={imageSrc} width={55} height={55} resizeMode="contain" />
-      </LoaderWrapper>
+      <LoaderComp />
     </Layout>
   )
 }

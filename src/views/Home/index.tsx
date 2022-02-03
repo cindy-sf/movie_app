@@ -59,7 +59,7 @@ const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
   }
 
   if (shouldDisplayError) {
-    return <Error navigation={navigation} />
+    return <Error />
   }
 
   return (

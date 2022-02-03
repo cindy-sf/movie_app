@@ -152,7 +152,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
   if (isDataFetching || !movieInfos) return <Loader />
 
-  if (shouldDisplayError) return <Error navigation={navigation} />
+  if (shouldDisplayError) return <Error />
 
   const {
     poster_path,
@@ -287,8 +287,8 @@ const MovieDetails = ({ navigation, route }: Props) => {
             horizontal
           >
             {similarMovies?.results.map((movie) => (
-              <View style={{ marginBottom: spaces.MEDIUM }}>
-                <MovieCard key={movie.id} movie={movie} withRate />
+              <View key={movie.id} style={{ marginBottom: spaces.MEDIUM }}>
+                <MovieCard movie={movie} withRate />
               </View>
             ))}
           </ScrollView>
