@@ -1,9 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { NativeScrollEvent, ScrollView, View } from 'react-native'
-import type {
-  NavigationContainerRef,
-  RouteProp,
-} from '@react-navigation/native'
+import { useNavigation, RouteProp } from '@react-navigation/native'
 
 import { API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
 
@@ -20,7 +17,6 @@ import { spaces } from '@src/styles/theme'
 import { gendersIcon } from '@src/views/Movies/components/GenderCard/constants'
 
 interface Props {
-  navigation: NavigationContainerRef
   route: RouteProp<
     {
       params: {
@@ -34,7 +30,8 @@ interface Props {
   >
 }
 
-const MoviesList = ({ navigation, route }: Props) => {
+const MoviesList = ({ route }: Props) => {
+  const navigation = useNavigation()
   const [moviesList, setMoviesList] = useState<MovieDetails[]>([])
   const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)

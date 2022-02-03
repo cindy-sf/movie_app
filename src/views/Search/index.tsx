@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
-import type {
-  NavigationContainerRef,
-  RouteProp,
-} from '@react-navigation/native'
+import { useNavigation, RouteProp } from '@react-navigation/native'
 
 import { API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
 
@@ -20,7 +17,6 @@ import ComingSoon from './components/ComingSoon'
 import NoResult from './components/NoResult'
 
 interface Props {
-  navigation: NavigationContainerRef
   route: RouteProp<
     {
       params: {
@@ -31,7 +27,8 @@ interface Props {
   >
 }
 
-const Search = ({ navigation, route }: Props) => {
+const Search = ({ route }: Props) => {
+  const navigation = useNavigation()
   const [searchValue, setSearchValue] = useState<string>(
     route.params.search || ''
   )
