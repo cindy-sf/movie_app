@@ -10,6 +10,10 @@ import { useFonts } from 'expo-font'
 import type { ThemeAttributes } from '@styles/theme'
 import { getAppTheme, getToken } from '@src/utils'
 import { fetchUser, signIn, themeToggler } from '@src/redux'
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs'
 
 import Landing from '@views/Landing'
 import Home from '@views/Home'
@@ -27,10 +31,11 @@ import ComingSoon from '@views/ComingSoon'
 const Stack = createStackNavigator()
 
 export default function App() {
-  const screenOptions: StackNavigationOptions = {
+  const Tab = createBottomTabNavigator()
+  const screenOptions: BottomTabNavigationOptions = {
     headerShown: false,
-    animationEnabled: false,
-    gestureEnabled: false,
+    // animationEnabled: false,
+    // gestureEnabled: false,
   }
   const dispatch = useDispatch()
   const [storeTheme, setStoredTheme] = useState<ThemeAttributes>()
@@ -66,7 +71,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={storeTheme}>
-        <Stack.Navigator
+        <Tab.Navigator>
+          <Tab.Screen name="Accueil" component={Home} options={screenOptions} />
+          <Tab.Screen
+            name="Landing"
+            component={Landing}
+            options={screenOptions}
+          />
+        </Tab.Navigator>
+        {/* <Stack.Navigator
           mode="modal"
           initialRouteName={isConnected ? 'Home' : 'Landing'}
         >
@@ -126,7 +139,7 @@ export default function App() {
             component={Search}
             options={screenOptions}
           />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
       </ThemeProvider>
     </NavigationContainer>
   )
