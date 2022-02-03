@@ -199,7 +199,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
         )}
         {/* Popular movies */}
         <MovieTypeTitle
-          text="Film populaires"
+          text="Films populaires"
           onShowAllPress={(): void => {
             navigation.navigate('MoviesList', {
               movieType: 'popular',
