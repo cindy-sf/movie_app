@@ -156,7 +156,7 @@ const Movies = ({ navigation }: Props): ReactElement => {
   }
 
   if (shouldDisplayError) {
-    return <Error navigation={navigation} />
+    return <Error />
   }
 
   return (

@@ -51,7 +51,7 @@ const MoviesList = ({ navigation, route }: Props) => {
       break
 
     case 'upcoming':
-      pageTitle = 'Prochaine sorties'
+      pageTitle = 'Prochaines sorties'
       url = `https://api.themoviedb.org/${API_VERSION}/movie/upcoming?api_key=${MOVIE_DB_API_KEY}&language=fr`
       break
 
@@ -125,7 +125,7 @@ const MoviesList = ({ navigation, route }: Props) => {
   }
 
   if (shouldDisplayError) {
-    return <Error navigation={navigation} />
+    return <Error />
   }
 
   return (

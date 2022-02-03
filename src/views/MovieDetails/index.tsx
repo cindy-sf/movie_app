@@ -152,7 +152,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
   if (isDataFetching || !movieInfos) return <Loader />
 
-  if (shouldDisplayError) return <Error navigation={navigation} />
+  if (shouldDisplayError) return <Error />
 
   const {
     poster_path,

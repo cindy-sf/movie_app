@@ -84,7 +84,7 @@ const Search = ({ navigation, route }: Props) => {
   }
 
   if (shouldDisplayError) {
-    return <Error navigation={navigation} />
+    return <Error />
   }
 
   if (isDataFetching || !searchResult) {

@@ -8,8 +8,8 @@ import Loader from '@components/Loader'
 import Layout from '@components/Layout'
 import Text from '@components/Text'
 
-import type { PeopleDetails as PeopleDetailsType } from '@src/types'
-import { API_KEY, API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
+import type { PeopleType } from '@src/types'
+import { API_VERSION, MOVIE_DB_API_KEY } from '@src/credentials'
 
 import { colors, radius, spaces } from '@src/styles/theme'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -28,7 +28,7 @@ export interface Props {
 const PeoplePicture = ({
   picture,
 }: {
-  picture: PeopleDetailsType['profile_path']
+  picture: PeopleType['profile_path']
 }): ReactElement => (
   <View
     style={{
@@ -42,11 +42,6 @@ const PeoplePicture = ({
       marginRight: 'auto',
     }}
   >
-    {console.log(
-      '-------------',
-      `https://image.tmdb.org/t/p/w500${picture}`,
-      picture
-    )}
     <Image
       src={{ uri: `https://image.tmdb.org/t/p/w500${picture}` }}
       width={150}
@@ -59,7 +54,7 @@ const PeoplePicture = ({
 const PeopleDetails = ({ route }: Props): ReactElement => {
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)
   const [isDataFetching, setIsDataFetching] = useState<boolean>(true)
-  const [peopleDetails, setPeopleDetails] = useState<PeopleDetailsType>()
+  const [peopleDetails, setPeopleDetails] = useState<PeopleType>()
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -83,7 +78,7 @@ const PeopleDetails = ({ route }: Props): ReactElement => {
   if (isDataFetching || !peopleDetails) return <Loader />
 
   if (shouldDisplayError) return <Error />
-  console.log('coucou', peopleDetails)
+
   return (
     <Layout
       headerOptions={{
@@ -100,13 +95,12 @@ const PeopleDetails = ({ route }: Props): ReactElement => {
         overScrollMode="never"
         style={{ marginTop: spaces.LARGE }}
       >
-        {console.log('peopleDetails.profile_path', peopleDetails.profile_path)}
         <PeoplePicture picture={peopleDetails.profile_path} />
         <Text font="POPPINS_SEMI_BOLD">{peopleDetails.name}</Text>
         <Text textAlign="left" size="BODY_2">
-          {peopleDetails.biography
-            ? peopleDetails.biography
-            : 'Pas de biography pour cette personnalitée :('}
+          {peopleDetails.biographie
+            ? peopleDetails.biographie
+            : 'Pas de biographie pour cette personnalitée :('}
         </Text>
       </ScrollView>
     </Layout>
