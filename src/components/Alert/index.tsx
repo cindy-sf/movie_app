@@ -40,6 +40,9 @@ const Alert = ({
     return () => clearInterval(intervalId)
   }, [timeLeft])
 
+  console.log({ visible })
+  console.log({ timeLeft })
+
   if (visible)
     return (
       <AlertContainer color={color} onTouchStart={() => setVisible(false)}>
