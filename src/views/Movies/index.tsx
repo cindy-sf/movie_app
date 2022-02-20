@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { NavigationContainerRef, useIsFocused } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
@@ -22,11 +22,6 @@ import { selectRandomMoviesGenre } from './helpers'
 const ScrollZone = styled.ScrollView`
   width: 100%;
 `
-
-interface Props {
-  navigation: NavigationContainerRef
-}
-
 interface APIMovieList {
   show_id: number
   show_name: string
@@ -45,7 +40,8 @@ interface MoviesList {
   }
 }
 
-const Movies = ({ navigation }: Props): ReactElement => {
+function Movies(): ReactElement {
+  const navigation = useNavigation()
   const [movies, setMovies] = useState<MoviesList>()
   const isFocused = useIsFocused()
   const [moviesLiked, setMoviesLiked] = useState<SearchData[]>([])

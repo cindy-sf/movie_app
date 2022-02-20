@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ReactElement } from 'react'
 import { ScrollView } from 'react-native'
 import { useNavigation, RouteProp } from '@react-navigation/native'
 
@@ -27,7 +27,7 @@ interface Props {
   >
 }
 
-const Search = ({ route }: Props) => {
+function Search({ route }: Props): ReactElement {
   const navigation = useNavigation()
   const [searchValue, setSearchValue] = useState<string>(
     route.params.search || ''

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ReactElement } from 'react'
 import { ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
-import type { NavigationContainerRef } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 import { spaces, ThemeAttributes } from '@src/styles/theme'
 
@@ -27,7 +27,8 @@ const WatchOptionWrapper = styled.View`
     theme.mode === 'light' ? `${spaces.XX_SMALL}px` : `${spaces.NONE}px`};
 `
 
-const Home = ({ navigation }: { navigation: NavigationContainerRef }) => {
+function Home(): ReactElement {
+  const navigation = useNavigation()
   const [news, setNews] = useState<News[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [shouldDisplayError, setShouldDisplayError] = useState<boolean>(false)

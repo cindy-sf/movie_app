@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
-import type {
+import {
   NavigationContainerRef,
   RouteProp,
+  useNavigation,
 } from '@react-navigation/native'
 
 import Button from '@components/Button'
@@ -36,7 +37,6 @@ import {
 import ActorCard from './components/ActorCard'
 
 export interface Props {
-  navigation: NavigationContainerRef
   route: RouteProp<
     {
       params: {
@@ -53,7 +53,8 @@ interface MovieDetailsInfos {
   similarMovies: SimilarMovies
 }
 
-const MovieDetails = ({ navigation, route }: Props) => {
+function MovieDetails({ route }: Props) {
+  const navigation = useNavigation()
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [token, setToken] = useState<string | null>(null)
   const [liked, setLiked] = useState<boolean>(false)

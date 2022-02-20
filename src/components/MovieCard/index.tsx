@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { View } from 'react-native'
-import { StackActions, useNavigation } from '@react-navigation/native'
+import {
+  StackActions,
+  useNavigation,
+  ParamListBase,
+  TabActions,
+} from '@react-navigation/native'
 import type { MovieDetails } from '@src/types'
 import styled from 'styled-components/native'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 
 import Image from '@components/Image'
 import Text from '@components/Text'
@@ -34,12 +40,17 @@ interface Props {
   horizontal?: boolean
 }
 
-const MovieCard = ({ movie, withRate = false, horizontal = false }: Props) => {
-  const pushAction = StackActions.push('MovieDetails', {
+function MovieCard({
+  movie,
+  withRate = false,
+  horizontal = false,
+}: Props): ReactElement {
+  const navigation = useNavigation<BottomTabNavigationProp<ParamListBase>>()
+  const pushAction = TabActions.jumpTo('MovieDetails', {
     movieId: movie.id,
     index: 1,
+    key: `movie-details--${movie.id}`,
   })
-  const navigation = useNavigation()
 
   if (horizontal) {
     return (
@@ -72,7 +83,7 @@ const MovieCard = ({ movie, withRate = false, horizontal = false }: Props) => {
           <View style={{ marginTop: spaces.XX_SMALL }} />
           <RatingStar
             size="small"
-            notation={movie?.vote_average ? movie?.vote_average / 2 : 0}
+            notation={movie?.vote_average ? Number(movie?.vote_average) / 2 : 0}
           />
           <View style={{ marginTop: spaces.LARGE }}>
             <Text size="BODY_2" textAlign="left" maxWidth={150}>
@@ -87,6 +98,15 @@ const MovieCard = ({ movie, withRate = false, horizontal = false }: Props) => {
 
   return (
     <VerticalCard onPress={(): void => navigation.dispatch(pushAction)}>
+      {/* // <VerticalCard
+    //   onPress={(): void =>
+    //     navigation.navigate('MovieDetails', {
+    //       movieId: movie.id,
+    //       index: 1,
+    //       key: `movie-details--${movie.id}`,
+    //     })
+    //   }
+    // > */}
       <ImageWrapper>
         <Image
           src={{
@@ -110,7 +130,7 @@ const MovieCard = ({ movie, withRate = false, horizontal = false }: Props) => {
       {withRate && (
         <RatingStar
           size="small"
-          notation={movie?.vote_average ? movie?.vote_average / 2 : 0}
+          notation={movie?.vote_average ? Number(movie?.vote_average) / 2 : 0}
         />
       )}
     </VerticalCard>

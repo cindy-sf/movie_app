@@ -27,7 +27,7 @@ const ImageWrapper = styled.View`
   margin-bottom: ${spaces.LARGE}px;
 `
 
-const ComingSoon = () => {
+function ComingSoon() {
   const navigation = useNavigation()
   return (
     <Layout

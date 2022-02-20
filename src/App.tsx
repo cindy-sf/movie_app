@@ -23,11 +23,10 @@ import Movies from '@views/Movies'
 import MoviesList from '@views/MoviesList'
 import Search from '@views/Search'
 import ComingSoon from '@views/ComingSoon'
-
-const Stack = createStackNavigator()
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 export default function App() {
-  const screenOptions: StackNavigationOptions = {
+  const screenOptions = {
     headerShown: false,
     animationEnabled: false,
     gestureEnabled: false,
@@ -63,70 +62,69 @@ export default function App() {
 
   if (!storeTheme || !fontsLoaded) return null
 
+  const Tab = createBottomTabNavigator()
+
   return (
     <NavigationContainer>
       <ThemeProvider theme={storeTheme}>
-        <Stack.Navigator
-          mode="modal"
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarButton: !['Home', 'Movies'].includes(route.name)
+              ? () => null
+              : undefined,
+          })}
           initialRouteName={isConnected ? 'Home' : 'Landing'}
         >
-          <Stack.Screen
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen
             name="Landing"
             component={Landing}
-            options={screenOptions}
+            options={{
+              tabBarStyle: { display: 'none' },
+            }}
           />
-          <Stack.Screen name="Home" component={Home} options={screenOptions} />
-          <Stack.Screen
+          <Tab.Screen
             name="AccountCreation"
             component={AccountCreation}
-            options={screenOptions}
+            options={{
+              tabBarStyle: { display: 'none' },
+            }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="Login"
             component={Login}
-            options={screenOptions}
+            options={{
+              tabBarStyle: { display: 'none' },
+            }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="PasswordCreation"
             component={PasswordCreation}
-            options={screenOptions}
+            options={{
+              tabBarStyle: { display: 'none' },
+            }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="AccountCreationConfirmation"
             component={AccountCreationConfirmation}
-            options={screenOptions}
+            options={{
+              tabBarStyle: { display: 'none' },
+            }}
           />
-          <Stack.Screen
-            name="ArticleDetails"
-            component={ArticleDetails}
-            options={screenOptions}
-          />
-          <Stack.Screen
-            name="Movies"
-            component={Movies}
-            options={screenOptions}
-          />
-          <Stack.Screen
+          <Tab.Screen name="ArticleDetails" component={ArticleDetails} />
+          <Tab.Screen name="Movies" component={Movies} />
+          <Tab.Screen
             name="ComingSoon"
             component={ComingSoon}
-            options={screenOptions}
+            options={{
+              tabBarStyle: { display: 'none' },
+            }}
           />
-          <Stack.Screen
-            name="MovieDetails"
-            component={MovieDetails}
-            options={screenOptions}
-          />
-          <Stack.Screen
-            name="MoviesList"
-            component={MoviesList}
-            options={screenOptions}
-          />
-          <Stack.Screen
-            name="Search"
-            component={Search}
-            options={screenOptions}
-          />
-        </Stack.Navigator>
+          <Tab.Screen name="MovieDetails" component={MovieDetails} />
+          <Tab.Screen name="MoviesList" component={MoviesList} />
+          <Tab.Screen name="Search" component={Search} />
+        </Tab.Navigator>
       </ThemeProvider>
     </NavigationContainer>
   )
