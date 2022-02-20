@@ -11,7 +11,8 @@
       "@components/*": ["./src/components/*"],
       "@views/*": ["./src/views/*"],
       "@src/*": ["./src/*"],
-      "@styles/*": ["./src/styles/*"]
+      "@styles/*": ["./src/styles/*"],
+      "@rlt": ["./src/test-helper/test-utils/index.tsx"]
     }
   },
   "extends": "expo/tsconfig.base"

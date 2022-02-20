@@ -13,6 +13,7 @@ module.exports = function (api) {
             '@views': './src/views',
             '@src': './src',
             '@styles': './src/styles',
+            '@rtl': './src/test-helper/test-utils/index.tsx',
           },
           extensions: ['.js', '.jsx', '.json', '.tsx', '.ts', '.native.js'],
         },

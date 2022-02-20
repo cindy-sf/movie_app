@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 import styled from 'styled-components/native'
 import type { NavigationContainerRef } from '@react-navigation/native'
 
